@@ -1,0 +1,12 @@
+name: BetterReports
+version: ${project.version}
+main: me.timmy109.betterreports.BetterReports
+description: Reporting plugin with Discord webhook
+commands:
+  report:
+    description: Report a player!
+  reportbug:
+    description: Report a bug!
+  betterreports:
+    description: Admin Command!
+    aliases: br
