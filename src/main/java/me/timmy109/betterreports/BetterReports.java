@@ -28,6 +28,7 @@ import me.timmy109.betterreports.commands.ReportBugCommand;
 import me.timmy109.betterreports.commands.ReportPlayerCommand;
 import me.timmy109.betterreports.utils.ArrayUtils;
 import me.timmy109.betterreports.utils.ChatUtils;
+import me.timmy109.betterreports.utils.Common;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import java.util.ArrayList;
@@ -38,6 +39,7 @@ public final class BetterReports extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        Common.log("&aStarting...");
 
         instance = this;
 
@@ -109,15 +111,15 @@ public final class BetterReports extends JavaPlugin {
     }
 
     public void loadingScreen() {
-        this.getServer().getConsoleSender().sendMessage(ChatUtils.color(""));
-        this.getServer().getConsoleSender().sendMessage(ChatUtils.color("&d    ____  &b____ "));
-        this.getServer().getConsoleSender().sendMessage(ChatUtils.color("&d   / __ )&b/ __ \\"));
-        this.getServer().getConsoleSender().sendMessage(ChatUtils.color("&d  / __  &b/ /_/ /"));
-        this.getServer().getConsoleSender().sendMessage(ChatUtils.color("&d / /_/ &b/ _, _/ "));
-        this.getServer().getConsoleSender().sendMessage(ChatUtils.color("&d/_____&b/_/ |_|  "));
-        this.getServer().getConsoleSender().sendMessage(ChatUtils.color(""));
-        this.getServer().getConsoleSender().sendMessage(ChatUtils.color("&bVersion 1.0.0 - Timmy109"));
-        this.getServer().getConsoleSender().sendMessage(ChatUtils.color("&bSuccessfully enabled"));
-        this.getServer().getConsoleSender().sendMessage(ChatUtils.color(""));
+        Common.logNoPrefix("&r &r");
+        Common.logNoPrefix("&d    ____  &b____ ");
+        Common.logNoPrefix("&d   / __ )&b/ __ \\");
+        Common.logNoPrefix("&d  / __  &b/ /_/ /");
+        Common.logNoPrefix("&d / /_/ &b/ _, _/ ");
+        Common.logNoPrefix("&d/_____&b/_/ |_|  ");
+        Common.logNoPrefix("&r &r");
+        Common.logNoPrefix("&bVersion 1.0.0 - Timmy109");
+        Common.logNoPrefix("&bSuccessfully enabled");
+        Common.logNoPrefix("&r &r");
     }
 }
