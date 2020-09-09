@@ -92,7 +92,7 @@ public final class BetterReports extends JavaPlugin {
         ArrayList<String> debugList = ArrayUtils.getDebugList();
         debugList.add("&8&l&m-------------------------");
         debugList.add("&c&l&o        Better&4&l&oReports");
-        debugList.add("&7Version: &c1.0.0");
+        debugList.add("&7Version: &c" + getDescription().getVersion());
         debugList.add("&7Author: &cTimmy109");
         debugList.add("&7Server: &c" + Bukkit.getVersion());
         debugList.add("&7PR WH Color: &c" + BetterReports.getInstance().getConfig().getString("discord-embed-player-report-colour"));
@@ -118,7 +118,7 @@ public final class BetterReports extends JavaPlugin {
         Common.logNoPrefix("&d / /_/ &b/ _, _/ ");
         Common.logNoPrefix("&d/_____&b/_/ |_|  ");
         Common.logNoPrefix("&r &r");
-        Common.logNoPrefix("&bVersion 1.0.0 - Timmy109");
+        Common.logNoPrefix("&bVersion: " + getDescription().getVersion() + " - Timmy109");
         Common.logNoPrefix("&bSuccessfully enabled");
         Common.logNoPrefix("&r &r");
     }
