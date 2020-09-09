@@ -1,16 +1,29 @@
-package me.timmy109.betterreports;
-
 /*
- Plugin created by Timmy109
- Github profile: https://github.com/Timmy109
- Spigot Profile: https://www.spigotmc.org/members/_timmyy_.919057/
- Discord Server: https://discord.gg/wafV4VP
-
- Feel free to modify code, however I take no responsibility for code modifications which may result in unintended and potentially fatal behaviour.
- Please note that support cannot be provided to a modified version of this plugin.
+ * BetterReports - BetterReports.java
+ *
+ * Plugin created by Timmy109
+ * Github profile: https://github.com/Timmy109
+ * Spigot Profile: https://www.spigotmc.org/members/_timmyy_.919057/
+ * Discord Server: https://discord.gg/wafV4VP
+ *
+ * MIT License
+ *
+ * Copyright (c) 2020 Tim Uding.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the
+ * "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute,
+ * sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following
+ * conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+ * WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS
+ * OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+ * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-
-import me.timmy109.betterreports.commands.ReloadCommand;
+package me.timmy109.betterreports;
+import me.timmy109.betterreports.commands.AdminCommand;
 import me.timmy109.betterreports.commands.ReportBugCommand;
 import me.timmy109.betterreports.commands.ReportPlayerCommand;
 import me.timmy109.betterreports.utils.ArrayUtils;
@@ -31,7 +44,7 @@ public final class BetterReports extends JavaPlugin {
         // Registering commands
         getCommand("report").setExecutor(new ReportPlayerCommand());
         getCommand("reportbug").setExecutor(new ReportBugCommand());
-        getCommand("betterreports").setExecutor(new ReloadCommand());
+        getCommand("betterreports").setExecutor(new AdminCommand());
 
         // Saving the default config
         saveDefaultConfig();
