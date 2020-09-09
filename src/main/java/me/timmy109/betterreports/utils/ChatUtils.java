@@ -27,9 +27,20 @@ import org.bukkit.ChatColor;
 
 public class ChatUtils {
 
+    final static String REPLACE_RGB_PATTERN = "(&)?&#([A-Fa-f0-9])([A-Fa-f0-9])([A-Fa-f0-9])([A-Fa-f0-9])([A-Fa-f0-9])([A-Fa-f0-9])";
+
     // This is used to shorten "translateAlterNateColorCodes" to just "ChatUtils.color"
     public static String color(String s) {
+        return ChatUtils.parseColorCode(ChatUtils.parseHEXCode(s));
+    }
+
+    public static String parseColorCode(String s) {
         return ChatColor.translateAlternateColorCodes('&', s);
+    }
+
+    // Format &#RRGGBB
+    public static String parseHEXCode(String s) {
+        return s.replaceAll(REPLACE_RGB_PATTERN, "§x§$2§$3§$4§$5§$6§$7");
     }
 
 }
