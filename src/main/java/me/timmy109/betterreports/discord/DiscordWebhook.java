@@ -9,6 +9,11 @@ import java.net.URL;
 import java.util.List;
 import java.util.*;
 
+/**
+ * Java DiscordWebhook class to easily execute Discord Webhooks
+ * Created by: k3kdude
+ * Source: https://gist.github.com/k3kdude/fba6f6b37594eae3d6f9475330733bdb
+ */
 public class DiscordWebhook {
     private final String url;
     private String content;
