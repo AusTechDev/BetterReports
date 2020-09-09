@@ -103,7 +103,7 @@ public final class BetterReports extends JavaPlugin {
         this.getServer().getConsoleSender().sendMessage(ChatUtils.color("&d / /_/ &b/ _, _/ "));
         this.getServer().getConsoleSender().sendMessage(ChatUtils.color("&d/_____&b/_/ |_|  "));
         this.getServer().getConsoleSender().sendMessage(ChatUtils.color(""));
-        this.getServer().getConsoleSender().sendMessage(ChatUtils.color("&bVersion 1.0 - Timmy109"));
+        this.getServer().getConsoleSender().sendMessage(ChatUtils.color("&bVersion 1.0.0 - Timmy109"));
         this.getServer().getConsoleSender().sendMessage(ChatUtils.color("&bSuccessfully enabled"));
         this.getServer().getConsoleSender().sendMessage(ChatUtils.color(""));
     }
