@@ -90,7 +90,7 @@ public final class BetterReports extends JavaPlugin {
         ArrayList<String> reloadList = ArrayUtils.getReloadList();
         reloadList.add("&8&l&m-------------------------");
         reloadList.add("&c&l&o        Better&4&l&oReports");
-        reloadList.add("&aSuccessfully reloaded!");
+        reloadList.add("&a      Successfully reloaded!");
         reloadList.add("&8&l&m-------------------------");
         ArrayUtils.setReloadList(reloadList);
     }

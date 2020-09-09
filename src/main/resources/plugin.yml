@@ -10,3 +10,13 @@ commands:
   betterreports:
     description: Admin Command!
     aliases: br
+permissions:
+  betterreports.admin:
+    description: Admin commands
+    default: op
+  betterreports.alerts:
+    description: Receive report alerts
+    default: op
+  betterreports.reload:
+    description: Reload the configuration
+    default: op
