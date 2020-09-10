@@ -24,7 +24,7 @@
  */
 package me.timmy109.betterreports.commands;
 import me.timmy109.betterreports.BetterReports;
-import me.timmy109.betterreports.utils.ChatUtils;
+import me.timmy109.betterreports.utils.Common;
 import me.timmy109.betterreports.discord.DiscordWebhook;
 import me.timmy109.betterreports.utils.ArrayUtils;
 import org.bukkit.Bukkit;
@@ -56,12 +56,12 @@ public class ReportBugCommand implements CommandExecutor {
             if (sender.hasPermission("betterreports.admin")) {
 
                 for (String s : adminHelp) {
-                    sender.sendMessage(ChatUtils.color(s));
+                    sender.sendMessage(Common.color(s));
                 }
                 return true;
             }
             for (String s : playerHelp) {
-                sender.sendMessage(ChatUtils.color(s));
+                sender.sendMessage(Common.color(s));
             }
             return true;
 
@@ -77,7 +77,7 @@ public class ReportBugCommand implements CommandExecutor {
 
             for (String s : (BetterReports.getInstance().getConfig().getString("bug-report-success")
                     .replace("{player}", playersName).split("\\n"))) {
-                sender.sendMessage(ChatUtils.color(s));
+                sender.sendMessage(Common.color(s));
             }
 
             i++;
@@ -86,7 +86,7 @@ public class ReportBugCommand implements CommandExecutor {
                 if (staff.hasPermission("betterreports.alerts")) {
                     for (String staffAlert : (BetterReports.getInstance().getConfig().getString("staff-bug-report-message")
                             .replace("{player}", playersName).split("\\n"))) {
-                        staff.sendMessage(ChatUtils.color(staffAlert));
+                        staff.sendMessage(Common.color(staffAlert));
                     }
                 }
             }

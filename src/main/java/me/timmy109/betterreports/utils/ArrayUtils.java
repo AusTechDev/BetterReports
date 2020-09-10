@@ -23,49 +23,58 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 package me.timmy109.betterreports.utils;
+import me.timmy109.betterreports.BetterReports;
+import org.bukkit.Bukkit;
+import org.bukkit.plugin.java.JavaPlugin;
+
 import java.util.ArrayList;
-import java.util.List;
 
 public class ArrayUtils {
 
-    private static List<String> adminHelp = new ArrayList<>();
-
-    private static List<String> playerHelp = new ArrayList<>();
-
-    private static List<String> debug = new ArrayList<>();
-
-    private static List<String> reload = new ArrayList<>();
-
     public static ArrayList<String> getAdminHelpList() {
-        return (ArrayList<String>) adminHelp;
-    }
+        ArrayList<String> adminHelp = new ArrayList<>();
+        adminHelp.add("&8&l&m-------------------------------");
+        adminHelp.add("&c&l&o        Better&4&l&oReports");
+        adminHelp.add("&8    Reporting bugs & players");
+        adminHelp.add("&7/report <player> <reason>" + "&c Report a player");
+        adminHelp.add("&7/reportbug <bug>" + "&c Report a bug");
+        adminHelp.add("&7/br reload" + "&c Reload the configuration");
+        adminHelp.add("&8&l&m-------------------------------");
 
-    public static void setAdminHelpList(ArrayList<String> list) {
-        ArrayUtils.adminHelp = list;
+        return adminHelp;
     }
 
     public static ArrayList<String> getPlayerHelpList() {
-        return (ArrayList<String>) playerHelp;
+        ArrayList<String> playerHelp = new ArrayList<>();
+        playerHelp.add("&8&l&m-------------------------------");
+        playerHelp.add("&c&l&o        Better&4&l&oReports");
+        playerHelp.add("&8    Reporting bugs & players");
+        playerHelp.add("&7/report <player> <reason>" + "&c Report a player");
+        playerHelp.add("&7/reportbug <bug>" + "&c Report a bug");
+        playerHelp.add("&8&l&m-------------------------------");
+        return playerHelp;
     }
 
-    public static void setPlayerHelpList(ArrayList<String> list) {
-        ArrayUtils.playerHelp = list;
-    }
-
-    public static ArrayList<String> getDebugList() {
-        return (ArrayList<String>) debug;
-    }
-
-    public static void setDebugList(ArrayList<String> list) {
-        ArrayUtils.debug = list;
+    public static ArrayList<String> getDebugList(JavaPlugin plugin) {
+        ArrayList<String> debugList = new ArrayList<>();
+        debugList.add("&8&l&m-------------------------");
+        debugList.add("&c&l&o        Better&4&l&oReports");
+        debugList.add("&7Version: &c" + BetterReports.getInstance().getDescription().getVersion());
+        debugList.add("&7Author: &cTimmy109");
+        debugList.add("&7Server: &c" + Bukkit.getVersion());
+        debugList.add("&7PR WH Color: &c" + plugin.getConfig().getString("discord-embed-player-report-colour"));
+        debugList.add("&7BR WH Color: &c" + plugin.getConfig().getString("discord-embed-bug-report-colour"));
+        debugList.add("&8&l&m-------------------------");
+        return debugList;
     }
 
     public static ArrayList<String> getReloadList() {
-        return (ArrayList<String>) reload;
-    }
-
-    public static void setReloadList(ArrayList<String> list) {
-        ArrayUtils.reload = list;
+        ArrayList<String> reloadList = new ArrayList<>();
+        reloadList.add("&8&l&m-------------------------");
+        reloadList.add("&c&l&o        Better&4&l&oReports");
+        reloadList.add("&a      Successfully reloaded!");
+        reloadList.add("&8&l&m-------------------------");
+        return reloadList;
     }
 }
 

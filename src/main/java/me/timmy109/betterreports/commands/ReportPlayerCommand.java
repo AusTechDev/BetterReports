@@ -26,7 +26,7 @@ package me.timmy109.betterreports.commands;
 import me.timmy109.betterreports.BetterReports;
 import me.timmy109.betterreports.discord.DiscordWebhook;
 import me.timmy109.betterreports.utils.ArrayUtils;
-import me.timmy109.betterreports.utils.ChatUtils;
+import me.timmy109.betterreports.utils.Common;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -57,32 +57,32 @@ public class ReportPlayerCommand implements CommandExecutor {
 		if (args.length == 0) {
 			if (sender.hasPermission("betterreports.admin")) {
 				for (String s : adminHelp) {
-					sender.sendMessage(ChatUtils.color(s));
+					sender.sendMessage(Common.color(s));
 				}
 				return true;
 			}
 
 			for (String s : playerHelp) {
-				sender.sendMessage(ChatUtils.color(s));
+				sender.sendMessage(Common.color(s));
 			}
 			return true;
 		}
 
 		if (args.length == 1) {
-			sender.sendMessage(ChatUtils.color("&cPlease specify a reason for reporting!"));
+			sender.sendMessage(Common.color("&cPlease specify a reason for reporting!"));
 			return true;
 		}
 
 		if (args.length >= 2) {
 			if (args[0].equals(sender.getName())) {
-				sender.sendMessage(ChatUtils.color("&cYou can't report yourself!"));
+				sender.sendMessage(Common.color("&cYou can't report yourself!"));
 				return true;
 			}
 
 			Player target = Bukkit.getPlayer(args[0]);
 
 			if (target == null) {
-				sender.sendMessage(ChatUtils.color("&cPlayer has to be online to be reported!"));
+				sender.sendMessage(Common.color("&cPlayer has to be online to be reported!"));
 				return true;
 			}
 
@@ -97,7 +97,7 @@ public class ReportPlayerCommand implements CommandExecutor {
 
 			for (String s : (BetterReports.getInstance().getConfig().getString("player-report-success")
 					.replace("{player}", playerName).split("\\n"))) {
-				sender.sendMessage(ChatUtils.color(s));
+				sender.sendMessage(Common.color(s));
 			}
 
 			i++;
@@ -106,7 +106,7 @@ public class ReportPlayerCommand implements CommandExecutor {
 				if (staff.hasPermission("betterreports.alerts")) {
 					for (String staffAlert : (BetterReports.getInstance().getConfig().getString("staff-player-report-message")
 							.replace("{player}", playerName).split("\\n"))) {
-						staff.sendMessage(ChatUtils.color(staffAlert));
+						staff.sendMessage(Common.color(staffAlert));
 					}
 				}
 			}
