@@ -1,0 +1,29 @@
+name: Build
+on:
+  push:
+  pull_request:
+
+jobs:
+  Maven:
+    name: Maven
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK/Maven
+      uses: actions/setup-java@v1
+      with:
+        java-version: 1.8
+    - name: Cache Maven Packages
+      uses: actions/cache@v2
+      with:
+        path: ~/.m2
+        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+        restore-keys: ${{ runner.os }}-m2
+    - name: Build with Maven
+      run: mvn clean install
+    - uses: actions/upload-artifact@v2
+      with:
+        name: BetterReports.jar
+        path: |
+          target/*.jar
+          !target/*-original.jar
