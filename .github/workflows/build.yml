@@ -26,4 +26,4 @@ jobs:
         name: BetterReports.jar
         path: |
           target/*.jar
-          !target/*-original.jar
+          !target/original-*.jar
