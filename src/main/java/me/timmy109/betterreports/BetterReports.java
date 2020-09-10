@@ -26,12 +26,8 @@ package me.timmy109.betterreports;
 import me.timmy109.betterreports.commands.AdminCommand;
 import me.timmy109.betterreports.commands.ReportBugCommand;
 import me.timmy109.betterreports.commands.ReportPlayerCommand;
-import me.timmy109.betterreports.utils.ArrayUtils;
 import me.timmy109.betterreports.utils.Common;
-import me.timmy109.betterreports.utils.Common;
-import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
-import java.util.ArrayList;
 
 public final class BetterReports extends JavaPlugin {
 
