@@ -33,7 +33,6 @@ import java.util.List;
 
 public class AdminCommand implements CommandExecutor {
 
-
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
@@ -42,53 +41,48 @@ public class AdminCommand implements CommandExecutor {
 		List<String> adminHelp = ArrayUtils.getAdminHelpList();
 		List<String> playerHelp = ArrayUtils.getPlayerHelpList();
 
-
 		if (args.length == 0) {
 			if (sender.hasPermission("betterreports.admin")) {
-				for (String s : adminHelp) {
-					sender.sendMessage(Common.color(s));
-				}
+				adminHelp.forEach(s -> sender.sendMessage(Common.color(s)));
 				return true;
 			}
 
-			for (String s : playerHelp) {
-				sender.sendMessage(Common.color(s));
-			}
+			playerHelp.forEach(s -> sender.sendMessage(Common.color(s)));
 			return true;
-		}
-
-		switch (args[0]) {
-			case "debug": {
-				if (sender.hasPermission("betterreports.admin")) {
-					for (String s : debug) {
-						sender.sendMessage(Common.color(s));
-					}
-				} else {
-					sender.sendMessage(Common.color("&cYou do not have permission to execute this command!"));
-				}
-				break;
-			}
-			case "reload": {
-				if (sender.hasPermission("betterreports.reload")) {
-					try {
-						BetterReports.getInstance().reloadConfig();
-						for (String s : reload) {
-							sender.sendMessage(Common.color(s));
-						}
-					} catch (Exception ex) {
-						sender.sendMessage(Common.color("&cThere was an error reloading the config. Check console for more details."));
-					}
-				} else {
-					sender.sendMessage(Common.color("&cYou do not have permission to execute this command!"));
-				}
-				break;
-			}
 		}
 
 		if (args.length > 1) {
 			sender.sendMessage(Common.color("&cUnknown Command"));
 			return true;
 		}
+
+		switch (args[0]) {
+			case "debug":
+				if (!sender.hasPermission("betterreports.admin")) {
+					sender.sendMessage(Common.color("&cYou do not have permission to execute this command!"));
+					break;
+				}
+				debug.forEach(s -> sender.sendMessage(Common.color(s)));
+				break;
+
+			case "reload":
+				if (!sender.hasPermission("betterreports.reload")) {
+					sender.sendMessage(Common.color("&cYou do not have permission to execute this command!"));
+					break;
+				}
+				try {
+					BetterReports.getInstance().reloadConfig();
+					reload.forEach(s -> sender.sendMessage(Common.color(s)));
+				} catch (Exception ex) {
+					ex.printStackTrace();
+					sender.sendMessage(Common.color("&cThere was an error reloading the config. Check console for more details."));
+				}
+				break;
+
+			default:
+				sender.sendMessage(Common.color("&cUnknown Command"));
+		}
+
 		return true;
 	}
 }
