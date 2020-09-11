@@ -27,17 +27,16 @@ import me.timmy109.betterreports.BetterReports;
 import me.timmy109.betterreports.discord.DiscordWebhook;
 import me.timmy109.betterreports.utils.ArrayUtils;
 import me.timmy109.betterreports.utils.Common;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import java.awt.*;
+
+import java.awt.Color;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Stream;
-
-import static me.timmy109.betterreports.BetterReports.*;
 
 public class ReportPlayerCommand implements CommandExecutor {
 
@@ -83,7 +82,7 @@ public class ReportPlayerCommand implements CommandExecutor {
 		}
 
 		// Sending the player report to Discord via a webhook
-		DiscordWebhook webhook = new DiscordWebhook(getInstance().getConfig().getString("discord-player-webhook-url"));
+		DiscordWebhook webhook = new DiscordWebhook(BetterReports.getInstance().getConfig().getString("discord-player-webhook-url"));
 		DiscordWebhook.EmbedObject eb = new DiscordWebhook.EmbedObject();
 		for (int i = 1; i < 26; i++) {
 			if (Common.getConfig().getString("player-report-fields." + i + ".title") == null) continue;
@@ -91,7 +90,7 @@ public class ReportPlayerCommand implements CommandExecutor {
 					Common.getConfig().getString("player-report-fields." + i + ".content").replace("{player}", playerName).replace("{report}", report).replace("{target}", targetPlayer),
 					Common.getConfig().getBoolean("player-report-fields." + i + ".inline"));
 		}
-		eb.setColor(Color.decode(getInstance().getConfig().getString("discord-embed-player-report-colour")));
+		eb.setColor(Color.decode(BetterReports.getInstance().getConfig().getString("discord-embed-player-report-colour")));
 		eb.setFooter("BetterReports - Timmy109", "");
 		webhook.addEmbed(eb);
 
@@ -104,7 +103,7 @@ public class ReportPlayerCommand implements CommandExecutor {
 		}
 
 		// Successful in sending report to discord
-		Arrays.stream(getInstance().getConfig().getString("player-report-success")
+		Arrays.stream(BetterReports.getInstance().getConfig().getString("player-report-success")
 				.replace("{player}", playerName).split("\\n"))
 				.forEach(s -> sender.sendMessage(Common.color(s)));
 
