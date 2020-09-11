@@ -102,6 +102,3 @@ public class ReportBugCommand implements CommandExecutor {
         return true;
     }
 }
-
-
-
