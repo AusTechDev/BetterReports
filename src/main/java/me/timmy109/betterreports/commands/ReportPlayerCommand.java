@@ -72,7 +72,7 @@ public class ReportPlayerCommand implements CommandExecutor {
 		}
 
 		// Grab bug report details
-		String report = String.join(" ", Arrays.asList(args).subList(1, args.length-1));
+		String report = String.join(" ", Arrays.asList(args).subList(1, args.length));
 		String playerName = sender.getName();
 		String targetPlayer = args[0];
 
@@ -82,7 +82,7 @@ public class ReportPlayerCommand implements CommandExecutor {
 		}
 
 		// Sending the player report to Discord via a webhook
-		DiscordWebhook webhook = new DiscordWebhook(BetterReports.getInstance().getConfig().getString("discord-player-webhook-url"));
+		DiscordWebhook webhook = new DiscordWebhook(Common.getConfig().getString("discord-player-webhook-url"));
 		DiscordWebhook.EmbedObject eb = new DiscordWebhook.EmbedObject();
 		for (int i = 1; i < 26; i++) {
 			if (Common.getConfig().getString("player-report-fields." + i + ".title") == null) continue;
@@ -90,7 +90,7 @@ public class ReportPlayerCommand implements CommandExecutor {
 					Common.getConfig().getString("player-report-fields." + i + ".content").replace("{player}", playerName).replace("{report}", report).replace("{target}", targetPlayer),
 					Common.getConfig().getBoolean("player-report-fields." + i + ".inline"));
 		}
-		eb.setColor(Color.decode(BetterReports.getInstance().getConfig().getString("discord-embed-player-report-colour")));
+		eb.setColor(Color.decode(Common.getConfig().getString("discord-embed-player-report-colour")));
 		eb.setFooter("BetterReports - Timmy109", "");
 		webhook.addEmbed(eb);
 
@@ -103,12 +103,12 @@ public class ReportPlayerCommand implements CommandExecutor {
 		}
 
 		// Successful in sending report to discord
-		Arrays.stream(BetterReports.getInstance().getConfig().getString("player-report-success")
+		Arrays.stream(Common.getConfig().getString("player-report-success")
 				.replace("{player}", playerName).split("\\n"))
 				.forEach(s -> sender.sendMessage(Common.color(s)));
 
 		// Send notification to relevant players
-		String[] reportAlertMessage = BetterReports.getInstance().getConfig().getString("staff-player-report-message")
+		String[] reportAlertMessage = Common.getConfig().getString("staff-player-report-message")
 				.replace("{player}", playerName)
 				.split("\\n");
 

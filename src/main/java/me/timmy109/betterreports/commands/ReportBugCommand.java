@@ -27,18 +27,18 @@ import me.timmy109.betterreports.BetterReports;
 import me.timmy109.betterreports.utils.Common;
 import me.timmy109.betterreports.discord.DiscordWebhook;
 import me.timmy109.betterreports.utils.ArrayUtils;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
 import java.awt.*;
+import java.util.Arrays;
 import java.util.List;
 
 public class ReportBugCommand implements CommandExecutor {
-    public static String bug;
-    public static String playersName;
-    public static int i = 0;
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -47,57 +47,36 @@ public class ReportBugCommand implements CommandExecutor {
         List<String> playerHelp = ArrayUtils.getPlayerHelpList();
 
         if (!(sender instanceof Player)) {
-            System.out.println("Only players can execute that command!");
+            sender.sendMessage(Common.color("&cOnly players can execute that command!"));
             return true;
         }
 
         if (args.length == 0) {
-
             if (sender.hasPermission("betterreports.admin")) {
-
-                for (String s : adminHelp) {
-                    sender.sendMessage(Common.color(s));
-                }
+                adminHelp.forEach(s -> sender.sendMessage(Common.color(s)));
                 return true;
             }
-            for (String s : playerHelp) {
-                sender.sendMessage(Common.color(s));
-            }
-            return true;
 
+            playerHelp.forEach(s -> sender.sendMessage(Common.color(s)));
+            return true;
         }
 
         if (args.length > 0) {
 
-            StringBuilder builder = new StringBuilder();
-            for (String arg : args) builder.append(arg).append(" ");
 
-            bug = builder.toString();
-            playersName = sender.getName();
-
-            for (String s : (BetterReports.getInstance().getConfig().getString("bug-report-success")
-                    .replace("{player}", playersName).split("\\n"))) {
-                sender.sendMessage(Common.color(s));
-            }
-
-            i++;
-
-            for (Player staff : Bukkit.getOnlinePlayers()) {
-                if (staff.hasPermission("betterreports.alerts")) {
-                    for (String staffAlert : (BetterReports.getInstance().getConfig().getString("staff-bug-report-message")
-                            .replace("{player}", playersName).split("\\n"))) {
-                        staff.sendMessage(Common.color(staffAlert));
-                    }
-                }
-            }
+            String bug = String.join(" ", Arrays.asList(args).subList(0, args.length));
+            String playersName = sender.getName();
 
             // Sending the bug report to Discord via a webhook
-            DiscordWebhook webhook = new DiscordWebhook(BetterReports.getInstance().getConfig().getString("discord-bug-webhook-url"));
+            DiscordWebhook webhook = new DiscordWebhook(Common.getConfig().getString("discord-bug-webhook-url"));
             DiscordWebhook.EmbedObject eb = new DiscordWebhook.EmbedObject();
-            eb.addField("**" + "Reports" + "**", "Reported by: " + "`" + playersName + "`", false);
-            eb.addField("Report type", "Bug report", false);
-            eb.addField("Bug", bug, false);
-            eb.setColor(Color.decode(BetterReports.getInstance().getConfig().getString("discord-embed-bug-report-colour")));
+            for (int i = 1; i < 26; i++) {
+                if (Common.getConfig().getString("bug-report-fields." + i + ".title") == null) continue;
+                eb.addField(Common.getConfig().getString("bug-report-fields." + i + ".title").replace("{player}", playersName).replace("{report}", bug),
+                        Common.getConfig().getString("bug-report-fields." + i + ".content").replace("{player}", playersName).replace("{report}", bug),
+                        Common.getConfig().getBoolean("bug-report-fields." + i + ".inline"));
+            }
+            eb.setColor(Color.decode(Common.getConfig().getString("discord-embed-bug-report-colour")));
             eb.setFooter("BetterReports - Timmy109", "");
             webhook.addEmbed(eb);
 
@@ -105,7 +84,24 @@ public class ReportBugCommand implements CommandExecutor {
                 webhook.execute();
             } catch (Exception ex) {
                 ex.printStackTrace();
+                sender.sendMessage(Common.color("&cError sending the bug report to discord. Please contact the admin."));
+                return true;
             }
+
+            // Successful in sending report to discord
+            Arrays.stream(Common.getConfig().getString("bug-report-success")
+                    .replace("{player}", playersName).split("\\n"))
+                    .forEach(s -> sender.sendMessage(Common.color(s)));
+
+            // Send notification to relevant players
+            String[] reportAlertMessage = Common.getConfig().getString("staff-bug-report-message")
+                    .replace("{player}", playersName)
+                    .split("\\n");
+
+            Bukkit.getOnlinePlayers().stream()
+                    .filter(player -> player.hasPermission("betterreports.alerts"))
+                    .forEach(staff -> Arrays.stream(reportAlertMessage)
+                            .forEach(msg -> staff.sendMessage(Common.color(msg))));
             return true;
         }
         return true;
