@@ -24,8 +24,10 @@
  */
 package me.timmy109.betterreports.utils;
 
+import me.timmy109.betterreports.BetterReports;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.file.FileConfiguration;
 
 public final class Common {
     private static String logPrefix = "&8[&c&l&oBetter&4&l&oReports&r&8] &f";
@@ -40,5 +42,9 @@ public final class Common {
 
     public static String color(String message){
         return ChatColor.translateAlternateColorCodes('&', message);
+    }
+
+    public static FileConfiguration getConfig() {
+        return BetterReports.getInstance().getConfig();
     }
 }

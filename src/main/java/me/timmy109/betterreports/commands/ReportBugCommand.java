@@ -32,6 +32,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
 import java.awt.*;
 import java.util.List;
 
@@ -94,11 +95,14 @@ public class ReportBugCommand implements CommandExecutor {
             // Sending the bug report to Discord via a webhook
             DiscordWebhook webhook = new DiscordWebhook(BetterReports.getInstance().getConfig().getString("discord-bug-webhook-url"));
             DiscordWebhook.EmbedObject eb = new DiscordWebhook.EmbedObject();
-            eb.addField("**" + "Reports" + "**", "Reported by: " + "`" + playersName + "`", false);
-            eb.addField("Report type", "Bug report", false);
-            eb.addField("Bug", bug, false);
-            eb.setColor(Color.decode(BetterReports.getInstance().getConfig().getString("discord-embed-bug-report-colour")));
+            for (int i = 1; i < 26; i++) {
+                if (Common.getConfig().getString("bug-report-fields." + i + ".title") == null) continue;
+                eb.addField(Common.getConfig().getString("bug-report-fields." + i + ".title").replace("{player}", playersName).replace("{report}", bug),
+                        Common.getConfig().getString("bug-report-fields." + i + ".content").replace("{player}", playersName).replace("{report}", bug),
+                        Common.getConfig().getBoolean("bug-report-fields." + i + ".inline"));
+            }
             eb.setFooter("BetterReports - Timmy109", "");
+            eb.setColor(Color.decode(BetterReports.getInstance().getConfig().getString("discord-embed-bug-report-colour")));
             webhook.addEmbed(eb);
 
             try {

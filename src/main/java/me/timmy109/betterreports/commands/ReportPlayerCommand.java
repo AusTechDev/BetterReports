@@ -114,10 +114,12 @@ public class ReportPlayerCommand implements CommandExecutor {
 			// Sending the player report to Discord via a webhook
 			DiscordWebhook webhook = new DiscordWebhook(getInstance().getConfig().getString("discord-player-webhook-url"));
 			DiscordWebhook.EmbedObject eb = new DiscordWebhook.EmbedObject();
-			eb.addField("**" + "Reports" + "**", "Reported by: " + "`" + playerName + "`", false);
-			eb.addField("Report type", "Player report", false);
-			eb.addField("Reported player", "`" + String.valueOf(args[0]) + "`", false);
-			eb.addField("Reason", report, false);
+			for (int i = 1; i < 26; i++) {
+				if (Common.getConfig().getString("player-report-fields." + i + ".title") == null) continue;
+				eb.addField(Common.getConfig().getString("player-report-fields." + i + ".title").replace("{player}", playerName).replace("{report}", report).replace("{target}", targetPlayer),
+						Common.getConfig().getString("player-report-fields." + i + ".content").replace("{player}", playerName).replace("{report}", report).replace("{target}", targetPlayer),
+						Common.getConfig().getBoolean("player-report-fields." + i + ".inline"));
+			}
 			eb.setColor(Color.decode(getInstance().getConfig().getString("discord-embed-player-report-colour")));
 			eb.setFooter("BetterReports - Timmy109", "");
 			webhook.addEmbed(eb);

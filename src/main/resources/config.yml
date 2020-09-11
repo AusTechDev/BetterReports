@@ -3,6 +3,9 @@
 # Spigot Profile: https://www.spigotmc.org/members/_timmyy_.919057/
 # Discord Server: https://discord.gg/wafV4VP
 
+# Config version - Please don't touch this!
+config-version: 1
+
 # If a player report was successfully submitted, this message will be displayed in chat to the player
 player-report-success: |-
   &8&l&m---------------------------------
@@ -36,13 +39,61 @@ staff-bug-report-message: |-
   &8&l&m---------------------------
 
 # Paste your Discord channel webhooks into the respective lines below
-discord-bug-webhook-url: "https://discordapp.com/api/webhooks/751006780955426886/PRN33Uk0PlOGzI9SxjmyJWGX3MNfvXYx_fRxuR0ue5kIosO8ngUMkOeuNrUiNsSA24qd"
-discord-player-webhook-url: "https://discordapp.com/api/webhooks/751006821690376213/3tu9F2inOp8Cq4_dXhVY9WTSh78khCB64DcT_yB_ZBeKgc8TBc7FsYIRj26Lp0bQAxQT"
+discord-bug-webhook-url: "https://discordapp.com/api/webhooks/752892179885850695/oVzQPYzwk5O2fhUv4nmpA70dPPHRPoBLrVgtFQBd6Tb4vdGeR8KBluG80CoQpOKy40up"
+discord-player-webhook-url: "https://discordapp.com/api/webhooks/752892179885850695/oVzQPYzwk5O2fhUv4nmpA70dPPHRPoBLrVgtFQBd6Tb4vdGeR8KBluG80CoQpOKy40up"
+
+# -----------------------------------------------------------------------------------
+# Configuring the fields for the Discord webhook
+# Follow this example:
+#
+# bug-report-fields:
+#   1:
+#    title: <title for the field>
+#    content: <field content here>
+#    inline: <true/false>
+#
+# Please note that Discord limitations mean that there can only be up to 25 fields!
+# -----------------------------------------------------------------------------------
+
+# Player report embed configuration
+# Available placeholders: {player} (reporter), {report} (report content/bug)
+bug-report-fields:
+  1:
+    title: "**Reports**"
+    content: "Reported by: `{player}`"
+    inline: false
+  2:
+    title: "Report Type"
+    content: "Bug report"
+    inline: false
+  3:
+    title: "Bug"
+    content: "{report}"
+    inline: false
+
+# Player report embed configuration
+# Available placeholders: {player} (reporter), {target} (reported player), {report} (report content/reason)
+player-report-fields:
+  1:
+    title: "**Reports**"
+    content: "Reported by: `{player}`"
+    inline: false
+  2:
+    title: "Report Type"
+    content: "Player report"
+    inline: false
+  3:
+    title: "Reported Player"
+    content: "`{target}`"
+    inline: false
+  4:
+    title: "Reason"
+    content: "{report}"
+    inline: false
 
 # Webhook embed colour
 # Put a hex code (Including the #) into the respective lines below
 # Make sure there are no spaces otherwise this may break!
 discord-embed-bug-report-colour: "#F0FF00"
 discord-embed-player-report-colour: "#C761DF"
-
 
