@@ -30,10 +30,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import java.util.List;
-import java.util.stream.Stream;
 
 public class AdminCommand implements CommandExecutor {
-
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -62,15 +60,15 @@ public class AdminCommand implements CommandExecutor {
 			case "debug":
 				if (!sender.hasPermission("betterreports.admin")) {
 					sender.sendMessage(Common.color("&cYou do not have permission to execute this command!"));
-					return true;
+					break;
 				}
 				debug.forEach(s -> sender.sendMessage(Common.color(s)));
-				return true;
+				break;
 
 			case "reload":
 				if (!sender.hasPermission("betterreports.reload")) {
 					sender.sendMessage(Common.color("&cYou do not have permission to execute this command!"));
-					return true;
+					break;
 				}
 				try {
 					BetterReports.getInstance().reloadConfig();
@@ -79,10 +77,12 @@ public class AdminCommand implements CommandExecutor {
 					ex.printStackTrace();
 					sender.sendMessage(Common.color("&cThere was an error reloading the config. Check console for more details."));
 				}
-				return true;
+				break;
+
+			default:
+				sender.sendMessage(Common.color("&cUnknown Command"));
 		}
 
-		sender.sendMessage(Common.color("&cUnknown Command"));
 		return true;
 	}
 }
