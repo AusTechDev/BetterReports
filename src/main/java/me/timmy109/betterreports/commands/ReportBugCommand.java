@@ -38,7 +38,6 @@ import java.util.List;
 public class ReportBugCommand implements CommandExecutor {
     public static String bug;
     public static String playersName;
-    public static int i = 0;
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -79,8 +78,6 @@ public class ReportBugCommand implements CommandExecutor {
                     .replace("{player}", playersName).split("\\n"))) {
                 sender.sendMessage(Common.color(s));
             }
-
-            i++;
 
             for (Player staff : Bukkit.getOnlinePlayers()) {
                 if (staff.hasPermission("betterreports.alerts")) {
