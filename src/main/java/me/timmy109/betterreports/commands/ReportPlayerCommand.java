@@ -33,15 +33,13 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import java.awt.*;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
+
 import static me.timmy109.betterreports.BetterReports.*;
 
 public class ReportPlayerCommand implements CommandExecutor {
-
-	public static String report;
-	public static String playerName;
-	public static int i = 0;
-	public static String targetPlayer;
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -50,21 +48,17 @@ public class ReportPlayerCommand implements CommandExecutor {
 		List<String> playerHelp = ArrayUtils.getPlayerHelpList();
 
 		if (!(sender instanceof Player)) {
-			System.out.println("Only players can execute that command!");
+			sender.sendMessage(Common.color("&cOnly players can execute that command!"));
 			return true;
 		}
 
 		if (args.length == 0) {
 			if (sender.hasPermission("betterreports.admin")) {
-				for (String s : adminHelp) {
-					sender.sendMessage(Common.color(s));
-				}
+				adminHelp.forEach(s -> sender.sendMessage(Common.color(s)));
 				return true;
 			}
 
-			for (String s : playerHelp) {
-				sender.sendMessage(Common.color(s));
-			}
+			playerHelp.forEach(s -> sender.sendMessage(Common.color(s)));
 			return true;
 		}
 
@@ -73,65 +67,57 @@ public class ReportPlayerCommand implements CommandExecutor {
 			return true;
 		}
 
-		if (args.length >= 2) {
-			if (args[0].equals(sender.getName())) {
-				sender.sendMessage(Common.color("&cYou can't report yourself!"));
-				return true;
-			}
-
-			Player target = Bukkit.getPlayer(args[0]);
-
-			if (target == null) {
-				sender.sendMessage(Common.color("&cPlayer has to be online to be reported!"));
-				return true;
-			}
-
-			StringBuilder builder = new StringBuilder();
-
-			for (int i = 1; i < args.length; i++)
-				builder.append(args[i]).append(" ");
-
-			report = builder.toString();
-			playerName = sender.getName();
-			targetPlayer = String.valueOf(args[0]);
-
-			for (String s : (BetterReports.getInstance().getConfig().getString("player-report-success")
-					.replace("{player}", playerName).split("\\n"))) {
-				sender.sendMessage(Common.color(s));
-			}
-
-			i++;
-
-			for (Player staff : Bukkit.getOnlinePlayers()) {
-				if (staff.hasPermission("betterreports.alerts")) {
-					for (String staffAlert : (BetterReports.getInstance().getConfig().getString("staff-player-report-message")
-							.replace("{player}", playerName).split("\\n"))) {
-						staff.sendMessage(Common.color(staffAlert));
-					}
-				}
-			}
-
-			// Sending the player report to Discord via a webhook
-			DiscordWebhook webhook = new DiscordWebhook(getInstance().getConfig().getString("discord-player-webhook-url"));
-			DiscordWebhook.EmbedObject eb = new DiscordWebhook.EmbedObject();
-			for (int i = 1; i < 26; i++) {
-				if (Common.getConfig().getString("player-report-fields." + i + ".title") == null) continue;
-				eb.addField(Common.getConfig().getString("player-report-fields." + i + ".title").replace("{player}", playerName).replace("{report}", report).replace("{target}", targetPlayer),
-						Common.getConfig().getString("player-report-fields." + i + ".content").replace("{player}", playerName).replace("{report}", report).replace("{target}", targetPlayer),
-						Common.getConfig().getBoolean("player-report-fields." + i + ".inline"));
-			}
-			eb.setColor(Color.decode(getInstance().getConfig().getString("discord-embed-player-report-colour")));
-			eb.setFooter("BetterReports - Timmy109", "");
-			webhook.addEmbed(eb);
-
-			try {
-				webhook.execute();
-			} catch (Exception ex) {
-				ex.printStackTrace();
-				return true;
-			}
+		if (args[0].equals(sender.getName())) {
+			sender.sendMessage(Common.color("&cYou can't report yourself!"));
 			return true;
 		}
+
+		// Grab bug report details
+		String report = String.join(" ", Arrays.asList(args).subList(1, args.length-1));
+		String playerName = sender.getName();
+		String targetPlayer = args[0];
+
+		if (Bukkit.getPlayer(targetPlayer) == null) {
+			sender.sendMessage(Common.color("&cPlayer has to be online to be reported!"));
+			return true;
+		}
+
+		// Sending the player report to Discord via a webhook
+		DiscordWebhook webhook = new DiscordWebhook(getInstance().getConfig().getString("discord-player-webhook-url"));
+		DiscordWebhook.EmbedObject eb = new DiscordWebhook.EmbedObject();
+		for (int i = 1; i < 26; i++) {
+			if (Common.getConfig().getString("player-report-fields." + i + ".title") == null) continue;
+			eb.addField(Common.getConfig().getString("player-report-fields." + i + ".title").replace("{player}", playerName).replace("{report}", report).replace("{target}", targetPlayer),
+					Common.getConfig().getString("player-report-fields." + i + ".content").replace("{player}", playerName).replace("{report}", report).replace("{target}", targetPlayer),
+					Common.getConfig().getBoolean("player-report-fields." + i + ".inline"));
+		}
+		eb.setColor(Color.decode(getInstance().getConfig().getString("discord-embed-player-report-colour")));
+		eb.setFooter("BetterReports - Timmy109", "");
+		webhook.addEmbed(eb);
+
+		try {
+			webhook.execute();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			sender.sendMessage(Common.color("&cError sending the bug report to discord. Please contact the admin."));
+			return true;
+		}
+
+		// Successful in sending report to discord
+		Arrays.stream(getInstance().getConfig().getString("player-report-success")
+				.replace("{player}", playerName).split("\\n"))
+				.forEach(s -> sender.sendMessage(Common.color(s)));
+
+		// Send notification to relevant players
+		String[] reportAlertMessage = BetterReports.getInstance().getConfig().getString("staff-player-report-message")
+				.replace("{player}", playerName)
+				.split("\\n");
+
+		Bukkit.getOnlinePlayers().stream()
+				.filter(player -> player.hasPermission("betterreports.alerts"))
+				.forEach(staff -> Arrays.stream(reportAlertMessage)
+						.forEach(msg -> staff.sendMessage(Common.color(msg))));
+
 		return true;
 	}
 }
