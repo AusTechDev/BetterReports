@@ -70,7 +70,7 @@ public class ReportPlayerCommand implements CommandExecutor {
 			return true;
 		}
 
-		// Grab bug report details
+		// Grab report details
 		String report = String.join(" ", Arrays.asList(args).subList(1, args.length));
 		String playerName = sender.getName();
 		String targetPlayer = args[0];

@@ -30,10 +30,10 @@ import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 
 public final class Common {
-    private static String logPrefix = "&8[&c&l&oBetter&4&l&oReports&r&8] &f";
+    private static final String LOG_PREFIX = "&8[&c&l&oBetter&4&l&oReports&r&8] &f";
 
     public static void log(String message){
-        Bukkit.getServer().getConsoleSender().sendMessage(color(logPrefix + message));
+        Bukkit.getServer().getConsoleSender().sendMessage(color(LOG_PREFIX + message));
     }
     
     public static void logNoPrefix(String message){
