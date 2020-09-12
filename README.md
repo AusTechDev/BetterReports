@@ -17,6 +17,7 @@ creating issues for bugs/errors so that we can work on fixing them :)
 
 # License
 Copyright (c) 2020 Tim Uding.
+Copyright (c) 2020 Contributors.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
