@@ -1,14 +1,14 @@
 /*
  * BetterReports - BetterReports.java
  *
- * Plugin created by Timmy109
- * Github profile: https://github.com/Timmy109
+ * Github: https://github.com/AusTechDev/
  * Spigot Profile: https://www.spigotmc.org/members/_timmyy_.919057/
- * Discord Server: https://discord.gg/wafV4VP
+ * Discord Server: https://discord.austech.dev/
  *
  * MIT License
  *
  * Copyright (c) 2020 Tim Uding.
+ * Copyright (c) 2020 Contributors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the
  * "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute,
@@ -22,11 +22,11 @@
  * OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package me.timmy109.betterreports;
-import me.timmy109.betterreports.commands.AdminCommand;
-import me.timmy109.betterreports.commands.ReportBugCommand;
-import me.timmy109.betterreports.commands.ReportPlayerCommand;
-import me.timmy109.betterreports.utils.Common;
+package dev.austech.betterreports;
+import dev.austech.betterreports.commands.AdminCommand;
+import dev.austech.betterreports.commands.ReportBugCommand;
+import dev.austech.betterreports.commands.ReportPlayerCommand;
+import dev.austech.betterreports.utils.Common;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class BetterReports extends JavaPlugin {

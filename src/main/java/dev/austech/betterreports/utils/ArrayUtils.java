@@ -1,14 +1,14 @@
 /*
  * BetterReports - ArrayUtils.java
  *
- * Plugin created by Timmy109
- * Github profile: https://github.com/Timmy109
+ * Github: https://github.com/AusTechDev/
  * Spigot Profile: https://www.spigotmc.org/members/_timmyy_.919057/
- * Discord Server: https://discord.gg/wafV4VP
+ * Discord Server: https://discord.austech.dev/
  *
  * MIT License
  *
  * Copyright (c) 2020 Tim Uding.
+ * Copyright (c) 2020 Contributors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the
  * "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute,
@@ -22,8 +22,8 @@
  * OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package me.timmy109.betterreports.utils;
-import me.timmy109.betterreports.BetterReports;
+package dev.austech.betterreports.utils;
+import dev.austech.betterreports.BetterReports;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 

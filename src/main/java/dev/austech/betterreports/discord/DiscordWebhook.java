@@ -1,4 +1,4 @@
-package me.timmy109.betterreports.discord;
+package dev.austech.betterreports.discord;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.awt.*;
