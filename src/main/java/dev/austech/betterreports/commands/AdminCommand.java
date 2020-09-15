@@ -41,15 +41,7 @@ public class AdminCommand implements CommandExecutor {
 		List<String> adminHelp = ArrayUtils.getAdminHelpList();
 		List<String> playerHelp = ArrayUtils.getPlayerHelpList();
 
-		if (args.length == 0) {
-			if (sender.hasPermission("betterreports.admin")) {
-				adminHelp.forEach(s -> sender.sendMessage(Common.color(s)));
-				return true;
-			}
-
-			playerHelp.forEach(s -> sender.sendMessage(Common.color(s)));
-			return true;
-		}
+		if (ReportPlayerCommand.helpCommand(sender, args, adminHelp, playerHelp)) return true;
 
 		if (args.length > 1) {
 			sender.sendMessage(Common.color("&cUnknown Command"));

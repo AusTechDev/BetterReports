@@ -50,15 +50,7 @@ public class ReportPlayerCommand implements CommandExecutor {
 			return true;
 		}
 
-		if (args.length == 0) {
-			if (sender.hasPermission("betterreports.admin")) {
-				adminHelp.forEach(s -> sender.sendMessage(Common.color(s)));
-				return true;
-			}
-
-			playerHelp.forEach(s -> sender.sendMessage(Common.color(s)));
-			return true;
-		}
+		if (helpCommand(sender, args, adminHelp, playerHelp)) return true;
 
 		if (args.length == 1) {
 			sender.sendMessage(Common.color("&cPlease specify a reason for reporting!"));
@@ -117,6 +109,11 @@ public class ReportPlayerCommand implements CommandExecutor {
 						.forEach(msg -> staff.sendMessage(Common.color(msg))));
 
 		return true;
+	}
+
+	static boolean helpCommand(CommandSender sender, String[] args, List<String> adminHelp, List<String> playerHelp) {
+		if (ReportBugCommand.helpCommand(sender, args, adminHelp, playerHelp)) return true;
+		return false;
 	}
 }
 
