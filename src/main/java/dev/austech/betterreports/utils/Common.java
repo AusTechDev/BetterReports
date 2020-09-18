@@ -30,9 +30,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 
 public final class Common {
-    private static String logPrefix = "&8[&c&l&oBetter&4&l&oReports&r&8] &f";
 
     public static void log(String message){
+        String logPrefix = "&8[&c&l&oBetter&4&l&oReports&r&8] &f";
         Bukkit.getServer().getConsoleSender().sendMessage(color(logPrefix + message));
     }
     
@@ -47,4 +47,8 @@ public final class Common {
     public static FileConfiguration getConfig() {
         return BetterReports.getInstance().getConfig();
     }
+
+
+
+
 }

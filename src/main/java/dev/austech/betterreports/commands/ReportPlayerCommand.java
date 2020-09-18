@@ -37,6 +37,8 @@ import java.awt.Color;
 import java.util.Arrays;
 import java.util.List;
 
+import static dev.austech.betterreports.commands.AdminCommand.helpCommand;
+
 public class ReportPlayerCommand implements CommandExecutor {
 
 	@Override
@@ -111,10 +113,7 @@ public class ReportPlayerCommand implements CommandExecutor {
 		return true;
 	}
 
-	static boolean helpCommand(CommandSender sender, String[] args, List<String> adminHelp, List<String> playerHelp) {
-		if (ReportBugCommand.helpCommand(sender, args, adminHelp, playerHelp)) return true;
-		return false;
-	}
+
 }
 
 

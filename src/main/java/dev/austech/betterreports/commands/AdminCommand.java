@@ -41,7 +41,7 @@ public class AdminCommand implements CommandExecutor {
 		List<String> adminHelp = ArrayUtils.getAdminHelpList();
 		List<String> playerHelp = ArrayUtils.getPlayerHelpList();
 
-		if (ReportPlayerCommand.helpCommand(sender, args, adminHelp, playerHelp)) return true;
+		if (helpCommand(sender, args, adminHelp, playerHelp)) return true;
 
 		if (args.length > 1) {
 			sender.sendMessage(Common.color("&cUnknown Command"));
@@ -76,5 +76,8 @@ public class AdminCommand implements CommandExecutor {
 		}
 
 		return true;
+	}
+	static boolean helpCommand(CommandSender sender, String[] args, List<String> adminHelp, List<String> playerHelp) {
+		return ReportBugCommand.helpCommand(sender, args, adminHelp, playerHelp);
 	}
 }

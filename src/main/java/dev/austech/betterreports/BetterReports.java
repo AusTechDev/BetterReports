@@ -23,6 +23,7 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 package dev.austech.betterreports;
+
 import dev.austech.betterreports.commands.AdminCommand;
 import dev.austech.betterreports.commands.ReportBugCommand;
 import dev.austech.betterreports.commands.ReportPlayerCommand;
