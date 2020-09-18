@@ -112,8 +112,6 @@ public class ReportPlayerCommand implements CommandExecutor {
 
 		return true;
 	}
-
-
 }
 
 

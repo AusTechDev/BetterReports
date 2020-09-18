@@ -77,6 +77,7 @@ public class AdminCommand implements CommandExecutor {
 
 		return true;
 	}
+  
 	static boolean helpCommand(CommandSender sender, String[] args, List<String> adminHelp, List<String> playerHelp) {
 		return ReportBugCommand.helpCommand(sender, args, adminHelp, playerHelp);
 	}

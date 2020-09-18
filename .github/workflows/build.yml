@@ -23,7 +23,7 @@ jobs:
       run: mvn clean install
     - uses: actions/upload-artifact@v2
       with:
-        name: BetterReports.jar
+        name: BetterReports-Artifcats
         path: |
           target/*.jar
           !target/original-*.jar
