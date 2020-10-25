@@ -6,7 +6,7 @@
 
     <groupId>me.tim</groupId>
     <artifactId>betterreports</artifactId>
-    <version>1.0.6</version>
+    <version>1.0.7</version>
     <packaging>jar</packaging>
 
     <name>BetterReports</name>
