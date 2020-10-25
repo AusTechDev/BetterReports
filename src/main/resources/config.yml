@@ -23,6 +23,7 @@ bug-report-success: |-
 
 # If a PLAYER report was successfully written to the file, notify staff with this message in chat
 # You may use the {player} placeholder to get the reporter's name and the {report} placeholder to get the reason.
+# Use {target} to get the reported player.
 staff-player-report-message: |-
   &8&l&m-----------------------------
   &c&l        NEW PLAYER REPORT

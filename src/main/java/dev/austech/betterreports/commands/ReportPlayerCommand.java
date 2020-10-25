@@ -110,6 +110,7 @@ public class ReportPlayerCommand implements CommandExecutor {
 		String[] reportAlertMessage = Common.getConfig().getString("staff-player-report-message")
 				.replace("{player}", playerName)
 				.replace("{report}", report)
+				.replace("{target}", targetPlayer)
 				.split("\\n");
 
 		Bukkit.getOnlinePlayers().stream()
