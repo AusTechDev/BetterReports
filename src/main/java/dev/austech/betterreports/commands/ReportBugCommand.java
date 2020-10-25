@@ -95,6 +95,7 @@ public class ReportBugCommand implements CommandExecutor {
             // Send notification to relevant players
             String[] reportAlertMessage = Common.getConfig().getString("staff-bug-report-message")
                     .replace("{player}", playersName)
+                    .replace("{report}", bug)
                     .split("\\n");
 
             Bukkit.getOnlinePlayers().stream()

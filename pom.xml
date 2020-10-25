@@ -6,7 +6,7 @@
 
     <groupId>me.tim</groupId>
     <artifactId>betterreports</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.6</version>
     <packaging>jar</packaging>
 
     <name>BetterReports</name>
@@ -16,7 +16,6 @@
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-    <url>https://junior.hypera.dev/</url>
 
     <build>
         <plugins>

@@ -22,7 +22,7 @@ bug-report-success: |-
   &8&l&m---------------------------------
 
 # If a PLAYER report was successfully written to the file, notify staff with this message in chat
-# You may use the {player} placeholder to get the reporter's name
+# You may use the {player} placeholder to get the reporter's name and the {report} placeholder to get the reason.
 staff-player-report-message: |-
   &8&l&m-----------------------------
   &c&l        NEW PLAYER REPORT
@@ -31,7 +31,7 @@ staff-player-report-message: |-
   &8&l&m-----------------------------
 
 # If a BUG report was successfully written to the file, notify staff with this message in chat
-# You may use the {player} placeholder to get the reporter's name
+# You may use the {player} placeholder to get the reporter's name and the {report} placeholder to get the reason.
 staff-bug-report-message: |-
   &8&l&m---------------------------
   &c&l        NEW BUG REPORT
