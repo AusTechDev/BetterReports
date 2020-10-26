@@ -16,7 +16,7 @@ Feel free to contribute to the project with improvements and/or new features as 
 creating issues for bugs/errors so that we can work on fixing them :)
 
 # License
-Copyright (c) 2020 Tim Uding.
+Copyright (c) 2020 Timmy109.
 
 Copyright (c) 2020 Contributors.
 
