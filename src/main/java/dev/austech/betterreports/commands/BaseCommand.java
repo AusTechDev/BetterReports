@@ -47,6 +47,6 @@ public class BaseCommand {
             return true;
         }
 
-        return true;
+        return false;
     }
 }
