@@ -46,6 +46,7 @@ public class BaseCommand {
             playerHelp.forEach(s -> sender.sendMessage(Common.color(s)));
             return true;
         }
+
         return true;
     }
 }
