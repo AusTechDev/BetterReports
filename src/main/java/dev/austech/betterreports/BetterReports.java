@@ -7,7 +7,7 @@
  *
  * MIT License
  *
- * Copyright (c) 2020 Tim Uding.
+ * Copyright (c) 2020 Timmy109.
  * Copyright (c) 2020 Contributors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the
@@ -18,7 +18,7 @@
  * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
- * WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS
+ * WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE AUTHORS
  * OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
@@ -35,7 +35,9 @@ public final class BetterReports extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        Common.log("&aStarting...");
+
+        // Recording the system time in milliseconds
+        long startTimer = System.currentTimeMillis();
 
         // Setting the instance to the current JavaPlugin instance
         instance = this;
@@ -50,6 +52,16 @@ public final class BetterReports extends JavaPlugin {
 
         // Displaying the successfully loaded screen in console
         loadingScreenFrames();
+
+        // Recording the system time in milliseconds after everything has loaded
+        long endTimer = System.currentTimeMillis();
+
+        // Subtracting the end time from the start time to display how long the plugin took to enable
+        long time = endTimer - startTimer;
+
+        // Logging to console that the plugin has enabled, accompanied by the time taken to do so
+        Common.log("&5|     &bSuccessfully Enabled - Took &7" + time + "&bms");
+        Common.log("&5|");
     }
 
     public static BetterReports getInstance() {
@@ -57,15 +69,13 @@ public final class BetterReports extends JavaPlugin {
     }
 
     public void loadingScreenFrames() {
-        Common.logNoPrefix("&r &r");
-        Common.logNoPrefix("&d    ____  &b____ ");
-        Common.logNoPrefix("&d   / __ )&b/ __ \\");
-        Common.logNoPrefix("&d  / __  &b/ /_/ /");
-        Common.logNoPrefix("&d / /_/ &b/ _, _/ ");
-        Common.logNoPrefix("&d/_____&b/_/ |_|  ");
-        Common.logNoPrefix("&r &r");
-        Common.logNoPrefix("&bVersion: " + getDescription().getVersion() + " - Timmy109");
-        Common.logNoPrefix("&bSuccessfully enabled");
-        Common.logNoPrefix("&r &r");
+        Common.log("&5|");
+        Common.log("&5|     &d    ____  &b____ ");
+        Common.log("&5|     &d   / __ )&b/ __ \\");
+        Common.log("&5|     &d  / __  &b/ /_/ /");
+        Common.log("&5|     &d / /_/ &b/ _, _/ ");
+        Common.log("&5|     &d/_____&b/_/ |_|  ");
+        Common.log("&5|");
+        Common.log("&5|     &bVersion: " + getDescription().getVersion() + " - Timmy109");
     }
 }

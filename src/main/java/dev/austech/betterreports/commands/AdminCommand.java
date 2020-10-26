@@ -7,7 +7,7 @@
  *
  * MIT License
  *
- * Copyright (c) 2020 Tim Uding.
+ * Copyright (c) 2020 Timmy109.
  * Copyright (c) 2020 Contributors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the
@@ -18,11 +18,12 @@
  * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
- * WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS
+ * WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE AUTHORS
  * OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 package dev.austech.betterreports.commands;
+
 import dev.austech.betterreports.BetterReports;
 import dev.austech.betterreports.utils.ArrayUtils;
 import dev.austech.betterreports.utils.Common;
@@ -37,26 +38,21 @@ public class AdminCommand implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
 		List<String> reload = ArrayUtils.getReloadList();
-		List<String> debug = ArrayUtils.getDebugList(BetterReports.getInstance());
+		List<String> debug = ArrayUtils.getDebugList();
 		List<String> adminHelp = ArrayUtils.getAdminHelpList();
 		List<String> playerHelp = ArrayUtils.getPlayerHelpList();
 
-		if (args.length == 0) {
-			if (sender.hasPermission("betterreports.admin")) {
-				adminHelp.forEach(s -> sender.sendMessage(Common.color(s)));
-				return true;
-			}
+		if (BaseCommand.base(sender, args, adminHelp, playerHelp)) return true;
 
-			playerHelp.forEach(s -> sender.sendMessage(Common.color(s)));
-			return true;
-		}
-
+		// If the command being executed is more than 1 argument long, send error message
 		if (args.length > 1) {
 			sender.sendMessage(Common.color("&cUnknown Command"));
 			return true;
 		}
 
 		switch (args[0]) {
+
+			// If first argument = debug, display relevant arraylist in chat
 			case "debug":
 				if (!sender.hasPermission("betterreports.admin")) {
 					sender.sendMessage(Common.color("&cYou do not have permission to execute this command!"));
@@ -65,6 +61,7 @@ public class AdminCommand implements CommandExecutor {
 				debug.forEach(s -> sender.sendMessage(Common.color(s)));
 				break;
 
+			// If first argument = reload, display relevant arraylist in chat
 			case "reload":
 				if (!sender.hasPermission("betterreports.reload")) {
 					sender.sendMessage(Common.color("&cYou do not have permission to execute this command!"));
@@ -79,10 +76,17 @@ public class AdminCommand implements CommandExecutor {
 				}
 				break;
 
+			case "help":
+				if (!(sender.hasPermission("betterreports.use"))) {
+					sender.sendMessage(Common.color("&cYou do not have permission to execute this command!"));
+					break;
+				}
+					BaseCommand.base(sender, args, adminHelp, playerHelp);
+					break;
+
 			default:
 				sender.sendMessage(Common.color("&cUnknown Command"));
 		}
-
 		return true;
 	}
 }

@@ -28,23 +28,58 @@ import dev.austech.betterreports.BetterReports;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public final class Common {
-    private static String logPrefix = "&8[&c&l&oBetter&4&l&oReports&r&8] &f";
 
-    public static void log(String message){
-        Bukkit.getServer().getConsoleSender().sendMessage(color(logPrefix + message));
-    }
-    
-    public static void logNoPrefix(String message){
+    public static void log(String message) {
+
         Bukkit.getServer().getConsoleSender().sendMessage(color(message));
+
     }
 
-    public static String color(String message){
+    public static String color(String message) {
+
         return ChatColor.translateAlternateColorCodes('&', message);
+
     }
 
     public static FileConfiguration getConfig() {
         return BetterReports.getInstance().getConfig();
     }
+
+    private final Map<UUID, Long> playerReportHash = new HashMap<>();
+
+    public static final long playerReportCooldown = Long.parseLong(getConfig().getString("report-player-cooldown"));
+
+    public void setPlayerReportCooldown(UUID player, long time) {
+        if(time < 1) {
+            playerReportHash.remove(player);
+        } else {
+            playerReportHash.put(player, time);
+        }
+    }
+
+    public long getPlayerReportCooldown(UUID player) {
+        return playerReportHash.getOrDefault(player, playerReportCooldown);
+    }
+
+    private final Map<UUID, Long> bugReportHash = new HashMap<>();
+
+    public static final long bugReportCooldown = Long.parseLong(getConfig().getString("report-bug-cooldown"));
+
+    public void setBugReportCooldown(UUID player, long time) {
+        if (time < 1) {
+            bugReportHash.remove(player);
+        } else {
+            bugReportHash.put(player, time);
+        }
+    }
+
+    public long getBugReportCooldown(UUID player) {
+        return bugReportHash.getOrDefault(player, bugReportCooldown);
+    }
+
 }

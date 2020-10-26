@@ -99,3 +99,8 @@ player-report-fields:
 discord-embed-bug-report-colour: "#F0FF00"
 discord-embed-player-report-colour: "#C761DF"
 
+# Change the value below to change the length of the cooldown
+# The value is in seconds!
+report-bug-cooldown: 60
+report-player-cooldown: 60
+
