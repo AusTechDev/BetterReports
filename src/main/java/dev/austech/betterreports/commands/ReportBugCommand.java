@@ -120,7 +120,7 @@ public class ReportBugCommand implements CommandExecutor {
 
         } else {
             // If the player still has a cooldown, tell them how long they have to wait before sending another report
-            sender.sendMessage(Common.color("&cYou need to wait " + (TimeUnit.MILLISECONDS.toSeconds(timeLeft) - Common.bugReportCooldown) + " seconds before reporting again!"));
+            sender.sendMessage(Common.color("&cYou need to wait " + String.valueOf((TimeUnit.MILLISECONDS.toSeconds(timeLeft) - Common.bugReportCooldown)).replace("-", "") + " seconds before reporting again!"));
         }
         return true;
     }
