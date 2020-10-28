@@ -14,8 +14,8 @@ the plugin.
 * Highly configurable messages
 * Command cooldown
 
-Feel free to contribute to the project with improvements and/or new features as well as by
-creating issues for bugs/errors so that we can work on fixing them :)
+If you feel like you can help improve this plugin, feel free to make a pull request!
+The current code style should be followed to keep consistency throughout the plugin.
 
 # License
 Copyright (c) 2020 Timmy109.
