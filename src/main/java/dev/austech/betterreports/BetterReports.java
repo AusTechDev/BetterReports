@@ -62,6 +62,7 @@ public final class BetterReports extends JavaPlugin {
         // Logging to console that the plugin has enabled, accompanied by the time taken to do so
         Common.log("&5|     &bSuccessfully Enabled - Took &7" + time + "&bms");
         Common.log("&5|");
+        Common.log("");
     }
 
     public static BetterReports getInstance() {
@@ -69,6 +70,7 @@ public final class BetterReports extends JavaPlugin {
     }
 
     public void loadingScreenFrames() {
+        Common.log("");
         Common.log("&5|");
         Common.log("&5|     &d    ____  &b____ ");
         Common.log("&5|     &d   / __ )&b/ __ \\");
@@ -76,6 +78,6 @@ public final class BetterReports extends JavaPlugin {
         Common.log("&5|     &d / /_/ &b/ _, _/ ");
         Common.log("&5|     &d/_____&b/_/ |_|  ");
         Common.log("&5|");
-        Common.log("&5|     &bVersion: " + getDescription().getVersion() + " - Timmy109");
+        Common.log("&5|     &bVersion: " + getDescription().getVersion() + " - AusTech");
     }
 }
