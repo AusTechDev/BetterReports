@@ -41,8 +41,8 @@ staff-bug-report-message: |-
   &8&l&m---------------------------
 
 # Paste your Discord channel webhooks into the respective lines below
-discord-bug-webhook-url: "https://discordapp.com/api/webhooks/752892179885850695/oVzQPYzwk5O2fhUv4nmpA70dPPHRPoBLrVgtFQBd6Tb4vdGeR8KBluG80CoQpOKy40up"
-discord-player-webhook-url: "https://discordapp.com/api/webhooks/752892179885850695/oVzQPYzwk5O2fhUv4nmpA70dPPHRPoBLrVgtFQBd6Tb4vdGeR8KBluG80CoQpOKy40up"
+discord-bug-webhook-url: "https://discord.com/api/webhooks/786586736204840990/FmsKQdSqNZ9lqF3fmXyIjulDmuU0yVKlcXti8cbvGucsOsTs_XM-Zb4FLwueh1xq9WB0"
+discord-player-webhook-url: "https://discord.com/api/webhooks/786586736204840990/FmsKQdSqNZ9lqF3fmXyIjulDmuU0yVKlcXti8cbvGucsOsTs_XM-Zb4FLwueh1xq9WB0"
 
 # -----------------------------------------------------------------------------------
 # Configuring the fields for the Discord webhook
@@ -73,6 +73,10 @@ bug-report-fields:
     content: "{report}"
     inline: false
 
+# Set the embed footer of the bug report
+bug-report-embed-footer: "AusTech - BetterReports"
+bug-report-embed-icon: "https://cdn.discordapp.com/icons/749536377020088361/b8d4bada3908ccb2bac76773489ee0cf.png"
+
 # Player report embed configuration
 # Available placeholders: {player} (reporter), {target} (reported player), {report} (report content/reason)
 player-report-fields:
@@ -92,6 +96,10 @@ player-report-fields:
     title: "Reason"
     content: "{report}"
     inline: false
+
+# Set the embed footer of the player report
+player-report-embed-footer: "AusTech - BetterReports"
+player-report-embed-icon: "https://cdn.discordapp.com/icons/749536377020088361/b8d4bada3908ccb2bac76773489ee0cf.png"
 
 # Webhook embed colour
 # Put a hex code (Including the #) into the respective lines below

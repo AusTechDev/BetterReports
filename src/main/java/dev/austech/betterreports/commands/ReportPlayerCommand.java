@@ -114,7 +114,7 @@ public class ReportPlayerCommand implements CommandExecutor {
 			}
 			// Setting features of the embed
 			eb.setColor(Color.decode(Common.getConfig().getString("discord-embed-player-report-colour")));
-			eb.setFooter("AusTech - BetterReports", "");
+			eb.setFooter(Common.getConfig().getString("player-report-embed-footer"), Common.getConfig().getString("player-report-embed-icon"));
 			webhook.addEmbed(eb);
 
 			// Attempt to send webhook to Discord
@@ -125,7 +125,6 @@ public class ReportPlayerCommand implements CommandExecutor {
 			} catch (Exception ex) {
 				ex.printStackTrace();
 				sender.sendMessage(Common.color("&cError sending the bug report to discord. Please contact the admin."));
-				sender.sendMessage(Common.color("&cAvoid using special characters in reports as this may cause issues!"));
 				return true;
 			}
 
