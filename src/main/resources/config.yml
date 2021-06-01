@@ -112,3 +112,13 @@ discord-embed-player-report-colour: "#C761DF"
 report-bug-cooldown: 60
 report-player-cooldown: 60
 
+# Message Customisation
+no-permission-message: "&cYou do not have permission to execute this command!"
+error-sending-message: "&cError sending the bug report to discord. Please contact the admin."
+player-only-message: "&cOnly players can execute that command!"
+no-reason-message: "&cPlease specify a reason for reporting!"
+report-self-message: "&cYou can't report yourself!"
+not-online-message: "&cPlayer has to be online to be reported!"
+cannot-report-message: "&cYou cannot report that player!"
+unknown-command: "&cUnknown Command!"
+

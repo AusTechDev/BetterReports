@@ -33,7 +33,7 @@ public class BaseCommand {
     static boolean base(CommandSender sender, String[] args, List<String> adminHelp, List<String> playerHelp) {
 
         if (!(sender.hasPermission("betterreports.use"))) {
-            sender.sendMessage(Common.color("&cYou do not have permission to execute this command!"));
+            sender.sendMessage(Common.color(Common.getConfig().getString("no-permission-message")));
             return true;
         }
 

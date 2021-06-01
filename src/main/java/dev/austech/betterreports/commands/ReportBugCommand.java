@@ -48,12 +48,12 @@ public class ReportBugCommand implements CommandExecutor {
         List<String> playerHelp = ArrayUtils.getPlayerHelpList();
 
         if (!(sender instanceof Player)) {
-            sender.sendMessage(Common.color("&cOnly players can execute that command!"));
+            sender.sendMessage(Common.color(Common.getConfig().getString("player-only-message")));
             return true;
         }
 
         if (!(sender.hasPermission("betterreports.use"))) {
-            sender.sendMessage(Common.color("&cYou do not have permission to execute this command!"));
+            sender.sendMessage(Common.color(Common.getConfig().getString("no-permission-message")));
             return true;
         }
 
@@ -98,7 +98,7 @@ public class ReportBugCommand implements CommandExecutor {
                 // If the webhook is not successfully sent, print stacktrace and error message in console
             } catch (Exception ex) {
                 ex.printStackTrace();
-                sender.sendMessage(Common.color("&cError sending the bug report to discord. Please contact the admin."));
+                sender.sendMessage(Common.color(Common.getConfig().getString("error-sending-message")));
                 return true;
             }
 

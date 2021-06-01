@@ -46,7 +46,7 @@ public class AdminCommand implements CommandExecutor {
 
 		// If the command being executed is more than 1 argument long, send error message
 		if (args.length > 1) {
-			sender.sendMessage(Common.color("&cUnknown Command"));
+			sender.sendMessage(Common.color(Common.getConfig().getString("unknown-command")));
 			return true;
 		}
 
@@ -55,7 +55,7 @@ public class AdminCommand implements CommandExecutor {
 			// If first argument = debug, display relevant arraylist in chat
 			case "debug":
 				if (!sender.hasPermission("betterreports.admin")) {
-					sender.sendMessage(Common.color("&cYou do not have permission to execute this command!"));
+					sender.sendMessage(Common.color(Common.getConfig().getString("no-permission-message")));
 					break;
 				}
 				debug.forEach(s -> sender.sendMessage(Common.color(s)));
@@ -64,7 +64,7 @@ public class AdminCommand implements CommandExecutor {
 			// If first argument = reload, display relevant arraylist in chat
 			case "reload":
 				if (!sender.hasPermission("betterreports.reload")) {
-					sender.sendMessage(Common.color("&cYou do not have permission to execute this command!"));
+					sender.sendMessage(Common.color(Common.getConfig().getString("no-permission-message")));
 					break;
 				}
 				try {
@@ -78,14 +78,14 @@ public class AdminCommand implements CommandExecutor {
 
 			case "help":
 				if (!(sender.hasPermission("betterreports.use"))) {
-					sender.sendMessage(Common.color("&cYou do not have permission to execute this command!"));
+					sender.sendMessage(Common.color(Common.getConfig().getString("no-permission-message")));
 					break;
 				}
 					BaseCommand.base(sender, args, adminHelp, playerHelp);
 					break;
 
 			default:
-				sender.sendMessage(Common.color("&cUnknown Command"));
+				sender.sendMessage(Common.color(Common.getConfig().getString("unknown-command")));
 		}
 		return true;
 	}

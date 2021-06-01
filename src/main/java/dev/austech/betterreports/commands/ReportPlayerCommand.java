@@ -49,12 +49,12 @@ public class ReportPlayerCommand implements CommandExecutor {
 
 		// Checking if the sender is not a player. If so, send error message
 		if (!(sender instanceof Player)) {
-			sender.sendMessage(Common.color("&cOnly players can execute that command!"));
+			sender.sendMessage(Common.color(Common.getConfig().getString("player-only-message")));
 			return true;
 		}
 
 		if (!(sender.hasPermission("betterreports.use"))) {
-			sender.sendMessage(Common.color("&cYou do not have permission to execute this command!"));
+			sender.sendMessage(Common.color(Common.getConfig().getString("no-permission-message")));
 			return true;
 		}
 
@@ -68,13 +68,13 @@ public class ReportPlayerCommand implements CommandExecutor {
 
 			// If player does not provide a reason for reporting, send error message
 			if (args.length == 1) {
-				sender.sendMessage(Common.color("&cPlease specify a reason for reporting!"));
+				sender.sendMessage(Common.color(Common.getConfig().getString("no-reason-message")));
 				return true;
 			}
 
 			// If players try to report themself, send error message
 			if (args[0].equals(sender.getName())) {
-				sender.sendMessage(Common.color("&cYou can't report yourself!"));
+				sender.sendMessage(Common.color(Common.getConfig().getString("report-self-message")));
 				return true;
 			}
 
@@ -85,13 +85,13 @@ public class ReportPlayerCommand implements CommandExecutor {
 
 			// Check to see if the player is online, if not, send error message
 			if (Bukkit.getPlayer(targetPlayer) == null) {
-				sender.sendMessage(Common.color("&cPlayer has to be online to be reported!"));
+				sender.sendMessage(Common.color(Common.getConfig().getString("not-online-message")));
 				return true;
 			}
 
 			// Checking to see if the player being reported has permissions that prevent them from being reported
 			if (Bukkit.getPlayer(targetPlayer).hasPermission("betterreports.exempt")) {
-				sender.sendMessage(Common.color("&cYou cannot report that player!"));
+				sender.sendMessage(Common.color(Common.getConfig().getString("cannot-report-message")));
 				return true;
 			}
 
@@ -129,7 +129,7 @@ public class ReportPlayerCommand implements CommandExecutor {
 			// If the webhook is not successfully sent, print stacktrace and error message in console
 			} catch (Exception ex) {
 				ex.printStackTrace();
-				sender.sendMessage(Common.color("&cError sending the bug report to discord. Please contact the admin."));
+				sender.sendMessage(Common.color(Common.getConfig().getString("error-sending-message")));
 				return true;
 			}
 
