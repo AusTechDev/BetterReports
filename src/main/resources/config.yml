@@ -122,3 +122,5 @@ not-online-message: "&cPlayer has to be online to be reported!"
 cannot-report-message: "&cYou cannot report that player!"
 unknown-command: "&cUnknown Command!"
 
+check-for-updates: true
+

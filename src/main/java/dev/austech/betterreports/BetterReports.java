@@ -26,8 +26,14 @@ package dev.austech.betterreports;
 import dev.austech.betterreports.commands.AdminCommand;
 import dev.austech.betterreports.commands.ReportBugCommand;
 import dev.austech.betterreports.commands.ReportPlayerCommand;
+import dev.austech.betterreports.events.PlayerJoin;
 import dev.austech.betterreports.utils.Common;
+import dev.austech.betterreports.utils.UpdateChecker;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.logging.Logger;
 
 public final class BetterReports extends JavaPlugin {
 
@@ -42,10 +48,22 @@ public final class BetterReports extends JavaPlugin {
         // Setting the instance to the current JavaPlugin instance
         instance = this;
 
+        // Checking for updates
+        if (Common.getConfig().getBoolean("check-for-updates"))
+            Bukkit.getScheduler().runTaskLaterAsynchronously(this, () -> {
+                if (UpdateChecker.needsUpdate(getDescription().getVersion())) {
+                    Common.log("&aA new update for BetterReports is available...");
+                    Common.log("&ahttps://www.spigotmc.org/resources/83689");
+                }
+            }, 20 * 3);
+
         // Registering commands
         getCommand("report").setExecutor(new ReportPlayerCommand());
         getCommand("reportbug").setExecutor(new ReportBugCommand());
         getCommand("betterreports").setExecutor(new AdminCommand());
+
+        // Registering events
+        Bukkit.getPluginManager().registerEvents(new PlayerJoin(), this);
 
         // Saving the default config
         saveDefaultConfig();
