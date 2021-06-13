@@ -44,6 +44,12 @@ public class ReportPlayerCommand implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
+		// Checking to see if player reports are enabled in the config
+		if (!Common.getConfig().getBoolean("player-reports")) {
+			sender.sendMessage(Common.color(Common.getConfig().getString("unknown-command")));
+			return true;
+		}
+
 		List<String> adminHelp = ArrayUtils.getAdminHelpList();
 		List<String> playerHelp = ArrayUtils.getPlayerHelpList();
 
@@ -53,7 +59,7 @@ public class ReportPlayerCommand implements CommandExecutor {
 			return true;
 		}
 
-		if (!(sender.hasPermission("betterreports.use"))) {
+		if (!(sender.hasPermission("betterreports.use.player"))) {
 			sender.sendMessage(Common.color(Common.getConfig().getString("no-permission-message")));
 			return true;
 		}

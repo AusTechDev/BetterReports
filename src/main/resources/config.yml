@@ -7,6 +7,10 @@
 # Config version - Please don't touch this!
 config-version: 1
 
+# Enable / Disable the use of player or bug reports
+player-reports: true
+bug-reports: true
+
 # If a player report was successfully submitted, this message will be displayed in chat to the player
 player-report-success: |-
   &8&l&m---------------------------------

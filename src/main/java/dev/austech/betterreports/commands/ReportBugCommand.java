@@ -44,6 +44,12 @@ public class ReportBugCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
+        // Checking to see if bug reports are enabled in the config
+        if (!Common.getConfig().getBoolean("bug-reports")) {
+            sender.sendMessage(Common.color(Common.getConfig().getString("unknown-command")));
+            return true;
+        }
+
         List<String> adminHelp = ArrayUtils.getAdminHelpList();
         List<String> playerHelp = ArrayUtils.getPlayerHelpList();
 
@@ -52,7 +58,7 @@ public class ReportBugCommand implements CommandExecutor {
             return true;
         }
 
-        if (!(sender.hasPermission("betterreports.use"))) {
+        if (!(sender.hasPermission("betterreports.use.bug"))) {
             sender.sendMessage(Common.color(Common.getConfig().getString("no-permission-message")));
             return true;
         }

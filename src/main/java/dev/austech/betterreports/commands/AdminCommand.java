@@ -77,7 +77,7 @@ public class AdminCommand implements CommandExecutor {
 				break;
 
 			case "help":
-				if (!(sender.hasPermission("betterreports.use"))) {
+				if (!(sender.hasPermission("betterreports.use.help"))) {
 					sender.sendMessage(Common.color(Common.getConfig().getString("no-permission-message")));
 					break;
 				}
