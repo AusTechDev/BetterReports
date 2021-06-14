@@ -11,6 +11,8 @@ commands:
     description: Admin Command!
     aliases: [br, breports]
 permissions:
+  betterreports.use:
+    description: Use the base commands
   betterreports.use.player:
     description: Report players
   betterreports.use.bug:
