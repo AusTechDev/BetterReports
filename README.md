@@ -11,15 +11,15 @@ the plugin.
 * Discord webhook
 * Works on any version from 1.8 to 1.16.x
 * Great for neatly archiving reports in a Discord channel
-* Highly configurable messages
+* Highly customisable messages
 * Command cooldown
 
 ##### If you feel like you can help improve this plugin, feel free to make a pull request!
 ##### The current code style should be followed to keep consistency throughout the plugin.
 
 # License
-Copyright (c) 2020 Timmy109.
-Copyright (c) 2020 Contributors.
+Copyright (C) 2021 AusTech Development Team
+Copyright (c) 2021 Contributors.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
