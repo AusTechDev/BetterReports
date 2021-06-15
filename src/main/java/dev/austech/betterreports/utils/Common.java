@@ -28,6 +28,8 @@ import dev.austech.betterreports.BetterReports;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
+
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -43,6 +45,12 @@ public final class Common {
     public static String color(String message) {
 
         return ChatColor.translateAlternateColorCodes('&', message);
+
+    }
+
+    public static String arrayColor(String[] message) {
+
+        return ChatColor.translateAlternateColorCodes('&', Arrays.toString(message));
 
     }
 

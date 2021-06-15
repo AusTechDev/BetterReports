@@ -50,9 +50,6 @@ public class ReportPlayerCommand implements CommandExecutor {
 			return true;
 		}
 
-		List<String> adminHelp = ArrayUtils.getAdminHelpList();
-		List<String> playerHelp = ArrayUtils.getPlayerHelpList();
-
 		// Checking if the sender is not a player. If so, send error message
 		if (!(sender instanceof Player)) {
 			sender.sendMessage(Common.color(Common.getConfig().getString("player-only-message")));
@@ -70,7 +67,11 @@ public class ReportPlayerCommand implements CommandExecutor {
 		if (TimeUnit.MILLISECONDS.toSeconds(timeLeft) >= Common.playerReportCooldown || sender.hasPermission("betterreports.cooldown.bypass")) {
 
 			// Checking to see if only the base command is entered
-			if (BaseCommand.base(sender, args, adminHelp, playerHelp)) return true;
+
+			if (args.length == 0) {
+				BaseCommand.base(sender, args);
+				return true;
+			}
 
 			// If player does not provide a reason for reporting, send error message
 			if (args.length == 1) {

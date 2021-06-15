@@ -25,12 +25,15 @@
 package dev.austech.betterreports.commands;
 
 import dev.austech.betterreports.utils.Common;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+
+import java.util.Arrays;
 import java.util.List;
 
 public class BaseCommand {
 
-    static boolean base(CommandSender sender, String[] args, List<String> adminHelp, List<String> playerHelp) {
+    static boolean base(CommandSender sender, String[] args) {//, List<String> adminHelp, List<String> playerHelp) {
 
         if (!(sender.hasPermission("betterreports.use"))) {
             sender.sendMessage(Common.color(Common.getConfig().getString("no-permission-message")));
@@ -38,14 +41,25 @@ public class BaseCommand {
         }
 
         // Checking to see if only the base command was executed - EG: /report or /reportbug
-        if (args.length == 0) {
-            if (sender.hasPermission("betterreports.admin")) {
+
+            /* if (sender.hasPermission("betterreports.admin")) {
                 adminHelp.forEach(s -> sender.sendMessage(Common.color(s)));
                 return true;
             }
             playerHelp.forEach(s -> sender.sendMessage(Common.color(s)));
             return true;
+
+             */
+
+            if (sender.hasPermission("betterreports.admin")) {
+                String[] adminHelp = Common.getConfig().getString("admin-help-message").split("\\n");
+                Arrays.stream(adminHelp).forEach(msg -> sender.sendMessage(Common.color(msg)));
+                return true;
+            }
+
+            String[] playerHelp = Common.getConfig().getString("player-help-message").split("\\n");
+            Arrays.stream(playerHelp).forEach(msg -> sender.sendMessage(Common.color(msg)));
+
+            return true;
         }
-        return false;
     }
-}

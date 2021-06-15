@@ -44,6 +44,25 @@ staff-bug-report-message: |-
   &8     Check Discord for more details!
   &8&l&m---------------------------
 
+# The message displayed when a player with the base permission node "betterreports.use" types in the base command /report.
+player-help-message: |-
+  &8&l&m-------------------------------
+  &c&l&o        Better&4&l&oReports
+  &8    Reporting bugs & players
+  &7/report <player> <reason> &c Report a player
+  &7/reportbug <bug> &c Report a bug
+  &8&l&m-------------------------------
+
+# The message displayed when a player with the permission node "betterreports.admin" types in the base command: /report.
+admin-help-message: |-
+  &8&l&m-------------------------------
+  &c&l&o        Better&4&l&oReports
+  &8    Reporting bugs & players
+  &7/report <player> <reason> &c Report a player
+  &7/reportbug <bug> &c Report a bug
+  &7/br reload &c Reload the configuration
+  &8&l&m-------------------------------
+
 # Paste your Discord channel webhooks into the respective lines below
 discord-bug-webhook-url: "https://discord.com/api/webhooks/786586736204840990/FmsKQdSqNZ9lqF3fmXyIjulDmuU0yVKlcXti8cbvGucsOsTs_XM-Zb4FLwueh1xq9WB0"
 discord-player-webhook-url: "https://discord.com/api/webhooks/786586736204840990/FmsKQdSqNZ9lqF3fmXyIjulDmuU0yVKlcXti8cbvGucsOsTs_XM-Zb4FLwueh1xq9WB0"
@@ -121,10 +140,13 @@ no-permission-message: "&cYou do not have permission to execute this command!"
 error-sending-message: "&cError sending the bug report to discord. Please contact the admin."
 player-only-message: "&cOnly players can execute that command!"
 no-reason-message: "&cPlease specify a reason for reporting!"
+no-bug-provided-message: "&cPlease specify the bug you would like to report!"
 report-self-message: "&cYou can't report yourself!"
 not-online-message: "&cPlayer has to be online to be reported!"
 cannot-report-message: "&cYou cannot report that player!"
 unknown-command: "&cUnknown Command!"
 
 check-for-updates: true
+
+
 

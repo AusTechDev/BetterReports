@@ -39,10 +39,8 @@ public class AdminCommand implements CommandExecutor {
 
 		List<String> reload = ArrayUtils.getReloadList();
 		List<String> debug = ArrayUtils.getDebugList();
-		List<String> adminHelp = ArrayUtils.getAdminHelpList();
-		List<String> playerHelp = ArrayUtils.getPlayerHelpList();
 
-		if (BaseCommand.base(sender, args, adminHelp, playerHelp)) return true;
+		if (BaseCommand.base(sender, args)) return true;
 
 		// If the command being executed is more than 1 argument long, send error message
 		if (args.length > 1) {
@@ -81,7 +79,7 @@ public class AdminCommand implements CommandExecutor {
 					sender.sendMessage(Common.color(Common.getConfig().getString("no-permission-message")));
 					break;
 				}
-					BaseCommand.base(sender, args, adminHelp, playerHelp);
+					BaseCommand.base(sender, args);
 					break;
 
 			default:

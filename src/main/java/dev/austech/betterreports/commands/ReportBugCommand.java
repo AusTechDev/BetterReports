@@ -50,9 +50,6 @@ public class ReportBugCommand implements CommandExecutor {
             return true;
         }
 
-        List<String> adminHelp = ArrayUtils.getAdminHelpList();
-        List<String> playerHelp = ArrayUtils.getPlayerHelpList();
-
         if (!(sender instanceof Player)) {
             sender.sendMessage(Common.color(Common.getConfig().getString("player-only-message")));
             return true;
@@ -60,6 +57,11 @@ public class ReportBugCommand implements CommandExecutor {
 
         if (!(sender.hasPermission("betterreports.use.bug"))) {
             sender.sendMessage(Common.color(Common.getConfig().getString("no-permission-message")));
+            return true;
+        }
+
+        if (args.length == 0) {
+            sender.sendMessage(Common.color(Common.getConfig().getString("no-bug-provided-message")));
             return true;
         }
 
@@ -71,8 +73,6 @@ public class ReportBugCommand implements CommandExecutor {
         long timeLeft = System.currentTimeMillis() - cooldown.getBugReportCooldown(((Player) sender).getUniqueId());
 
         if (TimeUnit.MILLISECONDS.toSeconds(timeLeft) >= Common.bugReportCooldown || sender.hasPermission("betterreports.cooldown.bypass")) {
-
-            if (BaseCommand.base(sender, args, adminHelp, playerHelp)) return true;
 
             String bug = String.join(" ", Arrays.asList(args).subList(0, args.length));
             String playersName = sender.getName();

@@ -31,36 +31,12 @@ import java.util.ArrayList;
 
 public class ArrayUtils {
 
-    public static ArrayList<String> getAdminHelpList() {
-        ArrayList<String> adminHelp = new ArrayList<>();
-        adminHelp.add("&8&l&m-------------------------------");
-        adminHelp.add("&c&l&o        Better&4&l&oReports");
-        adminHelp.add("&8    Reporting bugs & players");
-        adminHelp.add("&7/report <player> <reason>" + "&c Report a player");
-        adminHelp.add("&7/reportbug <bug>" + "&c Report a bug");
-        adminHelp.add("&7/br reload" + "&c Reload the configuration");
-        adminHelp.add("&8&l&m-------------------------------");
-
-        return adminHelp;
-    }
-
-    public static ArrayList<String> getPlayerHelpList() {
-        ArrayList<String> playerHelp = new ArrayList<>();
-        playerHelp.add("&8&l&m-------------------------------");
-        playerHelp.add("&c&l&o        Better&4&l&oReports");
-        playerHelp.add("&8    Reporting bugs & players");
-        playerHelp.add("&7/report <player> <reason>" + "&c Report a player");
-        playerHelp.add("&7/reportbug <bug>" + "&c Report a bug");
-        playerHelp.add("&8&l&m-------------------------------");
-        return playerHelp;
-    }
-
     public static ArrayList<String> getDebugList() {
         ArrayList<String> debugList = new ArrayList<>();
         debugList.add("&8&l&m-------------------------");
         debugList.add("&c&l&o        Better&4&l&oReports");
         debugList.add("&7Version: &c" + BetterReports.getInstance().getDescription().getVersion());
-        debugList.add("&7Author: &cTimmy109");
+        debugList.add("&7Author: &cAusTech Development");
         debugList.add("&7Server: &c" + Bukkit.getVersion());
         debugList.add("&7PR WH Color: &c" + Common.getConfig().getString("discord-embed-player-report-colour"));
         debugList.add("&7BR WH Color: &c" + Common.getConfig().getString("discord-embed-bug-report-colour"));
