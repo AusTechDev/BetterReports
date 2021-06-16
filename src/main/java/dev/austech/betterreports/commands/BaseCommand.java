@@ -40,17 +40,6 @@ public class BaseCommand {
             return true;
         }
 
-        // Checking to see if only the base command was executed - EG: /report or /reportbug
-
-            /* if (sender.hasPermission("betterreports.admin")) {
-                adminHelp.forEach(s -> sender.sendMessage(Common.color(s)));
-                return true;
-            }
-            playerHelp.forEach(s -> sender.sendMessage(Common.color(s)));
-            return true;
-
-             */
-
             if (sender.hasPermission("betterreports.admin")) {
                 String[] adminHelp = Common.getConfig().getString("admin-help-message").split("\\n");
                 Arrays.stream(adminHelp).forEach(msg -> sender.sendMessage(Common.color(msg)));
