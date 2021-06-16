@@ -33,7 +33,7 @@ import java.util.List;
 
 public class BaseCommand {
 
-    static boolean base(CommandSender sender, String[] args) {//, List<String> adminHelp, List<String> playerHelp) {
+    static boolean base(CommandSender sender, String[] args) {
 
         if (!(sender.hasPermission("betterreports.use"))) {
             sender.sendMessage(Common.color(Common.getConfig().getString("no-permission-message")));
