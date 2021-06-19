@@ -1,29 +1,38 @@
 name: Build
-on:
-  push:
-  pull_request:
+on: [push]
 
 jobs:
-  Maven:
-    name: Maven
+  build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up JDK/Maven
-      uses: actions/setup-java@v1
-      with:
-        java-version: 1.8
-    - name: Cache Maven Packages
-      uses: actions/cache@v2
-      with:
-        path: ~/.m2
-        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-        restore-keys: ${{ runner.os }}-m2
-    - name: Build with Maven
-      run: mvn clean install
-    - uses: actions/upload-artifact@v2
-      with:
-        name: BetterReports-Artifcats
-        path: |
-          target/*.jar
-          !target/original-*.jar
+      - uses: actions/checkout@v2
+      - name: Set up JDK & Gradle
+        uses: actions/setup-java@v2
+        with:
+          java-version: 8
+          distribution: zulu
+      - name: Cache Gradle packages
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - name: Build with Gradle
+        run: ./gradlew --no-daemon clean build
+      - name: Cleanup Gradle Cache
+        run: |
+          rm -f ~/.gradle/caches/modules-2/modules-2.lock
+          rm -f ~/.gradle/caches/modules-2/gc.properties
+      - id: get-id
+        uses: actions/github-script@0.9.0
+        with:
+          script: return (context.payload.after.substring(0,7))
+          result-encoding: string
+      - uses: actions/upload-artifact@v2
+        with:
+          name: Artifacts-${{ steps.get-id.outputs.result }}
+          path: |
+            jars/*.jar

@@ -1,5 +1,5 @@
 name: BetterReports
-version: ${project.version}
+version: @version@
 main: dev.austech.betterreports.BetterReports
 description: Reporting plugin with Discord webhook
 commands:

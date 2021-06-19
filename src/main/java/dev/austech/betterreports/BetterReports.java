@@ -23,21 +23,28 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 package dev.austech.betterreports;
+
 import dev.austech.betterreports.commands.AdminCommand;
 import dev.austech.betterreports.commands.ReportBugCommand;
 import dev.austech.betterreports.commands.ReportPlayerCommand;
 import dev.austech.betterreports.events.PlayerJoin;
 import dev.austech.betterreports.utils.Common;
+import dev.austech.betterreports.utils.Config;
 import dev.austech.betterreports.utils.UpdateChecker;
+import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.IOException;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Logger;
 
 public final class BetterReports extends JavaPlugin {
 
-    private static BetterReports instance;
+    @Getter private static BetterReports instance;
+    @Getter @Setter YamlConfiguration config;
 
     @Override
     public void onEnable() {
@@ -47,6 +54,11 @@ public final class BetterReports extends JavaPlugin {
 
         // Setting the instance to the current JavaPlugin instance
         instance = this;
+        try {
+            Config.load();
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
 
         // Checking for updates
         if (Common.getConfig().getBoolean("check-for-updates"))
@@ -81,10 +93,6 @@ public final class BetterReports extends JavaPlugin {
         Common.log("&5|     &bSuccessfully Enabled - Took &7" + time + "&bms");
         Common.log("&5|");
         Common.log("");
-    }
-
-    public static BetterReports getInstance() {
-        return instance;
     }
 
     public void loadingScreenFrames() {

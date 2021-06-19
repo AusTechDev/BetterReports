@@ -27,6 +27,7 @@ package dev.austech.betterreports.commands;
 import dev.austech.betterreports.BetterReports;
 import dev.austech.betterreports.utils.ArrayUtils;
 import dev.austech.betterreports.utils.Common;
+import dev.austech.betterreports.utils.Config;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -66,7 +67,7 @@ public class AdminCommand implements CommandExecutor {
 					break;
 				}
 				try {
-					BetterReports.getInstance().reloadConfig();
+					Config.load();
 					reload.forEach(s -> sender.sendMessage(Common.color(s)));
 				} catch (Exception ex) {
 					ex.printStackTrace();

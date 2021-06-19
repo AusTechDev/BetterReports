@@ -40,15 +40,17 @@ public class BaseCommand {
             return true;
         }
 
-            if (sender.hasPermission("betterreports.admin")) {
-                String[] adminHelp = Common.getConfig().getString("admin-help-message").split("\\n");
-                Arrays.stream(adminHelp).forEach(msg -> sender.sendMessage(Common.color(msg)));
-                return true;
-            }
-
-            String[] playerHelp = Common.getConfig().getString("player-help-message").split("\\n");
-            Arrays.stream(playerHelp).forEach(msg -> sender.sendMessage(Common.color(msg)));
-
+        if (sender.hasPermission("betterreports.admin") && args.length == 0) {
+            String[] adminHelp = Common.getConfig().getString("admin-help-message").split("\\n");
+            Arrays.stream(adminHelp).forEach(msg -> sender.sendMessage(Common.color(msg)));
             return true;
+        } else if (args.length != 0) {
+            return false;
         }
+
+        String[] playerHelp = Common.getConfig().getString("player-help-message").split("\\n");
+        Arrays.stream(playerHelp).forEach(msg -> sender.sendMessage(Common.color(msg)));
+
+        return true;
     }
+}
