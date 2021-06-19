@@ -94,7 +94,7 @@ modules.xml
 .idea/sonarlint
 
 ### Gradle ###
-.gradle
+.gradle/
 build/
 
 # Ignore Gradle GUI config
