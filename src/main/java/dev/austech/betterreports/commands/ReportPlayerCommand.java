@@ -24,6 +24,7 @@
  */
 package dev.austech.betterreports.commands;
 
+import dev.austech.betterreports.BetterReports;
 import dev.austech.betterreports.discord.DiscordWebhook;
 import dev.austech.betterreports.utils.ArrayUtils;
 import dev.austech.betterreports.utils.Common;
@@ -129,37 +130,36 @@ public class ReportPlayerCommand implements CommandExecutor {
 			eb.setFooter(Common.getConfig().getString("player-report-embed-footer"), Common.getConfig().getString("player-report-embed-icon"));
 			webhook.addEmbed(eb);
 
-			// Attempt to send webhook to Discord
-			try {
-				webhook.execute();
+			Bukkit.getScheduler().runTaskAsynchronously(BetterReports.getInstance(), () -> {
+				// Attempt to send webhook to Discord
+				try {
+					webhook.execute();
 
-			// If the webhook is not successfully sent, print stacktrace and error message in console
-			} catch (Exception ex) {
-				ex.printStackTrace();
-				sender.sendMessage(Common.color(Common.getConfig().getString("error-sending-message")));
-				return true;
-			}
 
-			// Successful in sending report to discord
-			Arrays.stream(Common.getConfig().getString("player-report-success")
-					.replace("{player}", playerName).split("\\n"))
-					.forEach(s -> sender.sendMessage(Common.color(s)));
+					// Successful in sending report to discord
+					Arrays.stream(Common.getConfig().getString("player-report-success")
+							.replace("{player}", playerName).split("\\n"))
+							.forEach(s -> sender.sendMessage(Common.color(s)));
 
-			// Send notification to relevant players
-			String[] reportAlertMessage = Common.getConfig().getString("staff-player-report-message")
-					.replace("{player}", playerName)
-					.replace("{report}", report)
-					.replace("{target}", targetPlayer)
-					.split("\\n");
+					// Send notification to relevant players
+					String[] reportAlertMessage = Common.getConfig().getString("staff-player-report-message")
+							.replace("{player}", playerName)
+							.replace("{report}", report)
+							.replace("{target}", targetPlayer)
+							.split("\\n");
 
-			Bukkit.getOnlinePlayers().stream()
-					.filter(player -> player.hasPermission("betterreports.alerts"))
-					.forEach(staff -> Arrays.stream(reportAlertMessage)
-							.forEach(msg -> staff.sendMessage(Common.color(msg))));
+					Bukkit.getOnlinePlayers().stream()
+							.filter(player -> player.hasPermission("betterreports.alerts"))
+							.forEach(staff -> Arrays.stream(reportAlertMessage)
+									.forEach(msg -> staff.sendMessage(Common.color(msg))));
 
-			// Setting the command cooldown after using
-			cooldown.setPlayerReportCooldown(((Player) sender).getUniqueId(), System.currentTimeMillis());
-
+					// Setting the command cooldown after using
+					cooldown.setPlayerReportCooldown(((Player) sender).getUniqueId(), System.currentTimeMillis());
+				} catch (Exception ex) {
+					ex.printStackTrace();
+					sender.sendMessage(Common.color(Common.getConfig().getString("error-sending-message")));
+				}
+			});
 		} else {
 			// If the player still has a cooldown, tell them how long they have to wait before sending another report
 			sender.sendMessage(Common.color("&cYou need to wait " + String.valueOf((TimeUnit.MILLISECONDS.toSeconds(timeLeft) - Common.playerReportCooldown)).replace("-", "") + " seconds before reporting again!"));

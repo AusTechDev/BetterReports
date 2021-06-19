@@ -24,9 +24,9 @@
  */
 package dev.austech.betterreports.commands;
 
+import dev.austech.betterreports.BetterReports;
 import dev.austech.betterreports.discord.DiscordWebhook;
 import dev.austech.betterreports.utils.Common;
-import dev.austech.betterreports.utils.ArrayUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -34,8 +34,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import java.awt.*;
 import java.util.Arrays;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ReportBugCommand implements CommandExecutor {
 
@@ -97,35 +97,39 @@ public class ReportBugCommand implements CommandExecutor {
             eb.setFooter(Common.getConfig().getString("bug-report-embed-footer"), Common.getConfig().getString("bug-report-embed-icon"));
             webhook.addEmbed(eb);
 
-            // Attempt to send webhook to Discord
-            try {
-                webhook.execute();
+            AtomicBoolean error = new AtomicBoolean(false);
 
-                // If the webhook is not successfully sent, print stacktrace and error message in console
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                sender.sendMessage(Common.color(Common.getConfig().getString("error-sending-message")));
-                return true;
-            }
+            Bukkit.getScheduler().runTaskAsynchronously(BetterReports.getInstance(), () -> {
+                // Attempt to send webhook to Discord
+                try {
+                    webhook.execute();
 
-            // Successful in sending report to discord
-            Arrays.stream(Common.getConfig().getString("bug-report-success")
-                    .replace("{player}", playersName).split("\\n"))
-                    .forEach(s -> sender.sendMessage(Common.color(s)));
+                    // Successful in sending report to discord
+                    Arrays.stream(Common.getConfig().getString("bug-report-success")
+                            .replace("{player}", playersName).split("\\n"))
+                            .forEach(s -> sender.sendMessage(Common.color(s)));
 
-            // Send notification to relevant players
-            String[] reportAlertMessage = Common.getConfig().getString("staff-bug-report-message")
-                    .replace("{player}", playersName)
-                    .replace("{report}", bug)
-                    .split("\\n");
+                    // Send notification to relevant players
+                    String[] reportAlertMessage = Common.getConfig().getString("staff-bug-report-message")
+                            .replace("{player}", playersName)
+                            .replace("{report}", bug)
+                            .split("\\n");
 
-            Bukkit.getOnlinePlayers().stream()
-                    .filter(player -> player.hasPermission("betterreports.alerts"))
-                    .forEach(staff -> Arrays.stream(reportAlertMessage)
-                            .forEach(msg -> staff.sendMessage(Common.color(msg))));
+                    Bukkit.getOnlinePlayers().stream()
+                            .filter(player -> player.hasPermission("betterreports.alerts"))
+                            .forEach(staff -> Arrays.stream(reportAlertMessage)
+                                    .forEach(msg -> staff.sendMessage(Common.color(msg))));
 
-            // Setting the command cooldown after using
-            cooldown.setBugReportCooldown(((Player) sender).getUniqueId(), System.currentTimeMillis());
+                    // Setting the command cooldown after using
+                    cooldown.setBugReportCooldown(((Player) sender).getUniqueId(), System.currentTimeMillis());
+
+                    // If the webhook is not successfully sent, print stacktrace and error message in console
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    sender.sendMessage(Common.color(Common.getConfig().getString("error-sending-message")));
+                    error.set(true);
+                }
+            });
 
         } else {
             // If the player still has a cooldown, tell them how long they have to wait before sending another report
