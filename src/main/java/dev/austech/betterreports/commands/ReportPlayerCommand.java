@@ -92,7 +92,7 @@ public class ReportPlayerCommand implements CommandExecutor {
 			String targetPlayer = args[0];
 
 			// Check to see if the player is online, if not, send error message
-			if (Bukkit.getPlayer(targetPlayer) == null) {
+			if (Bukkit.getPlayer(targetPlayer) == null && !Common.getConfig().getBoolean("report-offline-players")) {
 				sender.sendMessage(Common.color(Common.getConfig().getString("not-online-message")));
 				return true;
 			}
