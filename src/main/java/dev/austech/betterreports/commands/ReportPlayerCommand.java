@@ -98,10 +98,12 @@ public class ReportPlayerCommand implements CommandExecutor {
 			}
 
 			// Checking to see if the player being reported has permissions that prevent them from being reported
-			if (Bukkit.getPlayer(targetPlayer).hasPermission("betterreports.exempt")) {
-				sender.sendMessage(Common.color(Common.getConfig().getString("cannot-report-message")));
-				return true;
-			}
+            if (!Common.getConfig().getBoolean("report-offline-players")) {
+                if (Bukkit.getPlayer(targetPlayer).hasPermission("betterreports.exempt")) {
+                    sender.sendMessage(Common.color(Common.getConfig().getString("cannot-report-message")));
+                    return true;
+                }
+            }
 
 			if (Common.getConfig().getString("discord-player-webhook-url").equals("https://discord.com/api/webhooks/786586736204840990/FmsKQdSqNZ9lqF3fmXyIjulDmuU0yVKlcXti8cbvGucsOsTs_XM-Zb4FLwueh1xq9WB0")) {
 				sender.sendMessage(Common.color("&cYou must change the webhook url in the config.yml in order for the webhook to be successfully sent to Discord. Should you require assistance, please join our Discord server: &nhttps://Discord.AusTech.Dev/"));
