@@ -3,6 +3,7 @@ package dev.austech.betterreports.events;
 import dev.austech.betterreports.BetterReports;
 import dev.austech.betterreports.utils.Common;
 import dev.austech.betterreports.utils.UpdateChecker;
+import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
