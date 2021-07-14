@@ -24,6 +24,9 @@
  */
 
 import org.apache.tools.ant.filters.ReplaceTokens
+import org.eclipse.jgit.lib.Ref
+import org.eclipse.jgit.lib.Repository
+import org.eclipse.jgit.revwalk.RevWalk
 
 plugins {
     id 'java'
