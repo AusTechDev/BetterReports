@@ -125,7 +125,8 @@ processResources {
 
 task copyJars(type: Copy) {
     outputTasks().forEach({ from(it) })
-    rename '(.*)-all.jar', (project.name + "-" + version + ".jar")
+    rename '(.*)-all.jar', ('$1' + '.jar')
+    rename project.name + "-" + project.version + ".jar", project.name + "-" + project.fullVersion + ".jar"
     into file('jars')
 }
 
