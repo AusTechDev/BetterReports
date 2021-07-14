@@ -10,15 +10,15 @@ import org.bukkit.event.player.PlayerJoinEvent;
 public class PlayerJoin implements Listener {
 
     @EventHandler
-    public void onJoin (PlayerJoinEvent e) {
+    public void onJoin(PlayerJoinEvent e) {
+        Bukkit.getScheduler().runTaskAsyncronously(BetterReports.getInstance(), () -> {
+            if ((e.getPlayer().hasPermission("betterreports.admin")
+                    && UpdateChecker.needsUpdate(BetterReports.getInstance().getDescription().getVersion()))
+                    && Common.getConfig().getBoolean("check-for-updates")) {
 
-        if ((e.getPlayer().hasPermission("betterreports.admin")
-                && UpdateChecker.needsUpdate(BetterReports.getInstance().getDescription().getVersion()))
-                && Common.getConfig().getBoolean("check-for-updates")) {
-
-            e.getPlayer().sendMessage(Common.color("&c&l&oBetter&4&l&oReports &7- &aThere is a new update available."));
-            e.getPlayer().sendMessage(Common.color("&cDownload here: &7&nhttps://austech.dev/to/betterreports"));
-
-        }
+                e.getPlayer().sendMessage(Common.color("&c&l&oBetter&4&l&oReports &7- &aThere is a new update available."));
+                e.getPlayer().sendMessage(Common.color("&cDownload here: &7&nhttps://austech.dev/to/betterreports"));
+            }
+        })
     }
 }
