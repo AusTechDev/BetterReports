@@ -12,7 +12,7 @@ public class PlayerJoin implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
-        Bukkit.getScheduler().runTaskAsyncronously(BetterReports.getInstance(), () -> {
+        Bukkit.getScheduler().runTaskAsynchronously(BetterReports.getInstance(), () -> {
             if ((e.getPlayer().hasPermission("betterreports.admin")
                     && UpdateChecker.needsUpdate(BetterReports.getInstance().getDescription().getVersion()))
                     && Common.getConfig().getBoolean("check-for-updates")) {
