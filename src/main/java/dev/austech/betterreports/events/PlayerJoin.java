@@ -19,6 +19,6 @@ public class PlayerJoin implements Listener {
                 e.getPlayer().sendMessage(Common.color("&c&l&oBetter&4&l&oReports &7- &aThere is a new update available."));
                 e.getPlayer().sendMessage(Common.color("&cDownload here: &7&nhttps://austech.dev/to/betterreports"));
             }
-        })
+        });
     }
 }
