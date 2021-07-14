@@ -27,8 +27,11 @@ import org.apache.tools.ant.filters.ReplaceTokens
 
 plugins {
     id 'java'
+    id 'org.ajoberstar.grgit' version '4.1.0'
     id 'com.github.johnrengelman.shadow' version '7.0.0'
-    id 'io.freefair.lombok' version '6.0.0-m2'
+    id "io.freefair.lombok" version "6.0.0-m2"
+    id 'net.kyori.indra' version "2.0.4" apply false
+    id 'net.kyori.indra.git' version "2.0.4"
 }
 
 repositories {
@@ -51,17 +54,69 @@ dependencies {
 }
 
 group = 'dev.austech'
-version = '1.2.1'
+version = '1.2.2-SNAPSHOT'
 description = 'BetterReports'
 java.sourceCompatibility = JavaVersion.VERSION_1_8
+
+// https://github.com/EssentialsX/Essentials/blob/2.x/build.gradle
+@SuppressWarnings('GrMethodMayBeStatic')
+def commitsSinceLastTag() {
+    if (indraGit == null || !indraGit.isPresent() || indraGit.tags().isEmpty()) {
+        return -1
+    }
+    def tags = indraGit.tags()
+    def depth = 0
+    def walk = new RevWalk(indraGit.git().getRepository())
+    def commit = walk.parseCommit(indraGit.commit())
+    while (true) {
+        for (tag in tags) {
+            if (walk.parseCommit(tag.getLeaf().getObjectId()) == commit) {
+                walk.dispose()
+                indraGit.git().close()
+                return depth
+            }
+        }
+        depth++
+        commit = walk.parseCommit(commit.getParents()[0])
+    }
+}
+
+@SuppressWarnings('GrMethodMayBeStatic')
+def headBranchName() {
+    if (System.getenv("GITHUB_HEAD_REF") != null && !System.getenv("GITHUB_HEAD_REF").isEmpty()) {
+        return System.getenv("GITHUB_HEAD_REF")
+    } else if (System.getenv("GITHUB_REF") != null && !System.getenv("GITHUB_REF").isEmpty()) {
+        return System.getenv("GITHUB_REF").replaceFirst("refs/heads/", "")
+    }
+
+    if (!indraGit.isPresent()) {
+        return "detached-head"
+    }
+
+    Ref ref = indraGit.git().getRepository().exactRef('HEAD')?.target
+    if (ref == null) {
+        return "detached-head"
+    }
+
+    return Repository.shortenRefName(ref.name)
+}
+
+ext {
+    GIT_COMMIT = !indraGit.isPresent() ? "unknown" : indraGit.commit().abbreviate(7).name()
+    GIT_DEPTH = commitsSinceLastTag()
+    GIT_BRANCH = headBranchName()
+
+    fullVersion = "${version}".replace("-SNAPSHOT", "-dev+${GIT_DEPTH}-${GIT_COMMIT}")
+}
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
 
 processResources {
+    inputs.property('fullVersion', fullVersion)
     filter ReplaceTokens, tokens: [
-            "version": getVersion()
+            "version": fullVersion
     ]
 }
 
