@@ -9,7 +9,7 @@ the plugin.
 ### Key features
 * Lightweight and simple
 * Discord webhook
-* Works on any version from 1.8 to 1.16.x
+* Works on any version from 1.8 to 1.17.x
 * Great for neatly archiving reports in a Discord channel
 * Highly customisable messages
 * Command cooldown
