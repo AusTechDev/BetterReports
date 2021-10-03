@@ -57,7 +57,7 @@ dependencies {
 }
 
 group = 'dev.austech'
-version = '1.2.2'
+version = '1.2.3-SNAPSHOT'
 description = 'BetterReports'
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 
