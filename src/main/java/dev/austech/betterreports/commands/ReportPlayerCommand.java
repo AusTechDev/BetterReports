@@ -140,7 +140,9 @@ public class ReportPlayerCommand implements CommandExecutor {
 
 					// Successful in sending report to discord
 					Arrays.stream(Common.getConfig().getString("player-report-success")
-							.replace("{player}", playerName).split("\\n"))
+							.replace("{player}", playerName)
+							.replace("{target}", targetPlayer)
+							.split("\\n"))
 							.forEach(s -> sender.sendMessage(Common.color(s)));
 
 					// Send notification to relevant players

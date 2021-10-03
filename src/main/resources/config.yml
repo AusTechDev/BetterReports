@@ -15,7 +15,7 @@ bug-reports: true
 report-offline-players: false
 
 # If a player report was successfully submitted, this message will be displayed in chat to the player.
-# You may use the {player} placeholder to get the reported player's name.
+# You may use the {target} placeholder to get the reported player's name and the {player} placeholder to get the REPORTER's name.
 player-report-success: |-
   &8&l&m---------------------------------
   &a&lThank you! &aYour report has been submitted
