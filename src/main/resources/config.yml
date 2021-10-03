@@ -4,31 +4,33 @@
 # Spigot Profile: https://www.spigotmc.org/members/_timmyy_.919057/
 # Discord Server: https://discord.austech.dev/
 
-# Config version - Please don't touch this!
+# Config version - Please don't touch this!.
 config-version: 1
 
-# Enable / Disable the use of player or bug reports
+# Enable / Disable the use of player or bug reports.
 player-reports: true
 bug-reports: true
 
-# Allow the reporting of offline players or players that have never joined the server before
+# Allow the reporting of offline players or players that have never joined the server before.
 report-offline-players: false
 
-# If a player report was successfully submitted, this message will be displayed in chat to the player
+# If a player report was successfully submitted, this message will be displayed in chat to the player.
+# You may use the {player} placeholder to get the reported player's name.
 player-report-success: |-
   &8&l&m---------------------------------
   &a&lThank you! &aYour report has been submitted
   &a    Your reports help the community!
   &8&l&m---------------------------------
 
-# If a bug report was successfully submitted, this message will be displayed in chat to the player
+# If a bug report was successfully submitted, this message will be displayed in chat to the player.
+# You may use the {player} placeholder to get the reported player's name.
 bug-report-success: |-
   &8&l&m---------------------------------
   &a&lThank you! &aYour report has been submitted
   &a    Your reports help the community!
   &8&l&m---------------------------------
 
-# If a PLAYER report was successfully written to the file, notify staff with this message in chat
+# If a PLAYER report was successfully written to the file, notify staff with this message in chat.
 # You may use the {player} placeholder to get the reporter's name and the {report} placeholder to get the reason.
 # The {target} placeholder is available to display the reported player's username.
 staff-player-report-message: |-
@@ -38,7 +40,7 @@ staff-player-report-message: |-
   &8     Check Discord for more details!
   &8&l&m-----------------------------
 
-# If a BUG report was successfully written to the file, notify staff with this message in chat
+# If a BUG report was successfully written to the file, notify staff with this message in chat.
 # You may use the {player} placeholder to get the reporter's name and the {report} placeholder to get the reason.
 staff-bug-report-message: |-
   &8&l&m---------------------------
@@ -66,7 +68,7 @@ admin-help-message: |-
   &7/br reload &c Reload the configuration
   &8&l&m-------------------------------
 
-# Paste your Discord channel webhooks into the respective lines below
+# Paste your Discord channel webhooks into the respective lines below.
 discord-bug-webhook-url: "https://discord.com/api/webhooks/786586736204840990/FmsKQdSqNZ9lqF3fmXyIjulDmuU0yVKlcXti8cbvGucsOsTs_XM-Zb4FLwueh1xq9WB0"
 discord-player-webhook-url: "https://discord.com/api/webhooks/786586736204840990/FmsKQdSqNZ9lqF3fmXyIjulDmuU0yVKlcXti8cbvGucsOsTs_XM-Zb4FLwueh1xq9WB0"
 
@@ -83,8 +85,8 @@ discord-player-webhook-url: "https://discord.com/api/webhooks/786586736204840990
 # Please note that Discord limitations mean that there can only be up to 25 fields!
 # -----------------------------------------------------------------------------------
 
-# Player report embed configuration
-# Available placeholders: {player} (reporter), {report} (report content/bug)
+# Player report embed configuration.
+# Available placeholders: {player} (reporter), {report} (report content/bug).
 bug-report-fields:
   1:
     title: "**Reports**"
@@ -99,12 +101,12 @@ bug-report-fields:
     content: "{report}"
     inline: false
 
-# Set the embed footer of the bug report
+# Set the embed footer of the bug report.
 bug-report-embed-footer: "AusTech - BetterReports"
 bug-report-embed-icon: "https://cdn.discordapp.com/icons/749536377020088361/b8d4bada3908ccb2bac76773489ee0cf.png"
 
-# Player report embed configuration
-# Available placeholders: {player} (reporter), {target} (reported player), {report} (report content/reason)
+# Player report embed configuration.
+# Available placeholders: {player} (reporter), {target} (reported player), {report} (report content/reason).
 player-report-fields:
   1:
     title: "**Reports**"
@@ -123,22 +125,22 @@ player-report-fields:
     content: "{report}"
     inline: false
 
-# Set the embed footer of the player report
+# Set the embed footer of the player report.
 player-report-embed-footer: "AusTech - BetterReports"
 player-report-embed-icon: "https://cdn.discordapp.com/icons/749536377020088361/b8d4bada3908ccb2bac76773489ee0cf.png"
 
-# Webhook embed colour
-# Put a hex code (Including the #) into the respective lines below
+# Webhook embed colour.
+# Put a hex code (Including the #) into the respective lines below.
 # Make sure there are no spaces otherwise this may break!
 discord-embed-bug-report-colour: "#F0FF00"
 discord-embed-player-report-colour: "#C761DF"
 
-# Change the value below to change the length of the cooldown
+# Change the value below to change the length of the cooldown.
 # The value is in seconds!
 report-bug-cooldown: 60
 report-player-cooldown: 60
 
-# Message Customisation
+# Message Customisation.
 no-permission-message: "&cYou do not have permission to execute this command!"
 error-sending-message: "&cError sending the bug report to discord. Please contact the admin."
 player-only-message: "&cOnly players can execute that command!"
