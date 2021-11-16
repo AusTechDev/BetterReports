@@ -95,6 +95,12 @@ public class ReportBugCommand implements CommandExecutor {
             // Setting features of the embed
             eb.setColor(Color.decode(Common.getConfig().getString("discord-embed-bug-report-colour")));
             eb.setFooter(Common.getConfig().getString("bug-report-embed-footer"), Common.getConfig().getString("bug-report-embed-icon"));
+
+            // Adding to webhook to ping staff when a report is made in Discord
+            if (Common.getConfig().getBoolean("discord-ping-bug-enable")) {
+                webhook.setContent(Common.getConfig().getString("discord-ping-bug"));
+            }
+            // Adding the embed to the webhook before sending off
             webhook.addEmbed(eb);
 
             AtomicBoolean error = new AtomicBoolean(false);

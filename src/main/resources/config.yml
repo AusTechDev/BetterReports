@@ -5,7 +5,7 @@
 # Discord Server: https://discord.austech.dev/
 
 # Config version - Please don't touch this!.
-config-version: 1
+config-version: 2
 
 # Enable / Disable the use of player or bug reports.
 player-reports: true
@@ -105,6 +105,12 @@ bug-report-fields:
 bug-report-embed-footer: "AusTech - BetterReports"
 bug-report-embed-icon: "https://cdn.discordapp.com/icons/749536377020088361/b8d4bada3908ccb2bac76773489ee0cf.png"
 
+# Use this if you would like to ping a discord role or user. To get a user or role ID, follow this guide: https://ozonprice.com/blog/discord-get-role-id/
+# For roles, use the format <@&ROLE_ID>
+# For users, use the format <@USER_ID>
+discord-ping-bug: "<@&753093643044257895>"
+discord-ping-bug-enable: true
+
 # Player report embed configuration.
 # Available placeholders: {player} (reporter), {target} (reported player), {report} (report content/reason).
 player-report-fields:
@@ -128,6 +134,12 @@ player-report-fields:
 # Set the embed footer of the player report.
 player-report-embed-footer: "AusTech - BetterReports"
 player-report-embed-icon: "https://cdn.discordapp.com/icons/749536377020088361/b8d4bada3908ccb2bac76773489ee0cf.png"
+
+# Use this if you would like to ping a discord role or user. To get a user or role ID, follow this guide: https://ozonprice.com/blog/discord-get-role-id/
+# For roles, use the format <@&ROLE_ID>
+# For users, use the format <@USER_ID>
+discord-ping-player: "<@&753093643044257895>"
+discord-ping-player-enable: true
 
 # Webhook embed colour.
 # Put a hex code (Including the #) into the respective lines below.

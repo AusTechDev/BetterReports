@@ -130,6 +130,12 @@ public class ReportPlayerCommand implements CommandExecutor {
 			// Setting features of the embed
 			eb.setColor(Color.decode(Common.getConfig().getString("discord-embed-player-report-colour")));
 			eb.setFooter(Common.getConfig().getString("player-report-embed-footer"), Common.getConfig().getString("player-report-embed-icon"));
+
+			// Adding to webhook to ping staff when a report is made in Discord
+			if (Common.getConfig().getBoolean("discord-ping-player-enable")) {
+				webhook.setContent(Common.getConfig().getString("discord-ping-player"));
+			}
+			// Adding the embed to the webhook before sending off
 			webhook.addEmbed(eb);
 
 			Bukkit.getScheduler().runTaskAsynchronously(BetterReports.getInstance(), () -> {
