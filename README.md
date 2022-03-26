@@ -18,8 +18,8 @@ the plugin.
 ##### The current code style should be followed to keep consistency throughout the plugin.
 
 # License
-Copyright (C) 2021 AusTech Development Team
-Copyright (c) 2021 Contributors.
+Copyright (C) 2022 AusTech Development Team
+Copyright (c) 2022 Contributors.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
