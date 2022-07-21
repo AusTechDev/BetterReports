@@ -9,7 +9,7 @@ commands:
     description: Report a bug!
   betterreports:
     description: Admin Command!
-    aliases: [br, breports]
+    aliases: [ br, breports ]
 permissions:
   betterreports.use:
     description: Use the base commands
