@@ -28,6 +28,7 @@ import dev.austech.betterreports.commands.BetterReportsCommand;
 import dev.austech.betterreports.commands.ReportBugCommand;
 import dev.austech.betterreports.commands.ReportCommand;
 import dev.austech.betterreports.commands.ReportPlayerCommand;
+import dev.austech.betterreports.menu.listener.MenuListener;
 import dev.austech.betterreports.util.Config;
 import dev.austech.betterreports.util.Counter;
 import dev.austech.betterreports.util.UpdateCheck;
@@ -82,6 +83,7 @@ public class BetterReports extends JavaPlugin {
             this.counter.load();
         }
 
+        Bukkit.getPluginManager().registerEvents(new MenuListener(), this);
 
         getCommand("betterreports").setExecutor(new BetterReportsCommand());
         setupCommands();

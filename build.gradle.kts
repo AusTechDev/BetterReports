@@ -56,10 +56,12 @@ repositories {
 }
 
 dependencies {
+    implementation("org.jetbrains:annotations:20.1.0")
     compileOnly("org.spigotmc:spigot-api:1.12-R0.1-SNAPSHOT")
     compileOnly("me.clip:placeholderapi:2.11.2")
     implementation("org.bstats:bstats-bukkit:3.0.0")
 }
+
 
 fun getCommitsSinceLastTag(): Int {
     if (indraGit.git() == null || !indraGit.isPresent || indraGit.tags().isEmpty()) {
@@ -92,6 +94,10 @@ ext {
     set("fullVersion", fullVersion)
 }
 
+tasks.withType<JavaCompile> {
+    options.encoding = "UTF-8"
+}
+
 tasks.withType<ProcessResources> {
     expand("version" to project.ext["fullVersion"])
 }
@@ -105,6 +111,16 @@ task<Copy>("copyJars") {
 tasks.withType<ShadowJar> {
     relocate("org.bstats", "dev.austech.betterreports.metrics")
 }
+
+fun register(name: String, path: String) {
+    tasks.register<Copy>(name) {
+        dependsOn(tasks.named("build"))
+        from("jars", project.name + "-" + project.ext["fullVersion"] + ".jar")
+        into(path)
+    }
+}
+
+register("mnewt00", "C:\\Users\\mnewt\\Desktop\\Code\\Server\\1.19\\plugins")
 
 task("cleanJars") {
     delete("jars")

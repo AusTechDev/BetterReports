@@ -1,5 +1,6 @@
 name: BetterReports
 version: ${version}
+api-version: 1.19
 main: dev.austech.betterreports.BetterReports
 description: Reporting plugin with Discord webhook
 commands:
