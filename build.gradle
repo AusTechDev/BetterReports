@@ -50,14 +50,19 @@ repositories {
     maven {
         url = uri('https://repo.maven.apache.org/maven2/')
     }
+
+    maven {
+        url = uri('https://repo.extendedclip.com/content/repositories/placeholderapi/')
+    }
 }
 
 dependencies {
     compileOnly 'org.spigotmc:spigot-api:1.12-R0.1-SNAPSHOT'
+    compileOnly 'me.clip:placeholderapi:2.11.2'
 }
 
 group = 'dev.austech'
-version = '1.2.4'
+version = '1.3.0-SNAPSHOT'
 description = 'BetterReports'
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 

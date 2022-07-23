@@ -4,7 +4,9 @@ main: dev.austech.betterreports.BetterReports
 description: Reporting plugin with Discord webhook
 commands:
   report:
-    description: Report a player!
+    description: Report something!
+  reportplayer:
+    description: Report someone!
   reportbug:
     description: Report a bug!
   betterreports:
@@ -32,3 +34,5 @@ permissions:
   betterreports.exempt:
     description: Exempt from being reported
     default: op
+
+softdepend: [ PlaceholderAPI ]
