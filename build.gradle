@@ -59,6 +59,7 @@ repositories {
 dependencies {
     compileOnly 'org.spigotmc:spigot-api:1.12-R0.1-SNAPSHOT'
     compileOnly 'me.clip:placeholderapi:2.11.2'
+    implementation 'org.bstats:bstats-bukkit:3.0.0'
 }
 
 group = 'dev.austech'
@@ -133,6 +134,10 @@ task copyJars(type: Copy) {
     rename '(.*)-all.jar', ('$1' + '.jar')
     rename project.name + "-" + project.version + ".jar", project.name + "-" + project.fullVersion + ".jar"
     into file('jars')
+}
+
+shadowJar {
+    relocate 'org.bstats', 'dev.austech.betterreports.metrics'
 }
 
 def outputTasks() {

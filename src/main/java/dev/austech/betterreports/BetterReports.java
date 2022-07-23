@@ -32,6 +32,7 @@ import dev.austech.betterreports.util.Config;
 import dev.austech.betterreports.util.Counter;
 import dev.austech.betterreports.util.UpdateCheck;
 import lombok.Getter;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -74,6 +75,7 @@ public class BetterReports extends JavaPlugin {
         }
 
         new UpdateCheck("br", this).check();
+        new Metrics(this, 15884);
 
         if (Config.Values.COUNTER.getBoolean()) {
             this.counter = new Counter();
