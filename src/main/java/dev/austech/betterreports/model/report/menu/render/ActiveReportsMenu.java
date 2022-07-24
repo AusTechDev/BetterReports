@@ -1,5 +1,5 @@
 /*
- * BetterReports - ListPageMenu.java
+ * BetterReports - ReportMenu.java
  *
  * Copyright (c) 2022 AusTech Development
  *
@@ -22,54 +22,46 @@
  * SOFTWARE.
  */
 
-package dev.austech.betterreports.menu.defaults.paged;
+package dev.austech.betterreports.model.report.menu.render;
 
-import dev.austech.betterreports.menu.Menu;
-import dev.austech.betterreports.menu.defaults.buttons.BackButton;
-import dev.austech.betterreports.menu.layout.MenuButton;
+import dev.austech.betterreports.model.report.Report;
 import dev.austech.betterreports.util.StackBuilder;
+import dev.austech.betterreports.util.menu.Menu;
+import dev.austech.betterreports.util.menu.defaults.buttons.BackButton;
+import dev.austech.betterreports.util.menu.layout.MenuButton;
 import dev.austech.betterreports.util.xseries.XMaterial;
-import lombok.RequiredArgsConstructor;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.Map;
 
-@RequiredArgsConstructor
-public class ListPageMenu extends Menu {
-    private final PagedMenu menu;
-    private final int current;
-
+public class ActiveReportsMenu extends Menu {
     @Override
     public String getTitle(final Player player) {
-        return "&eJump to Page";
+        return "Active Reports";
     }
 
     @Override
     public Map<Integer, MenuButton> getButtons(final Player player) {
         final Map<Integer, MenuButton> buttons = new HashMap<>();
 
-        buttons.put(0, new BackButton(menu));
+        buttons.put(0, new BackButton(getToReturn()));
 
-        int index = 10;
-        for (int page = 1; page <= this.menu.getPages(player); ++page) {
-            final int finalI = page;
+        buttons.put(3, MenuButton.builder()
+                .stack(
+                        StackBuilder.create(XMaterial.ORANGE_WOOL)
+                                .name("&6&lBug Reports")
+                )
+                .action((e, p) -> new ListReportMenu(null, Report.Type.BUG).setReturn(this).open(p))
+                .build());
 
-            StackBuilder stack = StackBuilder.create(XMaterial.PAPER)
-                    .name("&ePage " + page)
-                    .lore("&7Click to jump to Page " + page);
-
-            if (this.current == finalI) {
-                stack = stack.glow().name("&ePage " + page + " &7(Current)");
-            }
-
-            buttons.put(index++, MenuButton.builder()
-                    .stack(
-                            stack
-                    )
-                    .action((e, p) -> this.menu.changePage(player, finalI - menu.getPage()))
-                    .build());
-        }
+        buttons.put(5, MenuButton.builder()
+                .stack(
+                        StackBuilder.create(XMaterial.YELLOW_WOOL)
+                                .name("&e&lPlayer Reports")
+                )
+                .action((e, p) -> new ListReportMenu(null, Report.Type.PLAYER).setReturn(this).open(p))
+                .build());
 
         return buttons;
     }

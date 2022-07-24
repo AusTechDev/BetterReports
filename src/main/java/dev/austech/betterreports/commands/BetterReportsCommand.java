@@ -26,7 +26,7 @@ package dev.austech.betterreports.commands;
 
 import dev.austech.betterreports.BetterReports;
 import dev.austech.betterreports.util.Common;
-import dev.austech.betterreports.util.Config;
+import dev.austech.betterreports.util.data.MainConfig;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -38,15 +38,15 @@ public class BetterReportsCommand implements CommandExecutor, TabExecutor {
     @Override
     public boolean onCommand(final CommandSender sender, final Command command, final String label, final String[] args) {
         if (!sender.hasPermission("betterreports.use")) {
-            Config.Values.LANG_NO_PERMISSION.send(sender);
+            MainConfig.Values.LANG_NO_PERMISSION.send(sender);
             return true;
         }
 
         if (args.length == 0) {
             if (sender.hasPermission("betterreports.admin"))
-                Config.Values.LANG_HELP_MESSAGE_ADMIN.sendList(sender);
+                MainConfig.Values.LANG_HELP_MESSAGE_ADMIN.sendList(sender);
             else
-                Config.Values.LANG_HELP_MESSAGE.sendList(sender);
+                MainConfig.Values.LANG_HELP_MESSAGE.sendList(sender);
 
             return true;
         }
@@ -54,27 +54,25 @@ public class BetterReportsCommand implements CommandExecutor, TabExecutor {
         switch (args[0].toLowerCase()) {
             case "reload": {
                 if (!sender.hasPermission("betterreports.reload")) {
-                    Config.Values.LANG_NO_PERMISSION.send(sender);
+                    MainConfig.Values.LANG_NO_PERMISSION.send(sender);
                     return true;
                 }
 
-                BetterReports.getInstance().reloadConfig();
+                BetterReports.getInstance().getConfigManager().reload();
 
                 Common.log("The configuration has been reloaded.");
-                Config.Values.LANG_CONFIG_RELOADED.send(sender);
+                MainConfig.Values.LANG_CONFIG_RELOADED.send(sender);
 
                 break;
             }
             case "help": {
                 if (sender.hasPermission("betterreports.admin"))
-                    Config.Values.LANG_HELP_MESSAGE_ADMIN.sendList(sender);
+                    MainConfig.Values.LANG_HELP_MESSAGE_ADMIN.sendList(sender);
                 else
-                    Config.Values.LANG_HELP_MESSAGE.sendList(sender);
-
-                break;
+                    MainConfig.Values.LANG_HELP_MESSAGE.sendList(sender);
             }
             default:
-                Config.Values.LANG_UNKNOWN_COMMAND.send(sender);
+                MainConfig.Values.LANG_UNKNOWN_COMMAND.send(sender);
         }
 
         return true;

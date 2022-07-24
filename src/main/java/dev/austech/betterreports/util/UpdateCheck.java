@@ -25,6 +25,7 @@
 package dev.austech.betterreports.util;
 
 import com.google.gson.Gson;
+import dev.austech.betterreports.util.data.MainConfig;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -72,11 +73,11 @@ public class UpdateCheck implements Listener {
             final Response response = fetchResponse();
 
             if (response != null) {
-                if (response.getVersion() != null && Config.Values.UPDATE_CHECK.getBoolean()) {
+                if (response.getVersion() != null && MainConfig.Values.UPDATE_CHECK.getBoolean()) {
                     Common.log("A new version for " + javaPlugin.getDescription().getName() + " is available.");
                     Common.log("&rNew Version: &a" + response.getVersion() + "&r, &fOld Version: &c" + version + "&r.");
                     updateAvailable = response.getVersion();
-                } else if (response.getRestriction() != null && Config.Values.SECURITY_CHECK.getBoolean()) {
+                } else if (response.getRestriction() != null && MainConfig.Values.SECURITY_CHECK.getBoolean()) {
                     final UpdateCheck.Response.Restriction restriction = response.getRestriction();
                     if (restriction.getType() == 0) {
                         Common.error(restriction.getReason());
@@ -96,7 +97,7 @@ public class UpdateCheck implements Listener {
 
     @EventHandler
     public void onJoin(final PlayerJoinEvent event) {
-        if (updateAvailable != null && Config.Values.UPDATE_CHECK.getBoolean() && Config.Values.UPDATE_NOTIFY.getBoolean() && event.getPlayer().hasPermission("betterreports.admin")) {
+        if (updateAvailable != null && MainConfig.Values.UPDATE_CHECK.getBoolean() && MainConfig.Values.UPDATE_NOTIFY.getBoolean() && event.getPlayer().hasPermission("betterreports.admin")) {
             Bukkit.getScheduler().runTaskLater(javaPlugin, () -> {
                 event.getPlayer().sendMessage(Common.color("&c&l&oBetter&4&l&oReports &7- &aThere is a new update available."));
                 event.getPlayer().sendMessage(Common.color("&cCurrent Version: &c" + version + "&r, &aNew Version: &a" + updateAvailable));
@@ -106,7 +107,7 @@ public class UpdateCheck implements Listener {
     }
 
     public void check() {
-        if (!Config.Values.SECURITY_CHECK.getBoolean() && !Config.Values.UPDATE_CHECK.getBoolean()) return;
+        if (!MainConfig.Values.SECURITY_CHECK.getBoolean() && !MainConfig.Values.UPDATE_CHECK.getBoolean()) return;
 
         if (this.version.contains("-dev") || this.version.contains("-SNAPSHOT")) {
             Common.log("Skipping update check for development build.");

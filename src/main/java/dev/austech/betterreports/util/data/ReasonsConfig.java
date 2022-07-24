@@ -1,5 +1,5 @@
 /*
- * BetterReports - BackButton.java
+ * BetterReports - ReasonsConfig.java
  *
  * Copyright (c) 2022 AusTech Development
  *
@@ -22,29 +22,10 @@
  * SOFTWARE.
  */
 
-package dev.austech.betterreports.menu.defaults.buttons;
+package dev.austech.betterreports.util.data;
 
-import dev.austech.betterreports.menu.Menu;
-import dev.austech.betterreports.menu.layout.MenuButton;
-import dev.austech.betterreports.util.StackBuilder;
-import dev.austech.betterreports.util.xseries.XMaterial;
-import lombok.RequiredArgsConstructor;
-import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
-
-import java.util.function.BiConsumer;
-
-@RequiredArgsConstructor
-public class BackButton extends MenuButton {
-    private final Menu toReturn;
-
-    @Override
-    public BiConsumer<InventoryClickEvent, Player> getAction() {
-        return (event, player) -> toReturn.open(player);
-    }
-
-    @Override
-    public StackBuilder getStack(final Player player) {
-        return StackBuilder.create(XMaterial.ARROW).name("&c&lBack");
+public class ReasonsConfig extends ConfigurationFile {
+    public ReasonsConfig() {
+        super("reasons.yml", false);
     }
 }

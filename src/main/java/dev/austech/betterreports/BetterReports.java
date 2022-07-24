@@ -28,14 +28,16 @@ import dev.austech.betterreports.commands.BetterReportsCommand;
 import dev.austech.betterreports.commands.ReportBugCommand;
 import dev.austech.betterreports.commands.ReportCommand;
 import dev.austech.betterreports.commands.ReportPlayerCommand;
-import dev.austech.betterreports.menu.listener.MenuListener;
-import dev.austech.betterreports.util.Config;
+import dev.austech.betterreports.util.Common;
 import dev.austech.betterreports.util.Counter;
 import dev.austech.betterreports.util.UpdateCheck;
+import dev.austech.betterreports.util.data.ConfigManager;
+import dev.austech.betterreports.util.data.MainConfig;
+import dev.austech.betterreports.util.menu.listener.MenuListener;
 import lombok.Getter;
+import lombok.Setter;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class BetterReports extends JavaPlugin {
@@ -43,33 +45,27 @@ public class BetterReports extends JavaPlugin {
     private static BetterReports instance;
 
     @Getter
-    private FileConfiguration config;
-
-    @Getter
+    @Setter
     private Counter counter;
 
     @Getter
     private boolean usePlaceholderApi = false;
 
-    private Config configUtil;
-
-    @Override
-    public void reloadConfig() {
-        configUtil.reload();
-        this.config = configUtil.getConfiguration();
-
-        if (Config.Values.COUNTER.getBoolean()) {
-            this.counter = new Counter();
-            this.counter.load();
-        }
-    }
+    @Getter
+    private ConfigManager configManager;
 
     @Override
     public void onEnable() {
         instance = this;
+        configManager = new ConfigManager();
 
-        configUtil = new Config(this);
-        this.config = configUtil.getConfiguration();
+        configManager.reload();
+
+        if (!MainConfig.Values.PLAYER_REPORT_ENABLED.getBoolean() && !MainConfig.Values.BUG_REPORT_ENABLED.getBoolean()) {
+            Common.error("BetterReports has been disabled as both player and bug reports are disabled in the config.");
+            Bukkit.getPluginManager().disablePlugin(this);
+            return;
+        }
 
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             usePlaceholderApi = true;
@@ -78,24 +74,20 @@ public class BetterReports extends JavaPlugin {
         new UpdateCheck("br", this).check();
         new Metrics(this, 15884);
 
-        if (Config.Values.COUNTER.getBoolean()) {
-            this.counter = new Counter();
-            this.counter.load();
-        }
-
         Bukkit.getPluginManager().registerEvents(new MenuListener(), this);
 
         getCommand("betterreports").setExecutor(new BetterReportsCommand());
-        setupCommands();
+        getCommand("report").setExecutor(new ReportCommand());
+        reloadCommands();
     }
 
-    private void setupCommands() {
-        getCommand("report").setExecutor(new ReportCommand());
-
-        if (Config.Values.BUG_REPORT_ENABLED.getBoolean())
+    public void reloadCommands() {
+        if (MainConfig.Values.BUG_REPORT_ENABLED.getBoolean())
             getCommand("reportbug").setExecutor(new ReportBugCommand());
+        else getCommand("reportbug").setExecutor(null);
 
-        if (Config.Values.PLAYER_REPORT_ENABLED.getBoolean())
+        if (MainConfig.Values.PLAYER_REPORT_ENABLED.getBoolean())
             getCommand("reportplayer").setExecutor(new ReportPlayerCommand());
+        else getCommand("reportplayer").setExecutor(null);
     }
 }

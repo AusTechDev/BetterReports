@@ -1,5 +1,5 @@
 /*
- * BetterReports - MenuButton.java
+ * BetterReports - Report.java.txt
  *
  * Copyright (c) 2022 AusTech Development
  *
@@ -22,38 +22,37 @@
  * SOFTWARE.
  */
 
-package dev.austech.betterreports.menu.layout;
+package dev.austech.betterreports.model.report;
 
-import dev.austech.betterreports.util.StackBuilder;
+import dev.austech.betterreports.util.discord.DiscordManager;
 import lombok.Builder;
 import lombok.Getter;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.ItemStack;
-
-import java.util.function.BiConsumer;
 
 @Getter
-@Builder(builderClassName = "Builder")
-public class MenuButton {
-    public MenuButton(final BiConsumer<InventoryClickEvent, Player> action, final boolean closeMenu, final StackBuilder stack) {
-        this.action = action;
-        this.closeMenu = closeMenu;
-        this.stack = stack;
+@Builder
+public class Report {
+    private final Type type;
+
+    private final Player creator;
+    private final String reason;
+
+    private OfflinePlayer target; // null if not applicable
+
+    private final long timestamp = System.currentTimeMillis();
+
+    public boolean isPlayer() {
+        return type == Type.PLAYER;
     }
 
-    protected MenuButton() {
+    public void save() {
+        ReportManager.getInstance().getReports().add(this);
+        ReportManager.getInstance().addCooldown(creator, type);
+        DiscordManager.getInstance().sendReport(creator, this);
     }
 
-    private BiConsumer<InventoryClickEvent, Player> action;
-    private boolean closeMenu;
-    private StackBuilder stack;
-
-    public StackBuilder getStack(final Player player) {
-        return stack;
-    }
-
-    public ItemStack getItem(final Player player) {
-        return getStack(player).build();
+    public static enum Type {
+        BUG, PLAYER
     }
 }

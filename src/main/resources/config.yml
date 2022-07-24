@@ -7,14 +7,6 @@
 # Spigot Profile: https://www.spigotmc.org/members/austech.919057/
 # Discord Server: https://austech.dev/to/support
 
-# Enable / Disable the use of player or bug reports.
-player-reports: true
-bug-reports: true
-
-# Allow the reporting of offline players or players that have never joined the server before.
-# This is recommended to keep disabled, as people can report anyone, e.g Notch, even if they have never played before.
-report-offline-players: false
-
 # -----------------------------------------------------------------------------------
 # Placeholders
 #
@@ -30,187 +22,257 @@ report-offline-players: false
 #
 # If a comment above a message says "PlaceholderAPI - Multiple", it means that
 #  the message supports using PlaceholderAPI for multiple users. For example,
-#   %sender_player_name% will return the command sender's name, whilst
+#   %creator_player_name% will return the command sender's name, whilst
 #   %target_player_name% will return the target's name.
 #  An example of this could be:
-#   "%target_player_name% has been reported by %sender_player_name% in %target_player_world%".
+#   "%target_player_name% has been reported by %creator_player_name% in %target_player_world%".
+#
+# Use %creator_ and %target_ to refer to the command sender and target respectively in multiple-targeting
+#  placeholders.
 #
 # PlaceholderAPI's placeholders can be found here:
 # https://github.com/PlaceholderAPI/PlaceholderAPI/wiki/Placeholders
 # -----------------------------------------------------------------------------------
 
-# Supports PlaceholderAPI - Multiple
-# Available BetterReports Placeholders:
-# - {player} (The player's name, it is better to use PAPI for this instead.)
-# - {target} (The target's name, it is better to use PAPI for this instead.)
-# - {report} (The reason for the report)
-# - {global_counter} (See counter section)
-# - {player_counter} (See counter section)
-# If a player report was successfully submitted, this message will be displayed in chat to the player.
-player-report-success: |-
-  &8&l&m---------------------------------
-  &a&lThank you! &aYour report has been submitted
-  &a    Your reports help the community!
-  &8&l&m---------------------------------
+reports:
+  # -----------------------------------------------------------------------------------
+  # This section is for PLAYER reports.
+  # -----------------------------------------------------------------------------------
+  player:
+    enabled: true
 
-# Supports PlaceholderAPI - Single
-# Available BetterReports Placeholders:
-# - {player} (The player's name, it is better to use PAPI for this instead.)
-# - {report} (The reason for the report)
-# - {global_counter} (See counter section)
-# - {bug_counter} (See counter section)
-# If a bug report was successfully submitted, this message will be displayed in chat to the player.
-bug-report-success: |-
-  &8&l&m---------------------------------
-  &a&lThank you! &aYour report has been submitted
-  &a    Your reports help the community!
-  &8&l&m---------------------------------
+    # Allow the reporting of offline players or players that have never joined the server before.
+    # This is recommended to keep disabled, as people can report anyone, e.g Notch, even if they have never played before.
+    report-offline-players: false
 
-# Supports PlaceholderAPI - Multiple
-# Available BetterReports Placeholders:
-# - {player} (The player's name, it is better to use PAPI for this instead.)
-# - {target} (The target's name, it is better to use PAPI for this instead.)
-# - {report} (The reason for the report)
-# - {global_counter} (See counter section)
-# - {player_counter} (See counter section)
-# If a PLAYER report was successfully written to the file, notify staff with this message in chat.
-staff-player-report-message: |-
-  &8&l&m-----------------------------
-  &c&l        NEW PLAYER REPORT
-  &c&l      Submitted by: &7{player}
-  &c&l        Against: &7{target}
-  &8     Check Discord for more details!
-  &8&l&m-----------------------------
+    cooldown:
+      enabled: true
+      time: 60
 
-# Supports PlaceholderAPI - Single
-# Available BetterReports Placeholders:
-# - {player} (The player's name, it is better to use PAPI for this instead.)
-# - {report} (The reason for the report)
-# - {global_counter} (See counter section)
-# - {bug_counter} (See counter section)
-# If a BUG report was successfully written to the file, notify staff with this message in chat.
-staff-bug-report-message: |-
-  &8&l&m---------------------------
-  &c&l        NEW BUG REPORT
-  &c&l      Submitted by: &7{player}
-  &8     Check Discord for more details!
-  &8&l&m---------------------------
+    discord:
+      enabled: true
+      webhook: "https://discord.com/api/webhooks/853603639553818684/JjxAoNimfG1XWa5wtTIp0zohIrr3vRSo0mv4qYKeMWYrfErgOJBdieU_HXTY9Suzd-MJ"
 
-# Paste your Discord channel webhooks into the respective lines below.
-discord-bug-webhook-url: "https://discord.com/api/webhooks/853603639553818684/JjxAoNimfG1XWa5wtTIp0zohIrr3vRSo0mv4qYKeMWYrfErgOJBdieU_HXTY9Suzd-MJ"
-discord-player-webhook-url: "https://discord.com/api/webhooks/853603639553818684/JjxAoNimfG1XWa5wtTIp0zohIrr3vRSo0mv4qYKeMWYrfErgOJBdieU_HXTY9Suzd-MJ"
+      # Every field in this embed section supports PlaceholderAPI - Multiple.
+      # For example, %creator_player_name% will return the command sender's name, whilst
+      # %target_player_name% will return the target's name.
+      #
+      # Every field in here has BetterReports Placeholders:
+      # - {creator} (The player's name, it is better to use PAPI for this instead.)
+      # - {target} (The target's name, it is better to use PAPI for this instead.)
+      # - {report} (The reason for the report)
+      # - {global_counter} (See counter section)
+      # - {player_counter} (See counter section)
+      embed:
+        author:
+          name: ""
+          url: ""
+          icon-url: ""
+        body:
+          title: "New Player Report"
+          title-url: ""
+          description: "A player has been reported."
+          color: "#FF7540" # This value MUST be a hex colour code.
 
-# -----------------------------------------------------------------------------------
-# Configuring the fields for the Discord webhook
-# Follow this example:
-#
-# bug-report-fields:
-#   1:
-#    title: <title for the field>
-#    content: <field content here>
-#    inline: <true/false>
-#
-# Please note that Discord limitations mean that there can only be up to 25 fields!
-# -----------------------------------------------------------------------------------
+        # -----------------------------------------------------------------------------------
+        # Fields - Format
+        # Please use the following format when creating new fields.
+        #
+        # - name: ""
+        #   value: ""
+        #   inline: false
+        #
+        # Due to Discord limitations, you can only have up to 25 fields in an embed.
+        # If you specify more than 25, the first 25 will be used.
+        # -----------------------------------------------------------------------------------
+        fields:
+          - name: "Reported By"
+            value: "`{creator}`"
+            inline: false
 
-# Player report embed configuration.
+          - name: "Reported Player"
+            value: "`{target}`"
+            inline: false
 
-# Supports PlaceholderAPI - Single
-# Available BetterReports Placeholders:
-# - {player} (The player's name, it is better to use PAPI for this instead.)
-# - {report} (The reason for the report)
-# - {global_counter} (See counter section)
-# - {bug_counter} (See counter section)
-bug-report-fields:
-  1:
-    title: "**Reports**"
-    content: "Reported by: `{player}`"
-    inline: false
-  2:
-    title: "Report Type"
-    content: "Bug report"
-    inline: false
-  3:
-    title: "Bug"
-    content: "{report}"
-    inline: false
+          - name: "Reason"
+            value: "{reason}"
+            inline: false
 
-# Set the embed footer of the bug report.
-bug-report-embed-footer: "AusTech - BetterReports"
-bug-report-embed-icon: "https://cdn.discordapp.com/icons/749536377020088361/b8d4bada3908ccb2bac76773489ee0cf.png"
+        images:
+          image: "https://minotar.net/helm/{creator}/128.png"
+          thumbnail: ""
 
-# Use this if you would like to ping a discord role or user. To get a user or role ID, follow this guide: https://ozonprice.com/blog/discord-get-role-id/
-# For roles, use the format <@&ROLE_ID>
-# For users, use the format <@USER_ID>
-discord-ping-bug: "<@&753093643044257895>"
-discord-ping-bug-enable: true
+        footer:
+          timestamp: false # If this is true, the current time will be used.
+          text: "AusTech - BetterReports"
+          icon-url: "https://cdn.discordapp.com/icons/749536377020088361/b8d4bada3908ccb2bac76773489ee0cf.png"
 
-# Player report embed configuration.
+      # Use this if you would like to ping a discord role or user upon a report being created. To get a user or role ID, follow this guide: https://ozonprice.com/blog/discord-get-role-id/
+      # For roles, use the format <@&ROLE_ID>
+      # For users, use the format <@USER_ID>
+      ping:
+        enabled: false
+        value: "<@&753093643044257895>"
 
-# Supports PlaceholderAPI - Multiple
-# Available BetterReports Placeholders:
-# - {player} (The player's name, it is better to use PAPI for this instead.)
-# - {target} (The target's name, it is better to use PAPI for this instead.)
-# - {report} (The reason for the report)
-# - {global_counter} (See counter section)
-# - {player_counter} (See counter section)
-player-report-fields:
-  1:
-    title: "**Reports**"
-    content: "Reported by: `{player}`"
-    inline: false
-  2:
-    title: "Report Type"
-    content: "Player report"
-    inline: false
-  3:
-    title: "Reported Player"
-    content: "`{target}`"
-    inline: false
-  4:
-    title: "Reason"
-    content: "{report}"
-    inline: false
+    messages:
+      # Supports PlaceholderAPI - Multiple
+      # Available BetterReports Placeholders:
+      # - {player} (The player's name, it is better to use PAPI for this instead.)
+      # - {target} (The target's name, it is better to use PAPI for this instead.)
+      # - {report} (The reason for the report)
+      # - {global_counter} (See counter section)
+      # - {player_counter} (See counter section)
+      # If a PLAYER report was successfully written to the file, notify staff with this message in chat.
+      new-report: |-
+        &8&l&m-----------------------------
+        &c&l        NEW PLAYER REPORT
+        &c&l      Submitted by: &7{player}
+        &c&l        Against: &7{target}
+        &8     Check Discord for more details!
+        &8&l&m-----------------------------
 
-# Set the embed footer of the player report.
-player-report-embed-footer: "AusTech - BetterReports"
-player-report-embed-icon: "https://cdn.discordapp.com/icons/749536377020088361/b8d4bada3908ccb2bac76773489ee0cf.png"
+      # Supports PlaceholderAPI - Multiple
+      # Available BetterReports Placeholders:
+      # - {player} (The player's name, it is better to use PAPI for this instead.)
+      # - {target} (The target's name, it is better to use PAPI for this instead.)
+      # - {report} (The reason for the report)
+      # - {global_counter} (See counter section)
+      # - {player_counter} (See counter section)
+      # If a player report was successfully submitted, this message will be displayed in chat to the player.
+      success: |-
+        &8&l&m---------------------------------
+        &a&lThank you! &aYour report has been submitted
+        &a    Your reports help the community!
+        &8&l&m---------------------------------
 
-# Use this if you would like to ping a discord role or user. To get a user or role ID, follow this guide: https://ozonprice.com/blog/discord-get-role-id/
-# For roles, use the format <@&ROLE_ID>
-# For users, use the format <@USER_ID>
-discord-ping-player: "<@&753093643044257895>"
-discord-ping-player-enable: true
+  # -----------------------------------------------------------------------------------
+  # This section is for BUG reports.
+  # -----------------------------------------------------------------------------------
+  bug:
+    enabled: true
 
-# Webhook embed colour.
-# Put a hex code (Including the #) into the respective lines below.
-# Make sure there are no spaces otherwise this may break!
-discord-embed-bug-report-colour: "#F0FF00"
-discord-embed-player-report-colour: "#C761DF"
+    cooldown:
+      enabled: true
+      time: 60
 
-# Change the value below to change the length of the cooldown.
-# The value is in seconds!
-report-bug-cooldown: 60
-report-player-cooldown: 60
+    discord:
+      enabled: true
+      webhook: "https://discord.com/api/webhooks/853603639553818684/JjxAoNimfG1XWa5wtTIp0zohIrr3vRSo0mv4qYKeMWYrfErgOJBdieU_HXTY9Suzd-MJ"
 
-# This enables the "counter" feature. This means that you will be
-# able to add a counter to the amount of bug, player and global reports.
-# TODO: Finish
-counter: false
+      # Every field in this embed section supports PlaceholderAPI - Single.
+      #
+      # Every field in here has BetterReports Placeholders:
+      # - {creator} (The player's name, it is better to use PAPI for this instead.)
+      # - {report} (The reason for the report)
+      # - {global_counter} (See counter section)
+      # - {bug_counter} (See counter section)
+      embed:
+        author:
+          name: ""
+          url: ""
+          icon-url: ""
+        body:
+          title: "New Bug Report"
+          title-url: ""
+          description: "A bug has been reported."
+          color: "#4FFFFF" # This value MUST be a hex colour code.
 
-# Message Customisation.
-# Supports PlaceholderAPI - Single.
-lang:
+        # -----------------------------------------------------------------------------------
+        # Fields - Format
+        # Please use the following format when creating new fields.
+        #
+        # - name: ""
+        #   value: ""
+        #   inline: false
+        #
+        # Due to Discord limitations, you can only have up to 25 fields in an embed.
+        # If you specify more than 25, the first 25 will be used.
+        # -----------------------------------------------------------------------------------
+        fields:
+          - name: "Reported By"
+            value: "`{creator}`"
+            inline: false
+
+          - name: "Reason"
+            value: "{reason}"
+            inline: false
+
+        images:
+          image: "https://minotar.net/helm/{creator}/128.png"
+          thumbnail: ""
+
+        footer:
+          timestamp: false # If this is true, the current time will be used.
+          text: "AusTech - BetterReports"
+          icon-url: "https://cdn.discordapp.com/icons/749536377020088361/b8d4bada3908ccb2bac76773489ee0cf.png"
+
+      # Use this if you would like to ping a discord role or user upon a report being created. To get a user or role ID, follow this guide: https://ozonprice.com/blog/discord-get-role-id/
+      # For roles, use the format <@&ROLE_ID>
+      # For users, use the format <@USER_ID>
+      ping:
+        enabled: false
+        value: "<@&753093643044257895>"
+
+    messages:
+      # Supports PlaceholderAPI - Single
+      # Available BetterReports Placeholders:
+      # - {player} (The player's name, it is better to use PAPI for this instead.)
+      # - {report} (The reason for the report)
+      # - {global_counter} (See counter section)
+      # - {bug_counter} (See counter section)
+      # If a BUG report was successfully written to the file, notify staff with this message in chat.
+      new-report: |-
+        &8&l&m---------------------------
+        &c&l        NEW BUG REPORT
+        &c&l      Submitted by: &7{player}
+        &8     Check Discord for more details!
+        &8&l&m---------------------------
+
+      # Supports PlaceholderAPI - Single
+      # Available BetterReports Placeholders:
+      # - {player} (The player's name, it is better to use PAPI for this instead.)
+      # - {report} (The reason for the report)
+      # - {global_counter} (See counter section)
+      # - {bug_counter} (See counter section)
+      # If a bug report was successfully submitted, this message will be displayed in chat to the player.
+      success: |-
+        &8&l&m---------------------------------
+        &a&lThank you! &aYour report has been submitted
+        &a    Your reports help the community!
+        &8&l&m---------------------------------
+
+# Every field in this section supports PlaceholderAPI - Single.
+language:
   no-permission-message: "&cYou do not have permission to execute this command!"
   error-sending-message: "&cError sending the bug report to discord. Please contact the admin."
   player-only-message: "&cOnly players can execute that command!"
   no-reason-message: "&cPlease specify a reason for reporting!"
   no-bug-provided-message: "&cPlease specify the bug you would like to report!"
   report-self-message: "&cYou can't report yourself!"
-  not-online-message: "&cPlayer has to be online to be reported!"
+  player-not-found: "&cPlayer not found."
   cannot-report-message: "&cYou cannot report that player!"
-  unknown-command: "&cUnknown Command!"
+  unknown-command: "&cUnknown Command."
   config-reloaded: "&aConfig reloaded!"
+  cooldown-message: "&cYou must wait {time} before reporting a {type} again."
+  bug-question:
+    message: "&cWhat &7bug are you reporting?"
+    title: "&cWhat"
+    subtitle: "Bug are you reporting?"
+  player-search-question:
+    message: "&cPlease enter &7the name to search."
+    title: "&cPlease enter"
+    subtitle: "The name to search"
+
+  # This supports PlaceholderAPI - Multiple.
+  custom-reason-question:
+    message: "&cWhy &7are you reporting {target}?"
+    title: "&cWhy"
+    subtitle: "Are you reporting {target}?"
+
+  bug-reports-disabled: "&cBug reports are currently disabled."
+  player-reports-disabled: "&cPlayer reports are currently disabled."
+
+  report-cancelled: "&cReport cancelled."
 
   # The message displayed when a player with the base permission node "betterreports.use" types in the base command /report.
   player-help-message: |-
@@ -231,17 +293,19 @@ lang:
     &7/br reload &c Reload the configuration
     &8&l&m-------------------------------
 
-# Whether to check for updates
-check-for-updates: true
+checking:
+  # Whether to check for updates
+  check-for-updates: true
 
-# This will notify those with "betterreports.admin" on join if there is a new update available.
-notify-for-updates: true
+  # This will notify those with "betterreports.admin" on join if there is a new update available.
+  notify-for-updates: true
 
-# This will check if there are any CRITICAL issues with the version of the plugin you are using.
-# If there is, it will notify you and possibly shut down the plugin, IN ORDER TO PROTECT YOU.
-# If you are not sure what this means, please keep it enabled.
-# It is highly recommended that you keep this enabled, for everyone's safety and security.
-check-for-security: true
+  # This will check if there are any CRITICAL issues with the version of the plugin you are using.
+  # If there is, it will notify you and possibly shut down the plugin, IN ORDER TO PROTECT YOU.
+  # If you are not sure what this means, please keep it enabled.
+  # It is highly recommended that you keep this enabled, for everyone's safety and security.
+  check-for-security: true
 
-# Config version - Please don't touch this!.
+# Do NOT change this number.
+# It may break your configuration.
 config-version: 3

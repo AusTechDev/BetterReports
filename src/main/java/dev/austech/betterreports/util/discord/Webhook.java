@@ -1,7 +1,9 @@
 package dev.austech.betterreports.util.discord;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.awt.*;
@@ -23,16 +25,22 @@ import java.util.*;
  */
 
 @Data
+@Builder(toBuilder = true)
 public class Webhook {
     private final String url;
     private String content;
     private String username;
     private String avatarUrl;
     private boolean tts;
-    private List<EmbedObject> embeds = new ArrayList<>();
+    private List<EmbedObject> embeds;
 
-    public void addEmbed(final EmbedObject embed) {
-        this.embeds.add(embed);
+    public static class WebhookBuilder {
+        private List<EmbedObject> embeds = new ArrayList<>();
+
+        public WebhookBuilder addEmbed(final EmbedObject embed) {
+            this.embeds.add(embed);
+            return this;
+        }
     }
 
     public void execute() throws IOException {
@@ -137,7 +145,8 @@ public class Webhook {
         connection.disconnect();
     }
 
-    @Data
+    @Builder(builderClassName = "Builder")
+    @Getter
     public static class EmbedObject {
         private String title;
         private String description;
@@ -148,7 +157,8 @@ public class Webhook {
         private String thumbnail;
         private String image;
         private Author author;
-        private List<Field> fields = new ArrayList<>();
+        private String timestamp; // ISO8601
+        private List<Field> fields;
 
         public EmbedObject setFooter(final String text, final String icon) {
             this.footer = new Footer(text, icon);
@@ -160,21 +170,26 @@ public class Webhook {
             return this;
         }
 
-        public EmbedObject addField(final String name, final String value, final boolean inline) {
-            this.fields.add(new Field(name, value, inline));
-            return this;
+        public static class Builder {
+            private List<Field> fields = new ArrayList<>();
+
+            public Builder addField(final String name, final String value, final boolean inline) {
+                this.fields.add(new Field(name, value, inline));
+                return this;
+            }
         }
 
         @Data
         @AllArgsConstructor
-        private static class Footer {
+        @lombok.Builder(builderClassName = "Builder")
+        public static class Footer {
             private String text;
             private String iconUrl;
         }
 
         @Data
-        @AllArgsConstructor
-        private static class Author {
+        @lombok.Builder(builderClassName = "Builder")
+        public static class Author {
             private String name;
             private String url;
             private String iconUrl;
@@ -182,7 +197,7 @@ public class Webhook {
 
         @Data
         @AllArgsConstructor
-        private static class Field {
+        public static class Field {
             private String name;
             private String value;
             private boolean inline;

@@ -32,6 +32,7 @@ import net.md_5.bungee.api.ChatColor;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.Arrays;
 import java.util.List;
@@ -63,6 +64,11 @@ public class StackBuilder {
         applyMeta(meta -> meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', name)));
         return this;
     }
+
+    public StackBuilder lore(final String lore) {
+        return lore(lore.split("\n"));
+    }
+
 
     public StackBuilder lore(final String... lore) {
         return lore(Arrays.asList(lore));
@@ -102,6 +108,16 @@ public class StackBuilder {
         unEnchant(XEnchantment.LUCK);
         applyMeta(meta -> meta.removeItemFlags(ItemFlag.HIDE_ENCHANTS));
         return this;
+    }
+
+    public static StackBuilder skull(final String owner) {
+        final StackBuilder builder = create(XMaterial.PLAYER_HEAD);
+        builder.applyMeta(meta -> {
+            final SkullMeta skullMeta = (SkullMeta) meta;
+            skullMeta.setOwner(owner);
+        });
+
+        return builder;
     }
 
     public ItemStack build() {

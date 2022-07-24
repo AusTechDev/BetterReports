@@ -24,12 +24,51 @@
 
 package dev.austech.betterreports.util;
 
+import dev.austech.betterreports.BetterReports;
+import dev.austech.betterreports.model.report.Report;
+import dev.austech.betterreports.util.data.MainConfig;
 import lombok.experimental.UtilityClass;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 
 @UtilityClass
 public class PlaceholderUtil {
+    public String applyPlaceholders(final Report report, final String string) {
+        final Player player = report.getCreator();
+        final String reason = report.getReason();
+        final OfflinePlayer target = report.getTarget();
+
+        String str = string
+                .replace("{player}", player.getName())
+                .replace("{creator}", player.getName())
+                .replace("{sender}", player.getName())
+                .replace("{reason}", reason)
+                .replace("{report}", reason);
+
+        if (MainConfig.Values.COUNTER.getBoolean()) {
+            final Counter counter = BetterReports.getInstance().getCounter();
+
+            str = str.replace("{global_counter}", counter.getGlobalCounter() + "")
+                    .replace("{bug_counter}", counter.getBugCounter() + "")
+                    .replace("{player_counter}", counter.getPlayerCounter() + "");
+        }
+
+        if (target != null && target.getName() != null) {
+            str = str.replace("{target}", target.getName());
+
+            if (BetterReports.getInstance().isUsePlaceholderApi()) {
+                str = PlaceholderUtil.handleDualPlaceholders(str, "sender", player, "target", target);
+            }
+        } else {
+            if (BetterReports.getInstance().isUsePlaceholderApi()) {
+                str = me.clip.placeholderapi.PlaceholderAPI.setPlaceholders(player, str.replace("%sender_", "%"));
+            }
+        }
+
+        return str;
+    }
+
     public String handleDualPlaceholders(final String string, final String first, final OfflinePlayer firstPlayer, final String second, final OfflinePlayer secondPlayer) {
         if (firstPlayer == null) {
             return handleConsolePlaceholders(string, first, second, secondPlayer);

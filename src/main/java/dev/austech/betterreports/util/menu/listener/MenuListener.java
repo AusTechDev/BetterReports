@@ -22,12 +22,12 @@
  * SOFTWARE.
  */
 
-package dev.austech.betterreports.menu.listener;
+package dev.austech.betterreports.util.menu.listener;
 
 import dev.austech.betterreports.BetterReports;
-import dev.austech.betterreports.menu.Menu;
-import dev.austech.betterreports.menu.MenuManager;
-import dev.austech.betterreports.menu.layout.MenuButton;
+import dev.austech.betterreports.util.menu.Menu;
+import dev.austech.betterreports.util.menu.MenuManager;
+import dev.austech.betterreports.util.menu.layout.MenuButton;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

@@ -22,14 +22,14 @@
  * SOFTWARE.
  */
 
-package dev.austech.betterreports.menu.defaults.paged.buttons;
+package dev.austech.betterreports.util.menu.defaults.paged.buttons;
 
 import dev.austech.betterreports.BetterReports;
-import dev.austech.betterreports.menu.defaults.paged.ListPageMenu;
-import dev.austech.betterreports.menu.defaults.paged.PagedMenu;
-import dev.austech.betterreports.menu.layout.MenuButton;
 import dev.austech.betterreports.util.Common;
 import dev.austech.betterreports.util.StackBuilder;
+import dev.austech.betterreports.util.menu.defaults.paged.ListPageMenu;
+import dev.austech.betterreports.util.menu.defaults.paged.PagedMenu;
+import dev.austech.betterreports.util.menu.layout.MenuButton;
 import dev.austech.betterreports.util.xseries.XMaterial;
 import lombok.Getter;
 import lombok.Setter;
@@ -37,6 +37,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.function.BiConsumer;
 
@@ -74,7 +75,7 @@ public class PageButton extends MenuButton {
                 } else {
                     player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
                     setShouldError(true);
-                    event.setCurrentItem(getStack(player).build());
+                    event.setCurrentItem(getStack(player));
                     Bukkit.getScheduler().runTaskLater(BetterReports.getInstance(), () -> setShouldError(false), 30);
                 }
             } else {
@@ -84,16 +85,17 @@ public class PageButton extends MenuButton {
     }
 
     @Override
-    public StackBuilder getStack(final Player player) {
+    public ItemStack getStack(final Player player) {
         if (isShouldError()) {
             return StackBuilder.create(XMaterial.RED_CARPET)
                     .name(Common.color("&c&lError"))
-                    .lore(Common.color("&cThere are no more pages in this direction."));
+                    .lore(Common.color("&cThere are no more pages in this direction."))
+                    .build();
         }
 
         if (!hasNext(player))
-            return StackBuilder.create(XMaterial.GRAY_CARPET).name("&7" + (this.mod > 0 ? "You are on the last page." : "You are on the first page."));
+            return StackBuilder.create(XMaterial.GRAY_CARPET).name("&7" + (this.mod > 0 ? "You are on the last page." : "You are on the first page.")).build();
         else
-            return StackBuilder.create(XMaterial.BLUE_CARPET).name(this.mod > 0 ? "&aNext Page &l⟶" : "&c&l⟵ &cPrevious Page");
+            return StackBuilder.create(XMaterial.BLUE_CARPET).name(this.mod > 0 ? "&aNext Page &l⟶" : "&c&l⟵ &cPrevious Page").build();
     }
 }

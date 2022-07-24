@@ -24,9 +24,9 @@
 
 package dev.austech.betterreports.commands;
 
-import dev.austech.betterreports.model.Report;
-import dev.austech.betterreports.util.Common;
-import dev.austech.betterreports.util.Config;
+import dev.austech.betterreports.model.report.Report;
+import dev.austech.betterreports.model.report.menu.creation.ConfirmReportMenu;
+import dev.austech.betterreports.util.data.MainConfig;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -34,45 +34,43 @@ import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 
+import static dev.austech.betterreports.model.report.ReportManager.checkCooldown;
+
 public class ReportBugCommand implements CommandExecutor {
     @Override
     public boolean onCommand(final CommandSender sender, final Command command, final String label, final String[] args) {
         if (!sender.hasPermission("betterreports.use.bug")) {
-            Config.Values.LANG_NO_PERMISSION.send(sender);
+            MainConfig.Values.LANG_NO_PERMISSION.send(sender);
             return true;
         }
 
-        if (!Config.Values.BUG_REPORT_ENABLED.getBoolean()) {
-            Config.Values.LANG_UNKNOWN_COMMAND.send(sender);
+        if (!MainConfig.Values.BUG_REPORT_ENABLED.getBoolean()) {
+            MainConfig.Values.LANG_UNKNOWN_COMMAND.send(sender);
             return true;
         }
 
         if (!(sender instanceof Player)) {
-            Config.Values.LANG_PLAYER_ONLY.send(sender);
+            MainConfig.Values.LANG_PLAYER_ONLY.send(sender);
             return true;
         }
 
-        final long time = System.currentTimeMillis();
-        final long future = Report.cooldownMap.getOrDefault(((Player) sender).getUniqueId(), 0L);
-        final long cooldown = Config.Values.BUG_REPORT_COOLDOWN.getInteger() * 1000L;
-
-        if (!sender.hasPermission("betterreports.cooldown.bypass") &&
-                !(time - future >= cooldown)
-        ) {
-            sender.sendMessage(Common.color("&cYou need to wait " + ((cooldown + (future - time)) / 1000) + " seconds before reporting again!"));
+        if (checkCooldown((Player) sender, Report.Type.BUG))
             return true;
-        }
 
         if (args.length == 0) {
-            Config.Values.LANG_NO_BUG.send(sender);
+            MainConfig.Values.LANG_NO_BUG.send(sender);
             return true;
         }
 
         final String bug = String.join(" ", Arrays.asList(args).subList(0, args.length));
-        final Report report = new Report(Report.Type.BUG, ((Player) sender), bug);
 
-        report.execute();
+        final Report report = Report.builder()
+                .type(Report.Type.BUG)
+                .creator((Player) sender)
+                .reason(bug)
+                .build();
 
+        new ConfirmReportMenu(((Player) sender), report).open(((Player) sender));
         return true;
     }
 }

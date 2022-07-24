@@ -1,5 +1,5 @@
 /*
- * BetterReports - MenuManager.java
+ * BetterReports - ConfigManager.java
  *
  * Copyright (c) 2022 AusTech Development
  *
@@ -22,26 +22,22 @@
  * SOFTWARE.
  */
 
-package dev.austech.betterreports.menu;
+package dev.austech.betterreports.util.data;
 
 import lombok.Getter;
-import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+@Getter
+public class ConfigManager {
+    private final MainConfig mainConfig;
+    private final ReasonsConfig reasonsConfig;
 
-public class MenuManager {
-    @Getter
-    private static final Map<UUID, Menu> currentlyOpenedMenus = new HashMap<>();
-    @Getter
-    private static final Map<UUID, BukkitRunnable> checkTasks = new HashMap<>();
+    public ConfigManager() {
+        mainConfig = new MainConfig();
+        reasonsConfig = new ReasonsConfig();
+    }
 
-    public static void cancelTask(final Player player) {
-        if (MenuManager.checkTasks.containsKey(player.getUniqueId())) {
-            MenuManager.checkTasks.get(player.getUniqueId()).cancel();
-            MenuManager.checkTasks.remove(player.getUniqueId());
-        }
+    public void reload() {
+        mainConfig.reload();
+        reasonsConfig.reload();
     }
 }

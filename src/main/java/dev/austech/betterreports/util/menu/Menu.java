@@ -22,12 +22,13 @@
  * SOFTWARE.
  */
 
-package dev.austech.betterreports.menu;
+package dev.austech.betterreports.util.menu;
 
 import dev.austech.betterreports.BetterReports;
-import dev.austech.betterreports.menu.defaults.paged.PagedMenu;
-import dev.austech.betterreports.menu.layout.MenuButton;
 import dev.austech.betterreports.util.Common;
+import dev.austech.betterreports.util.menu.defaults.paged.PagedMenu;
+import dev.austech.betterreports.util.menu.layout.MenuButton;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
@@ -38,12 +39,15 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-@Setter
 @Getter
+@Setter
 public abstract class Menu {
+    @Getter(AccessLevel.PRIVATE)
     private String title;
     private boolean autoUpdate = true;
     private int size = -1;
+    @Setter(AccessLevel.NONE)
+    private Menu toReturn;
 
     public String getTitle(final Player player) {
         return getTitle();
@@ -62,6 +66,11 @@ public abstract class Menu {
         buttons.putAll(getButtons(player));
     }
 
+    public Menu setReturn(final Menu menu) {
+        this.toReturn = menu;
+        return this;
+    }
+
     private Inventory create(final Player player) {
         if (!(this instanceof PagedMenu))
             initializeButtons(player);
@@ -75,7 +84,7 @@ public abstract class Menu {
             size = (int) (Math.ceil((double) (highest + 1) / 9.0) * 9.0);
         }
 
-        final Inventory inventory = Bukkit.createInventory(player, size, getTitle(player) != null ? Common.color(getTitle(player)) : "Menu");
+        final Inventory inventory = Bukkit.createInventory(player, getSize(), getTitle(player) != null ? Common.color(getTitle(player)) : "Menu");
         buttons.forEach((slot, button) -> {
             inventory.setItem(slot, button.getItem(player));
         });
