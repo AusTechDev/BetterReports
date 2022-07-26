@@ -61,21 +61,28 @@ public class ReportCommand implements CommandExecutor, TabExecutor {
         final boolean playerReports = ReportManager.getInstance().isPlayerReportsEnabled();
 
         if (args.length == 0) {
+            // If no arguments are given, the report menu will be shown.
             new ReportMenu().open((Player) sender);
             return true;
         } else if (args.length == 1) {
+            // If an argument is given, and it is for a bug report, the bug creation process will be started.
             if (args[0].equalsIgnoreCase("bug") && bugReports) {
                 if (checkCooldown((Player) sender, Report.Type.BUG))
                     return true;
 
                 new ReportMenu().reportBug((Player) sender);
                 return true;
+
+                // If an argument is given, and it is for a player report, the player select menu will be shown.
             } else if (args[0].equalsIgnoreCase("player") && playerReports) {
                 if (checkCooldown((Player) sender, Report.Type.PLAYER))
                     return true;
 
                 new SelectPlayerMenu().open((Player) sender);
                 return true;
+
+                // If an argument is given, and it is a player, assume it is a player report and open
+                // the reason selection menu.
             } else if (playerReports) {
                 if (checkCooldown((Player) sender, Report.Type.PLAYER))
                     return true;
@@ -88,6 +95,7 @@ public class ReportCommand implements CommandExecutor, TabExecutor {
                 }
             }
         } else {
+            // If the first argument is bug, and bug reports are enabled, create a bug report.
             if (args[0].equalsIgnoreCase("bug") && bugReports) {
                 if (checkCooldown((Player) sender, Report.Type.BUG))
                     return true;
@@ -99,10 +107,13 @@ public class ReportCommand implements CommandExecutor, TabExecutor {
                         .build();
 
                 new ConfirmReportMenu(((Player) sender), report).open(((Player) sender));
+
+                // If the first argument is player, and player reports are enabled, create a player report.
             } else if (args[0].equalsIgnoreCase("player") && playerReports) {
                 if (checkCooldown((Player) sender, Report.Type.PLAYER))
                     return true;
 
+                // If it is structured as a full player report, create a player report and confirm.
                 if (args.length > 2) {
                     final Report report = Report.builder()
                             .type(Report.Type.PLAYER)
@@ -112,6 +123,8 @@ public class ReportCommand implements CommandExecutor, TabExecutor {
                             .build();
 
                     new ConfirmReportMenu(((Player) sender), report).open(((Player) sender));
+
+                    // As args length is 1 or 2, show reasons.
                 } else {
                     final Player target = Bukkit.getPlayer(args[1]);
                     if (target != null) {
@@ -120,6 +133,8 @@ public class ReportCommand implements CommandExecutor, TabExecutor {
                         MainConfig.Values.LANG_PLAYER_NOT_FOUND.send(sender);
                     }
                 }
+
+                // If it is structured as a full player report, create a player report and confirm.
             } else if (playerReports) {
                 if (checkCooldown((Player) sender, Report.Type.PLAYER))
                     return true;
@@ -139,6 +154,8 @@ public class ReportCommand implements CommandExecutor, TabExecutor {
                         .build();
 
                 new ConfirmReportMenu(((Player) sender), report).open(((Player) sender));
+
+                // Send help list
             } else {
                 if (sender.hasPermission("betterreports.admin"))
                     MainConfig.Values.LANG_HELP_MESSAGE_ADMIN.sendList(sender);
