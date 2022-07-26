@@ -293,6 +293,10 @@ language:
     &7/br reload &c Reload the configuration
     &8&l&m-------------------------------
 
+# Enabling this will enable a report counter. You'll be able to use the placeholders found throughout the config.
+# It is stored in the file "counter.db".
+counter: false
+
 checking:
   # Whether to check for updates
   check-for-updates: true
