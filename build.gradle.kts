@@ -34,7 +34,7 @@ plugins {
 }
 
 group = "dev.austech"
-version = "2.0.0-SNAPSHOT"
+version = "2.0.0"
 
 repositories {
     mavenLocal()
@@ -56,9 +56,9 @@ repositories {
 }
 
 dependencies {
-    implementation("org.jetbrains:annotations:20.1.0")
     compileOnly("org.spigotmc:spigot-api:1.12-R0.1-SNAPSHOT")
     compileOnly("me.clip:placeholderapi:2.11.2")
+    compileOnly("org.jetbrains:annotations:23.0.0")
     implementation("org.bstats:bstats-bukkit:3.0.0")
 }
 
@@ -100,6 +100,7 @@ tasks.withType<JavaCompile> {
 
 tasks.withType<ProcessResources> {
     expand("version" to project.ext["fullVersion"])
+    outputs.upToDateWhen { false }
 }
 
 task<Copy>("copyJars") {
