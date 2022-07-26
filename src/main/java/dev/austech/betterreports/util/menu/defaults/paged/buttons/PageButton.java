@@ -31,10 +31,10 @@ import dev.austech.betterreports.util.menu.defaults.paged.ListPageMenu;
 import dev.austech.betterreports.util.menu.defaults.paged.PagedMenu;
 import dev.austech.betterreports.util.menu.layout.MenuButton;
 import dev.austech.betterreports.util.xseries.XMaterial;
+import dev.austech.betterreports.util.xseries.XSound;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -73,7 +73,7 @@ public class PageButton extends MenuButton {
                 if (hasNext(player)) {
                     pagedMenu.changePage(player, this.mod);
                 } else {
-                    player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
+                    player.playSound(player.getLocation(), XSound.ENTITY_VILLAGER_NO.parseSound(), 1, 1);
                     setShouldError(true);
                     event.setCurrentItem(getStack(player));
                     Bukkit.getScheduler().runTaskLater(BetterReports.getInstance(), () -> setShouldError(false), 30);

@@ -131,7 +131,6 @@ public class UpdateCheck implements Listener {
             if (statusCode == 200) return new Response();
             final InputStream is = connection.getErrorStream();
 
-
             final InputStream stream = new BufferedInputStream(is);
             final Gson gson = new Gson();
 

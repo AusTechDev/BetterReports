@@ -1,5 +1,5 @@
 /*
- * BetterReports - BugReportMenu.java
+ * BetterReports - ListReportMenu.java
  *
  * Copyright (c) 2022 AusTech Development
  *

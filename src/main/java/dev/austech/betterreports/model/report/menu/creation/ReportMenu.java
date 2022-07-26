@@ -26,6 +26,7 @@ package dev.austech.betterreports.model.report.menu.creation;
 
 import dev.austech.betterreports.model.report.Report;
 import dev.austech.betterreports.model.report.ReportManager;
+import dev.austech.betterreports.util.Common;
 import dev.austech.betterreports.util.ConversationUtil;
 import dev.austech.betterreports.util.StackBuilder;
 import dev.austech.betterreports.util.data.MainConfig;
@@ -82,10 +83,10 @@ public class ReportMenu extends Menu {
 
     public void reportBug(final Player creator) {
         ConversationUtil.run(creator, () -> {
-            creator.sendTitle(MainConfig.Values.LANG_QUESTION_BUG_TITLE.getPlaceholderString(creator), MainConfig.Values.LANG_QUESTION_BUG_SUBTITLE.getPlaceholderString(creator), 10, 20 * 15, 10);
+            Common.sendTitle(creator, MainConfig.Values.LANG_QUESTION_BUG_TITLE.getPlaceholderString(creator), MainConfig.Values.LANG_QUESTION_BUG_SUBTITLE.getPlaceholderString(creator), 10, 20 * 15, 10);
             return MainConfig.Values.LANG_QUESTION_BUG_MESSAGE.getPlaceholderString(creator);
         }, (s) -> {
-            creator.sendTitle("", "", 10, 1, 10);
+            Common.sendTitle(creator, "", "", 10, 1, 10);
             new ConfirmReportMenu(creator,
                     Report.builder()
                             .type(Report.Type.BUG)

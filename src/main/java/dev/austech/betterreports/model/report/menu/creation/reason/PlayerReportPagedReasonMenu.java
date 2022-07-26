@@ -132,10 +132,10 @@ public class PlayerReportPagedReasonMenu extends PagedMenu {
                 message = PlaceholderUtil.handleDualPlaceholders(message, "creator", creator, "target", target);
             }
 
-            creator.sendTitle(titleMessage, subtitleMessage, 10, 20 * 15, 10);
+Common.sendTitle(            creator, titleMessage, subtitleMessage, 10, 20 * 15, 10);
             return Common.color(message);
         }, (s) -> {
-            creator.sendTitle("", "", 10, 1, 10);
+Common.sendTitle(            creator, "", "", 10, 1, 10);
             new ConfirmReportMenu(creator, Report.builder().type(Report.Type.PLAYER).creator(creator).reason(s).target(target).build()).setReturn(this).open(creator);
             return Prompt.END_OF_CONVERSATION;
         });

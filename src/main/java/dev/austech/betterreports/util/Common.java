@@ -29,6 +29,7 @@ import lombok.experimental.UtilityClass;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 
@@ -55,5 +56,12 @@ public class Common {
 
     public String[] color(final String... strings) {
         return (String[]) Arrays.stream(strings).map(Common::color).toArray();
+    }
+
+    public void sendTitle(final Player player, final String title, final String subtitle, final int fadeIn, final int stay, final int fadeOut) {
+        if (VersionUtil.getVersion().olderThan(VersionUtil.V.V1_11)) {
+        } else {
+            player.sendTitle(title, subtitle, fadeIn, stay, fadeOut);
+        }
     }
 }

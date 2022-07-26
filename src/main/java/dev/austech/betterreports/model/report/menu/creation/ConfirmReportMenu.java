@@ -32,8 +32,8 @@ import dev.austech.betterreports.util.menu.Menu;
 import dev.austech.betterreports.util.menu.defaults.buttons.BackButton;
 import dev.austech.betterreports.util.menu.layout.MenuButton;
 import dev.austech.betterreports.util.xseries.XMaterial;
+import dev.austech.betterreports.util.xseries.XSound;
 import lombok.RequiredArgsConstructor;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -110,16 +110,16 @@ public class ConfirmReportMenu extends Menu {
 
         if (creator == report.getTarget()) {
             MainConfig.Values.LANG_PLAYER_SELF.send(creator);
-            creator.playSound(creator.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
+            creator.playSound(creator.getLocation(), XSound.ENTITY_VILLAGER_NO.parseSound(), 1, 1);
             return;
         }
 
         if (report.getType() == Report.Type.BUG && !ReportManager.getInstance().isBugReportsEnabled()) {
-            creator.playSound(creator.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
+            creator.playSound(creator.getLocation(), XSound.ENTITY_VILLAGER_NO.parseSound(), 1, 1);
             MainConfig.Values.LANG_BUG_REPORTS_DISABLED.send(creator);
             return;
         } else if (report.getType() == Report.Type.PLAYER && !ReportManager.getInstance().isPlayerReportsEnabled()) {
-            creator.playSound(creator.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
+            creator.playSound(creator.getLocation(), XSound.ENTITY_VILLAGER_NO.parseSound(), 1, 1);
             MainConfig.Values.LANG_PLAYER_REPORTS_DISABLED.send(creator);
             return;
         }

@@ -33,8 +33,8 @@ import dev.austech.betterreports.util.data.MainConfig;
 import dev.austech.betterreports.util.menu.defaults.ListPlayersMenu;
 import dev.austech.betterreports.util.menu.layout.MenuButton;
 import dev.austech.betterreports.util.xseries.XMaterial;
+import dev.austech.betterreports.util.xseries.XSound;
 import org.bukkit.Bukkit;
-import org.bukkit.Sound;
 import org.bukkit.conversations.Prompt;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -66,7 +66,7 @@ public class SelectPlayerMenu extends ListPlayersMenu {
 
     private void handle(final Player player, final Player target) {
         if (player == target) {
-            player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
+            player.playSound(player.getLocation(), XSound.ENTITY_VILLAGER_NO.parseSound(), 1, 1);
             MainConfig.Values.LANG_PLAYER_SELF.sendRaw(player);
             return;
         }
@@ -76,7 +76,7 @@ public class SelectPlayerMenu extends ListPlayersMenu {
 
     private void searchPlayer(final Player player) {
         ConversationUtil.run(player, () -> {
-            player.sendTitle(MainConfig.Values.LANG_QUESTION_PLAYER_SEARCH_TITLE.getPlaceholderString(player), MainConfig.Values.LANG_QUESTION_PLAYER_SEARCH_SUBTITLE.getPlaceholderString(player), 10, 20 * 15, 10);
+            Common.sendTitle(player, MainConfig.Values.LANG_QUESTION_PLAYER_SEARCH_TITLE.getPlaceholderString(player), MainConfig.Values.LANG_QUESTION_PLAYER_SEARCH_SUBTITLE.getPlaceholderString(player), 10, 20 * 15, 10);
             return Common.color(MainConfig.Values.LANG_QUESTION_PLAYER_SEARCH_MESSAGE.getPlaceholderString(player));
         }, (s) -> {
             final Player found = Bukkit.getPlayer(s);
@@ -85,7 +85,7 @@ public class SelectPlayerMenu extends ListPlayersMenu {
                 return new ConversationUtil.RerunPrompt();
             }
 
-            player.sendTitle("", "", 10, 1, 10);
+            Common.sendTitle(player, "", "", 10, 1, 10);
 
             handle(player, found);
 

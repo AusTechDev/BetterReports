@@ -1,5 +1,5 @@
 /*
- * BetterReports - Report.java.txt
+ * BetterReports - Report.java
  *
  * Copyright (c) 2022 AusTech Development
  *

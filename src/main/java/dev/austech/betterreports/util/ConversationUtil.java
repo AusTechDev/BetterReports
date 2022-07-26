@@ -1,5 +1,5 @@
 /*
- * BetterReports - StringPrompt.java
+ * BetterReports - ConversationUtil.java
  *
  * Copyright (c) 2022 AusTech Development
  *
@@ -54,7 +54,7 @@ public class ConversationUtil {
             @Override
             public Prompt acceptInput(final ConversationContext context, final String input) {
                 if (Arrays.stream(escapeSequences).anyMatch(input::equalsIgnoreCase)) {
-                    ((Player) context.getForWhom()).sendTitle("", "", 0, 1, 0);
+                    Common.sendTitle(((Player) context.getForWhom()), "", "", 0, 1, 0);
                     context.getForWhom().sendRawMessage(ChatColor.RED + "Cancelled.");
                     return Prompt.END_OF_CONVERSATION;
                 }
