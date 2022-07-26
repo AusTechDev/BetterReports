@@ -1,0 +1,74 @@
+# BetterReports
+# Simple reporting plugin with Discord webhook customisation!
+#
+# Copyright (c) 2022 AusTech Development
+#
+# Github profile: https://github.com/AusTechDev/
+# Spigot Profile: https://www.spigotmc.org/members/austech.919057/
+# Discord Server: https://austech.dev/to/support
+
+# -----------------------------------------------------------------------------------
+# Report Reasons
+#
+# This file is used to define the reasons that a player report can be made for.
+# You can copy the below format to add more reasons.
+#
+#  - name: "&cOffence Name" # The display name
+#    reason: "Offence name" # The actual reason for the offence
+#    lore: |
+#      &7Click to report &c{target} &7for {offence}&7.
+#    material: IRON_SWORD
+#    glowing: false
+#
+# The materials you can use can be found here:
+#   https://github.com/CryptoMorin/XSeries/blob/master/src/main/java/com/cryptomorin/xseries/XMaterial.java#L69
+#
+# -----------------------------------------------------------------------------------
+
+# This will allow a player to add a custom reason for their player report.
+allow-custom-reason: true
+
+reasons:
+  - name: "&cSpeed Hacking"
+    reason: "Speed Hacking"
+    lore: |
+      &7Click to report &c{target} &7for {offence}&7.
+    material: DIAMOND_BOOTS
+    glowing: false
+
+  - name: "&cFlying"
+    reason: "Flying"
+    lore: |
+      &7Click to report &c{target} &7for {offence}&7.
+    material: FEATHER
+    glowing: false
+
+  - name: "&cCombat Hacks"
+    reason: "Combat Hacks"
+    lore: |
+      &7Click to report &c{target} &7for {offence}&7.
+    material: IRON_SWORD
+    glowing: false
+
+  - name: "&cGriefing"
+    reason: "Griefing"
+    lore: |
+      &7Click to report &c{target} &7for {offence}&7.
+    material: TNT
+    glowing: false
+
+  - name: "&cInappropriate Name or Skin"
+    reason: "Inappropriate Name or Skin"
+    lore: |
+      &7Click to report &c{target} &7for {offence}&7.
+    material: PLAYER_HEAD
+    glowing: false
+
+  - name: "&cBeing Disrespectful"
+    reason: "Disrespectful"
+    lore: |
+      &7This is for when someone is &cdisrespectful&7 in chat.
+      
+      &7Click to report &c{target} &7for {offence}&7.
+    material: BOOK
+    glowing: false

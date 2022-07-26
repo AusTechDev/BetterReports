@@ -1,5 +1,5 @@
 /*
- * BetterReports - ReportBugCommand.java
+ * BetterReports - BetterReportsCommand.java
  *
  * Copyright (c) 2022 AusTech Development
  *
@@ -24,53 +24,62 @@
 
 package dev.austech.betterreports.commands;
 
-import dev.austech.betterreports.model.report.Report;
-import dev.austech.betterreports.model.report.menu.creation.ConfirmReportMenu;
+import dev.austech.betterreports.BetterReports;
+import dev.austech.betterreports.util.Common;
 import dev.austech.betterreports.util.data.MainConfig;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
+import org.bukkit.command.TabExecutor;
 
-import java.util.Arrays;
+import java.util.List;
 
-import static dev.austech.betterreports.model.report.ReportManager.checkCooldown;
-
-public class ReportBugCommand implements CommandExecutor {
+public class BetterReportsCommand implements CommandExecutor, TabExecutor {
     @Override
     public boolean onCommand(final CommandSender sender, final Command command, final String label, final String[] args) {
-        if (!sender.hasPermission("betterreports.use.bug")) {
+        if (!sender.hasPermission("betterreports.use")) {
             MainConfig.Values.LANG_NO_PERMISSION.send(sender);
             return true;
         }
 
-        if (!MainConfig.Values.BUG_REPORT_ENABLED.getBoolean()) {
-            MainConfig.Values.LANG_UNKNOWN_COMMAND.send(sender);
-            return true;
-        }
-
-        if (!(sender instanceof Player)) {
-            MainConfig.Values.LANG_PLAYER_ONLY.send(sender);
-            return true;
-        }
-
-        if (checkCooldown((Player) sender, Report.Type.BUG))
-            return true;
-
         if (args.length == 0) {
-            MainConfig.Values.LANG_NO_BUG.send(sender);
+            if (sender.hasPermission("betterreports.admin"))
+                MainConfig.Values.LANG_HELP_MESSAGE_ADMIN.sendList(sender);
+            else
+                MainConfig.Values.LANG_HELP_MESSAGE.sendList(sender);
+
             return true;
         }
 
-        final String bug = String.join(" ", Arrays.asList(args).subList(0, args.length));
+        switch (args[0].toLowerCase()) {
+            case "reload": {
+                if (!sender.hasPermission("betterreports.reload")) {
+                    MainConfig.Values.LANG_NO_PERMISSION.send(sender);
+                    return true;
+                }
 
-        final Report report = Report.builder()
-                .type(Report.Type.BUG)
-                .creator((Player) sender)
-                .reason(bug)
-                .build();
+                BetterReports.getInstance().getConfigManager().reload();
 
-        new ConfirmReportMenu(((Player) sender), report).open(((Player) sender));
+                Common.log("The configuration has been reloaded.");
+                MainConfig.Values.LANG_CONFIG_RELOADED.send(sender);
+
+                break;
+            }
+            case "help": {
+                if (sender.hasPermission("betterreports.admin"))
+                    MainConfig.Values.LANG_HELP_MESSAGE_ADMIN.sendList(sender);
+                else
+                    MainConfig.Values.LANG_HELP_MESSAGE.sendList(sender);
+            }
+            default:
+                MainConfig.Values.LANG_UNKNOWN_COMMAND.send(sender);
+        }
+
         return true;
+    }
+
+    @Override
+    public List<String> onTabComplete(final CommandSender sender, final Command command, final String alias, final String[] args) {
+        return null;
     }
 }

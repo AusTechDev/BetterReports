@@ -1,109 +1,93 @@
 /*
  * BetterReports - BetterReports.java
  *
- * Github: https://github.com/AusTechDev/
- * Spigot Profile: https://www.spigotmc.org/members/austech.919057/
- * Discord Server: https://austech.dev/to/support
+ * Copyright (c) 2022 AusTech Development
  *
- * MIT License
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  *
- * Copyright (c) 2022 Timmy109.
- * Copyright (c) 2022 Contributors.
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the
- * "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute,
- * sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following
- * conditions:
- *
- * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
- * WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE AUTHORS
- * OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
- * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
+
 package dev.austech.betterreports;
 
-import dev.austech.betterreports.commands.AdminCommand;
+import dev.austech.betterreports.commands.BetterReportsCommand;
 import dev.austech.betterreports.commands.ReportBugCommand;
+import dev.austech.betterreports.commands.ReportCommand;
 import dev.austech.betterreports.commands.ReportPlayerCommand;
-import dev.austech.betterreports.events.PlayerJoin;
-import dev.austech.betterreports.utils.Common;
-import dev.austech.betterreports.utils.Config;
-import dev.austech.betterreports.utils.UpdateChecker;
+import dev.austech.betterreports.util.Common;
+import dev.austech.betterreports.util.Counter;
+import dev.austech.betterreports.util.UpdateCheck;
+import dev.austech.betterreports.util.data.ConfigManager;
+import dev.austech.betterreports.util.data.MainConfig;
+import dev.austech.betterreports.util.menu.listener.MenuListener;
 import lombok.Getter;
 import lombok.Setter;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.IOException;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.logging.Logger;
+public class BetterReports extends JavaPlugin {
+    @Getter
+    private static BetterReports instance;
 
-public final class BetterReports extends JavaPlugin {
+    @Getter
+    @Setter
+    private Counter counter;
 
-    @Getter private static BetterReports instance;
-    @Getter @Setter YamlConfiguration config;
+    @Getter
+    private boolean usePlaceholderApi = false;
+
+    @Getter
+    private ConfigManager configManager;
 
     @Override
     public void onEnable() {
-
-        // Recording the system time in milliseconds
-        long startTimer = System.currentTimeMillis();
-
-        // Setting the instance to the current JavaPlugin instance
         instance = this;
-        try {
-            Config.load();
-        } catch (IOException exception) {
-            exception.printStackTrace();
+        configManager = new ConfigManager();
+
+        configManager.reload();
+
+        if (!MainConfig.Values.PLAYER_REPORT_ENABLED.getBoolean() && !MainConfig.Values.BUG_REPORT_ENABLED.getBoolean()) {
+            Common.error("BetterReports has been disabled as both player and bug reports are disabled in the config.");
+            Bukkit.getPluginManager().disablePlugin(this);
+            return;
         }
 
-        // Checking for updates
-        if (Common.getConfig().getBoolean("check-for-updates"))
-            Bukkit.getScheduler().runTaskLaterAsynchronously(this, () -> {
-                if (UpdateChecker.needsUpdate(getDescription().getVersion())) {
-                    Common.log("&aA new update for BetterReports is available...");
-                    Common.log("&ahttps://www.spigotmc.org/resources/83689");
-                }
-            }, 20 * 3);
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+            usePlaceholderApi = true;
+        }
 
-        // Registering commands
-        getCommand("report").setExecutor(new ReportPlayerCommand());
-        getCommand("reportbug").setExecutor(new ReportBugCommand());
-        getCommand("betterreports").setExecutor(new AdminCommand());
+        new UpdateCheck("br", this).check();
+        new Metrics(this, 15884);
 
-        // Registering events
-        Bukkit.getPluginManager().registerEvents(new PlayerJoin(), this);
+        Bukkit.getPluginManager().registerEvents(new MenuListener(), this);
 
-        // Saving the default config
-        saveDefaultConfig();
-
-        // Displaying the successfully loaded screen in console
-        loadingScreenFrames();
-
-        // Recording the system time in milliseconds after everything has loaded
-        long endTimer = System.currentTimeMillis();
-
-        // Subtracting the end time from the start time to display how long the plugin took to enable
-        long time = endTimer - startTimer;
-
-        // Logging to console that the plugin has enabled, accompanied by the time taken to do so
-        Common.log("&5|     &bSuccessfully Enabled - Took &7" + time + "&bms");
-        Common.log("&5|");
-        Common.log("");
+        getCommand("betterreports").setExecutor(new BetterReportsCommand());
+        getCommand("report").setExecutor(new ReportCommand());
+        reloadCommands();
     }
 
-    public void loadingScreenFrames() {
-        Common.log("");
-        Common.log("&5|");
-        Common.log("&5|     &d    ____  &b____ ");
-        Common.log("&5|     &d   / __ )&b/ __ \\");
-        Common.log("&5|     &d  / __  &b/ /_/ /");
-        Common.log("&5|     &d / /_/ &b/ _, _/ ");
-        Common.log("&5|     &d/_____&b/_/ |_|  ");
-        Common.log("&5|");
-        Common.log("&5|     &bVersion: " + getDescription().getVersion() + " - AusTech");
+    public void reloadCommands() {
+        if (MainConfig.Values.BUG_REPORT_ENABLED.getBoolean())
+            getCommand("reportbug").setExecutor(new ReportBugCommand());
+        else getCommand("reportbug").setExecutor(null);
+
+        if (MainConfig.Values.PLAYER_REPORT_ENABLED.getBoolean())
+            getCommand("reportplayer").setExecutor(new ReportPlayerCommand());
+        else getCommand("reportplayer").setExecutor(null);
     }
 }
