@@ -114,6 +114,12 @@ public class ConfirmReportMenu extends Menu {
             return;
         }
 
+        if (!creator.hasPermission("betterreports.use." + report.getType().toString().toLowerCase())) {
+            MainConfig.Values.LANG_NO_PERMISSION.send(creator);
+            creator.playSound(creator.getLocation(), XSound.ENTITY_VILLAGER_NO.parseSound(), 1, 1);
+            return;
+        }
+
         if (report.getType() == Report.Type.BUG && !ReportManager.getInstance().isBugReportsEnabled()) {
             creator.playSound(creator.getLocation(), XSound.ENTITY_VILLAGER_NO.parseSound(), 1, 1);
             MainConfig.Values.LANG_BUG_REPORTS_DISABLED.send(creator);
