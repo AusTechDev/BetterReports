@@ -27,12 +27,12 @@ package dev.austech.betterreports.model.report.menu.creation;
 import dev.austech.betterreports.model.report.Report;
 import dev.austech.betterreports.model.report.ReportManager;
 import dev.austech.betterreports.util.StackBuilder;
+import dev.austech.betterreports.util.config.impl.GuiConfig;
 import dev.austech.betterreports.util.config.impl.MainConfig;
 import dev.austech.betterreports.util.menu.Menu;
 import dev.austech.betterreports.util.menu.defaults.buttons.BackButton;
 import dev.austech.betterreports.util.menu.layout.MenuButton;
 import dev.austech.betterreports.util.xseries.XMaterial;
-import dev.austech.betterreports.util.xseries.XSound;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.entity.Player;
 
@@ -109,23 +109,23 @@ public class ConfirmReportMenu extends Menu {
         success = true;
 
         if (creator == report.getTarget()) {
+            GuiConfig.Values.SOUNDS_SELF_REPORT.playSound(creator);
             MainConfig.Values.LANG_PLAYER_SELF.send(creator);
-            creator.playSound(creator.getLocation(), XSound.ENTITY_VILLAGER_NO.parseSound(), 1, 1);
             return;
         }
 
         if (!creator.hasPermission("betterreports.use." + report.getType().toString().toLowerCase())) {
+            GuiConfig.Values.SOUNDS_NO_PERMISSION.playSound(creator);
             MainConfig.Values.LANG_NO_PERMISSION.send(creator);
-            creator.playSound(creator.getLocation(), XSound.ENTITY_VILLAGER_NO.parseSound(), 1, 1);
             return;
         }
 
         if (report.getType() == Report.Type.BUG && !ReportManager.getInstance().isBugReportsEnabled()) {
-            creator.playSound(creator.getLocation(), XSound.ENTITY_VILLAGER_NO.parseSound(), 1, 1);
+            GuiConfig.Values.SOUNDS_BUG_REPORTS_DISABLED.playSound(creator);
             MainConfig.Values.LANG_BUG_REPORTS_DISABLED.send(creator);
             return;
         } else if (report.getType() == Report.Type.PLAYER && !ReportManager.getInstance().isPlayerReportsEnabled()) {
-            creator.playSound(creator.getLocation(), XSound.ENTITY_VILLAGER_NO.parseSound(), 1, 1);
+            GuiConfig.Values.SOUNDS_PLAYER_REPORTS_DISABLED.playSound(creator);
             MainConfig.Values.LANG_PLAYER_REPORTS_DISABLED.send(creator);
             return;
         }

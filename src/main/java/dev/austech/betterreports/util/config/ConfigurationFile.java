@@ -50,8 +50,6 @@ public class ConfigurationFile {
         this.configVersion = configVersion;
 
         this.file = new File(BetterReports.getInstance().getDataFolder(), fileName);
-
-//        load();
     }
 
     public void onReload() {
@@ -99,7 +97,7 @@ public class ConfigurationFile {
     private void checkNewVersion() {
         if (!configVersion) return;
 
-        final int latestVersion = YamlConfiguration.loadConfiguration(new InputStreamReader(BetterReports.getInstance().getResource("config.yml"))).getInt("config-version");
+        final int latestVersion = YamlConfiguration.loadConfiguration(new InputStreamReader(BetterReports.getInstance().getResource(fileName))).getInt("config-version");
         final int currentVersion = config.getInt("config-version");
 
         if (currentVersion != latestVersion) {

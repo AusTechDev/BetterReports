@@ -24,22 +24,35 @@
 
 package dev.austech.betterreports.util.config;
 
+import dev.austech.betterreports.util.config.impl.GuiConfig;
 import dev.austech.betterreports.util.config.impl.MainConfig;
 import dev.austech.betterreports.util.config.impl.ReasonsConfig;
+import lombok.AccessLevel;
 import lombok.Getter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 public class ConfigManager {
     private final MainConfig mainConfig;
     private final ReasonsConfig reasonsConfig;
+    private final GuiConfig guiConfig;
+
+    @Getter(AccessLevel.PRIVATE)
+    private final List<ConfigurationFile> configs = new ArrayList<>();
 
     public ConfigManager() {
         mainConfig = new MainConfig();
         reasonsConfig = new ReasonsConfig();
+        guiConfig = new GuiConfig();
+
+        configs.add(mainConfig);
+        configs.add(reasonsConfig);
+        configs.add(guiConfig);
     }
 
     public void reload() {
-        mainConfig.reload();
-        reasonsConfig.reload();
+        configs.forEach(ConfigurationFile::reload);
     }
 }

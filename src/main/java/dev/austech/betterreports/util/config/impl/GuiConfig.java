@@ -26,11 +26,14 @@ package dev.austech.betterreports.util.config.impl;
 
 import dev.austech.betterreports.BetterReports;
 import dev.austech.betterreports.util.config.ConfigurationFile;
+import dev.austech.betterreports.util.xseries.XSound;
 import lombok.RequiredArgsConstructor;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 
 public class GuiConfig extends ConfigurationFile {
     public GuiConfig() {
-        super("gui", true);
+        super("gui.yml", true);
     }
 
     @RequiredArgsConstructor
@@ -65,23 +68,33 @@ public class GuiConfig extends ConfigurationFile {
         MENU_SELECT_PLAYER_LIST_BUTTON_GLOWING("menus.select-player-menu.player-button.glowing"),
 
         SOUNDS_REPORT_SUCCESS("sounds.report-success"),
-        SOUNDS_SELF_REPORT_ERROR("sounds.self-report-error"),
-        SOUNDS_PLAYER_REPORTS_NOT_ENABLED("sounds.player-reports-not-enabled"),
-        SOUNDS_BUG_REPORTS_NOT_ENABLED("sounds.bug-reports-not-enabled"),
+        SOUNDS_SELF_REPORT("sounds.self-report-error"),
+        SOUNDS_PLAYER_REPORTS_DISABLED("sounds.player-reports-not-enabled"),
+        SOUNDS_BUG_REPORTS_DISABLED("sounds.bug-reports-not-enabled"),
         SOUNDS_NO_PERMISSION("sounds.no-permission");
 
         private final String key;
 
+        private YamlConfiguration getConfig() {
+            return BetterReports.getInstance().getConfigManager().getGuiConfig().getConfig();
+        }
+
         public String getString() {
-            return BetterReports.getInstance().getConfigManager().getMainConfig().getConfig().getString(key);
+            return getConfig().getString(key);
         }
 
         public boolean getBoolean() {
-            return BetterReports.getInstance().getConfigManager().getMainConfig().getConfig().getBoolean(key);
+            return getConfig().getBoolean(key);
         }
 
         public int getInteger() {
-            return BetterReports.getInstance().getConfigManager().getMainConfig().getConfig().getInt(key);
+            return getConfig().getInt(key);
+        }
+
+        public void playSound(final Player player) {
+            final XSound.Record record = XSound.parse(getString());
+            if (record == null) return;
+            record.forPlayer(player).play();
         }
     }
 }

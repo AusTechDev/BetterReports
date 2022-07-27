@@ -29,11 +29,11 @@ import dev.austech.betterreports.util.Common;
 import dev.austech.betterreports.util.ConversationUtil;
 import dev.austech.betterreports.util.StackBuilder;
 import dev.austech.betterreports.util.TriConsumer;
+import dev.austech.betterreports.util.config.impl.GuiConfig;
 import dev.austech.betterreports.util.config.impl.MainConfig;
 import dev.austech.betterreports.util.menu.defaults.ListPlayersMenu;
 import dev.austech.betterreports.util.menu.layout.MenuButton;
 import dev.austech.betterreports.util.xseries.XMaterial;
-import dev.austech.betterreports.util.xseries.XSound;
 import org.bukkit.Bukkit;
 import org.bukkit.conversations.Prompt;
 import org.bukkit.entity.Player;
@@ -66,7 +66,7 @@ public class SelectPlayerMenu extends ListPlayersMenu {
 
     private void handle(final Player player, final Player target) {
         if (player == target) {
-            player.playSound(player.getLocation(), XSound.ENTITY_VILLAGER_NO.parseSound(), 1, 1);
+            GuiConfig.Values.SOUNDS_SELF_REPORT.playSound(player);
             MainConfig.Values.LANG_PLAYER_SELF.sendRaw(player);
             return;
         }

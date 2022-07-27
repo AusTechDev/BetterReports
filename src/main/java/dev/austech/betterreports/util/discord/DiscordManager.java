@@ -28,8 +28,8 @@ import dev.austech.betterreports.BetterReports;
 import dev.austech.betterreports.model.report.Report;
 import dev.austech.betterreports.util.Common;
 import dev.austech.betterreports.util.PlaceholderUtil;
+import dev.austech.betterreports.util.config.impl.GuiConfig;
 import dev.austech.betterreports.util.config.impl.MainConfig;
-import dev.austech.betterreports.util.xseries.XSound;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -92,7 +92,7 @@ public class DiscordManager {
                                 .forEach(p -> p.sendMessage(s))
                 );
 
-                player.playSound(player.getLocation(), XSound.ENTITY_PLAYER_LEVELUP.parseSound(), 1, 1);
+                GuiConfig.Values.SOUNDS_REPORT_SUCCESS.playSound(player);
 
                 if (BetterReports.getInstance().getCounter() != null) {
                     if (!report.isPlayer()) {
