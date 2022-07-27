@@ -97,7 +97,8 @@ public class ReportMenu extends Menu {
         }
 
         ConversationUtil.run(creator, () -> {
-            Common.sendTitle(creator, MainConfig.Values.LANG_QUESTION_BUG_TITLE.getPlaceholderString(creator), MainConfig.Values.LANG_QUESTION_BUG_SUBTITLE.getPlaceholderString(creator), 10, 20 * 15, 10);
+            if (MainConfig.Values.LANG_QUESTION_BUG_ENABLED.getBoolean())
+                Common.sendTitle(creator, MainConfig.Values.LANG_QUESTION_BUG_TITLE.getPlaceholderString(creator), MainConfig.Values.LANG_QUESTION_BUG_SUBTITLE.getPlaceholderString(creator), 10, 20 * 15, 10);
             return MainConfig.Values.LANG_QUESTION_BUG_MESSAGE.getPlaceholderString(creator);
         }, (s) -> {
             Common.resetTitle(creator);

@@ -118,21 +118,28 @@ public class PlayerReportPagedReasonMenu extends PagedMenu {
 
     private void customReason() {
         ConversationUtil.run(creator, () -> {
-            String titleMessage = MainConfig.Values.LANG_QUESTION_CUSTOM_REASON_TITLE.getString();
-            String subtitleMessage = MainConfig.Values.LANG_QUESTION_CUSTOM_REASON_SUBTITLE.getString();
             String message = MainConfig.Values.LANG_QUESTION_CUSTOM_REASON_MESSAGE.getString();
-
-            titleMessage = titleMessage.replace("{player}", creator.getName()).replace("{creator}", creator.getName()).replace("{target}", target.getName());
-            subtitleMessage = subtitleMessage.replace("{player}", creator.getName()).replace("{creator}", creator.getName()).replace("{target}", target.getName());
             message = message.replace("{player}", creator.getName()).replace("{creator}", creator.getName()).replace("{target}", target.getName());
 
+            if (MainConfig.Values.LANG_QUESTION_CUSTOM_REASON_ENABLED.getBoolean()) {
+                String titleMessage = MainConfig.Values.LANG_QUESTION_CUSTOM_REASON_TITLE.getString();
+                String subtitleMessage = MainConfig.Values.LANG_QUESTION_CUSTOM_REASON_SUBTITLE.getString();
+
+                titleMessage = titleMessage.replace("{player}", creator.getName()).replace("{creator}", creator.getName()).replace("{target}", target.getName());
+                subtitleMessage = subtitleMessage.replace("{player}", creator.getName()).replace("{creator}", creator.getName()).replace("{target}", target.getName());
+
+                if (BetterReports.getInstance().isUsePlaceholderApi()) {
+                    titleMessage = PlaceholderUtil.handleDualPlaceholders(titleMessage, "creator", creator, "target", target);
+                    subtitleMessage = PlaceholderUtil.handleDualPlaceholders(subtitleMessage, "creator", creator, "target", target);
+                }
+
+                Common.sendTitle(creator, titleMessage, subtitleMessage, 10, 20 * 15, 10);
+            }
+
             if (BetterReports.getInstance().isUsePlaceholderApi()) {
-                titleMessage = PlaceholderUtil.handleDualPlaceholders(titleMessage, "creator", creator, "target", target);
-                subtitleMessage = PlaceholderUtil.handleDualPlaceholders(subtitleMessage, "creator", creator, "target", target);
                 message = PlaceholderUtil.handleDualPlaceholders(message, "creator", creator, "target", target);
             }
 
-            Common.sendTitle(creator, titleMessage, subtitleMessage, 10, 20 * 15, 10);
             return Common.color(message);
         }, (s) -> {
             Common.resetTitle(creator);

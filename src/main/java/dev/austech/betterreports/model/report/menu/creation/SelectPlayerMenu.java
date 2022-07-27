@@ -76,7 +76,8 @@ public class SelectPlayerMenu extends ListPlayersMenu {
 
     private void searchPlayer(final Player player) {
         ConversationUtil.run(player, () -> {
-            Common.sendTitle(player, MainConfig.Values.LANG_QUESTION_PLAYER_SEARCH_TITLE.getPlaceholderString(player), MainConfig.Values.LANG_QUESTION_PLAYER_SEARCH_SUBTITLE.getPlaceholderString(player), 10, 20 * 15, 10);
+            if (MainConfig.Values.LANG_QUESTION_PLAYER_SEARCH_ENABLED.getBoolean())
+                Common.sendTitle(player, MainConfig.Values.LANG_QUESTION_PLAYER_SEARCH_TITLE.getPlaceholderString(player), MainConfig.Values.LANG_QUESTION_PLAYER_SEARCH_SUBTITLE.getPlaceholderString(player), 10, 20 * 15, 10);
             return Common.color(MainConfig.Values.LANG_QUESTION_PLAYER_SEARCH_MESSAGE.getPlaceholderString(player));
         }, (s) -> {
             final Player found = Bukkit.getPlayer(s);

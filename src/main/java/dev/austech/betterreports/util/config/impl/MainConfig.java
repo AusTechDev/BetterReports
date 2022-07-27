@@ -28,9 +28,11 @@ import dev.austech.betterreports.BetterReports;
 import dev.austech.betterreports.util.Common;
 import dev.austech.betterreports.util.Counter;
 import dev.austech.betterreports.util.config.ConfigurationFile;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
@@ -55,6 +57,7 @@ public class MainConfig extends ConfigurationFile {
     }
 
     @RequiredArgsConstructor
+    @AllArgsConstructor
     public enum Values {
         VERSION("config-version"),
 
@@ -121,12 +124,15 @@ public class MainConfig extends ConfigurationFile {
         LANG_UNKNOWN_COMMAND("language.unknown-command"),
         LANG_CONFIG_RELOADED("language.config-reloaded"),
         LANG_COOLDOWN("language.cooldown-message"),
+        LANG_QUESTION_BUG_ENABLED("language.bug-question.enabled", true),
         LANG_QUESTION_BUG_MESSAGE("language.bug-question.message"),
         LANG_QUESTION_BUG_TITLE("language.bug-question.title"),
         LANG_QUESTION_BUG_SUBTITLE("language.bug-question.subtitle"),
+        LANG_QUESTION_PLAYER_SEARCH_ENABLED("language.player-search-question.enabled", true),
         LANG_QUESTION_PLAYER_SEARCH_MESSAGE("language.player-search-question.message"),
         LANG_QUESTION_PLAYER_SEARCH_TITLE("language.player-search-question.title"),
         LANG_QUESTION_PLAYER_SEARCH_SUBTITLE("language.player-search-question.subtitle"),
+        LANG_QUESTION_CUSTOM_REASON_ENABLED("language.custom-reason-question.enabled", true),
         LANG_QUESTION_CUSTOM_REASON_MESSAGE("language.custom-reason-question.message"),
         LANG_QUESTION_CUSTOM_REASON_TITLE("language.custom-reason-question.title"),
         LANG_QUESTION_CUSTOM_REASON_SUBTITLE("language.custom-reason-question.subtitle"),
@@ -135,25 +141,37 @@ public class MainConfig extends ConfigurationFile {
         LANG_REPORT_CANCELLED("language.report-cancelled");
 
         private final String key;
+        private Object defaultValue;
+
+        public YamlConfiguration getConfig() {
+            return BetterReports.getInstance().getConfigManager().getMainConfig().getConfig();
+        }
+
+        public boolean contains() {
+            return getConfig().contains(key);
+        }
 
         public String getString() {
-            return BetterReports.getInstance().getConfigManager().getMainConfig().getConfig().getString(key);
+            if (!contains()) return defaultValue.toString();
+            return getConfig().getString(key);
         }
 
         public boolean getBoolean() {
-            return BetterReports.getInstance().getConfigManager().getMainConfig().getConfig().getBoolean(key);
+            if (!contains()) return (boolean) defaultValue;
+            return getConfig().getBoolean(key);
         }
 
         public int getInteger() {
-            return BetterReports.getInstance().getConfigManager().getMainConfig().getConfig().getInt(key);
+            if (!contains()) return (int) defaultValue;
+            return getConfig().getInt(key);
         }
 
         public ConfigurationSection getSection() {
-            return BetterReports.getInstance().getConfigManager().getMainConfig().getConfig().getConfigurationSection(key);
+            return getConfig().getConfigurationSection(key);
         }
 
         public List<String> getStringList() {
-            return BetterReports.getInstance().getConfigManager().getMainConfig().getConfig().getStringList(key);
+            return getConfig().getStringList(key);
         }
 
         public String getPlaceholderString(final Player player) {

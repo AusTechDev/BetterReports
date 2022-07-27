@@ -254,17 +254,23 @@ language:
   unknown-command: "&cUnknown Command."
   config-reloaded: "&aConfig reloaded!"
   cooldown-message: "&cYou must wait {time} before reporting a {type} again."
+
+  # Titles
   bug-question:
+    enabled: true
     message: "&cWhat &7bug are you reporting?"
     title: "&cWhat"
     subtitle: "Bug are you reporting?"
+
   player-search-question:
+    enabled: true
     message: "&cPlease enter &7the name to search."
     title: "&cPlease enter"
     subtitle: "The name to search"
 
   # This supports PlaceholderAPI - Multiple.
   custom-reason-question:
+    enabled: true
     message: "&cWhy &7are you reporting {target}?"
     title: "&cWhy"
     subtitle: "Are you reporting {target}?"
