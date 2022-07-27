@@ -159,11 +159,11 @@ public class DiscordManager {
         }
 
         if (EMBED_IMAGES_THUMBNAIL != null) {
-            embed.thumbnail(EMBED_IMAGES_THUMBNAIL);
+            embed.thumbnail(ap(report, EMBED_IMAGES_THUMBNAIL));
         }
 
         if (EMBED_IMAGES_IMAGE != null) {
-            embed.image(EMBED_IMAGES_IMAGE);
+            embed.image(ap(report, EMBED_IMAGES_IMAGE));
         }
 
         if (EMBED_FOOTER_TIMESTAMP) {

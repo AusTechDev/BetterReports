@@ -99,8 +99,8 @@ reports:
             inline: false
 
         images:
-          image: "https://minotar.net/helm/{creator}/128.png"
-          thumbnail: ""
+          image: ""
+          thumbnail: "https://minotar.net/helm/{creator}/100.png"
 
         footer:
           timestamp: false # If this is true, the current time will be used.
@@ -198,8 +198,8 @@ reports:
             inline: false
 
         images:
-          image: "https://minotar.net/helm/{creator}/128.png"
-          thumbnail: ""
+          image: ""
+          thumbnail: "https://minotar.net/helm/{creator}/100.png"
 
         footer:
           timestamp: false # If this is true, the current time will be used.
