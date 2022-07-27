@@ -1,5 +1,5 @@
 /*
- * BetterReports - ReasonsConfig.java
+ * BetterReports - ConfigManager.java
  *
  * Copyright (c) 2022 AusTech Development
  *
@@ -22,10 +22,24 @@
  * SOFTWARE.
  */
 
-package dev.austech.betterreports.util.data;
+package dev.austech.betterreports.util.config;
 
-public class ReasonsConfig extends ConfigurationFile {
-    public ReasonsConfig() {
-        super("reasons.yml", false);
+import dev.austech.betterreports.util.config.impl.MainConfig;
+import dev.austech.betterreports.util.config.impl.ReasonsConfig;
+import lombok.Getter;
+
+@Getter
+public class ConfigManager {
+    private final MainConfig mainConfig;
+    private final ReasonsConfig reasonsConfig;
+
+    public ConfigManager() {
+        mainConfig = new MainConfig();
+        reasonsConfig = new ReasonsConfig();
+    }
+
+    public void reload() {
+        mainConfig.reload();
+        reasonsConfig.reload();
     }
 }

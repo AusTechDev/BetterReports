@@ -26,7 +26,7 @@ package dev.austech.betterreports.model.report;
 
 import dev.austech.betterreports.BetterReports;
 import dev.austech.betterreports.util.Common;
-import dev.austech.betterreports.util.data.MainConfig;
+import dev.austech.betterreports.util.config.impl.MainConfig;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;

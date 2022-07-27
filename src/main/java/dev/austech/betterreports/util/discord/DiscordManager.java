@@ -28,7 +28,7 @@ import dev.austech.betterreports.BetterReports;
 import dev.austech.betterreports.model.report.Report;
 import dev.austech.betterreports.util.Common;
 import dev.austech.betterreports.util.PlaceholderUtil;
-import dev.austech.betterreports.util.data.MainConfig;
+import dev.austech.betterreports.util.config.impl.MainConfig;
 import dev.austech.betterreports.util.xseries.XSound;
 import lombok.Getter;
 import org.bukkit.Bukkit;

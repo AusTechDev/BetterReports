@@ -28,7 +28,7 @@ import dev.austech.betterreports.model.report.Report;
 import dev.austech.betterreports.model.report.menu.creation.ConfirmReportMenu;
 import dev.austech.betterreports.model.report.menu.creation.SelectPlayerMenu;
 import dev.austech.betterreports.model.report.menu.creation.reason.PlayerReportPagedReasonMenu;
-import dev.austech.betterreports.util.data.MainConfig;
+import dev.austech.betterreports.util.config.impl.MainConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

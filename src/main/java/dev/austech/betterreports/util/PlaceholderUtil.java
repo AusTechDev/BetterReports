@@ -26,7 +26,7 @@ package dev.austech.betterreports.util;
 
 import dev.austech.betterreports.BetterReports;
 import dev.austech.betterreports.model.report.Report;
-import dev.austech.betterreports.util.data.MainConfig;
+import dev.austech.betterreports.util.config.impl.MainConfig;
 import lombok.experimental.UtilityClass;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.OfflinePlayer;

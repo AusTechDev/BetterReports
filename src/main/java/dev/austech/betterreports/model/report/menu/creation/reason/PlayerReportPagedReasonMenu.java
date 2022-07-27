@@ -31,7 +31,7 @@ import dev.austech.betterreports.util.Common;
 import dev.austech.betterreports.util.ConversationUtil;
 import dev.austech.betterreports.util.PlaceholderUtil;
 import dev.austech.betterreports.util.StackBuilder;
-import dev.austech.betterreports.util.data.MainConfig;
+import dev.austech.betterreports.util.config.impl.MainConfig;
 import dev.austech.betterreports.util.menu.defaults.paged.PagedMenu;
 import dev.austech.betterreports.util.menu.layout.MenuButton;
 import dev.austech.betterreports.util.xseries.XMaterial;

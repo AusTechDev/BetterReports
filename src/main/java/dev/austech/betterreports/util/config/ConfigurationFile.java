@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package dev.austech.betterreports.util.data;
+package dev.austech.betterreports.util.config;
 
 import dev.austech.betterreports.BetterReports;
 import dev.austech.betterreports.util.Common;

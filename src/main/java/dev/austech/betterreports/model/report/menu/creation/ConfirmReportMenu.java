@@ -27,7 +27,7 @@ package dev.austech.betterreports.model.report.menu.creation;
 import dev.austech.betterreports.model.report.Report;
 import dev.austech.betterreports.model.report.ReportManager;
 import dev.austech.betterreports.util.StackBuilder;
-import dev.austech.betterreports.util.data.MainConfig;
+import dev.austech.betterreports.util.config.impl.MainConfig;
 import dev.austech.betterreports.util.menu.Menu;
 import dev.austech.betterreports.util.menu.defaults.buttons.BackButton;
 import dev.austech.betterreports.util.menu.layout.MenuButton;

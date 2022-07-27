@@ -22,9 +22,10 @@
  * SOFTWARE.
  */
 
-package dev.austech.betterreports.util.data;
+package dev.austech.betterreports.util.config.impl;
 
 import dev.austech.betterreports.BetterReports;
+import dev.austech.betterreports.util.config.ConfigurationFile;
 import lombok.RequiredArgsConstructor;
 
 public class GuiConfig extends ConfigurationFile {

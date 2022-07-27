@@ -25,7 +25,7 @@
 package dev.austech.betterreports.util;
 
 import com.google.gson.Gson;
-import dev.austech.betterreports.util.data.MainConfig;
+import dev.austech.betterreports.util.config.impl.MainConfig;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
