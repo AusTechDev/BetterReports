@@ -63,7 +63,7 @@ public class ReportMenu extends Menu {
                         StackBuilder.create(XMaterial.PLAYER_HEAD)
                                 .name("&6Click to report a &l&nplayer")
                 )
-                .action((e, p) -> new SelectPlayerMenu().open(p))
+                .action((e, p) -> reportPlayer(p))
                 .build();
 
         final boolean bugReports = ReportManager.getInstance().isBugReportsEnabled();
@@ -81,7 +81,21 @@ public class ReportMenu extends Menu {
         return buttons;
     }
 
+    private void reportPlayer(final Player creator) {
+        if (!creator.hasPermission("betterreports.use.player")) {
+            MainConfig.Values.LANG_NO_PERMISSION.send(creator);
+            return;
+        }
+
+        new SelectPlayerMenu().open(creator);
+    }
+
     public void reportBug(final Player creator) {
+        if (!creator.hasPermission("betterreports.use.bug")) {
+            MainConfig.Values.LANG_NO_PERMISSION.send(creator);
+            return;
+        }
+
         ConversationUtil.run(creator, () -> {
             Common.sendTitle(creator, MainConfig.Values.LANG_QUESTION_BUG_TITLE.getPlaceholderString(creator), MainConfig.Values.LANG_QUESTION_BUG_SUBTITLE.getPlaceholderString(creator), 10, 20 * 15, 10);
             return MainConfig.Values.LANG_QUESTION_BUG_MESSAGE.getPlaceholderString(creator);

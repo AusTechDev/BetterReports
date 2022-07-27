@@ -45,6 +45,14 @@ import java.util.List;
 import static dev.austech.betterreports.model.report.ReportManager.checkCooldown;
 
 public class ReportCommand implements CommandExecutor, TabExecutor {
+    private boolean checkPermission(final CommandSender sender, final Report.Type type) {
+        if (!sender.hasPermission("betterreports.use." + type.toString().toLowerCase())) {
+            MainConfig.Values.LANG_NO_PERMISSION.send(sender);
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public boolean onCommand(final CommandSender sender, final Command command, final String label, final String[] args) {
         if (!sender.hasPermission("betterreports.use")) {
@@ -67,7 +75,7 @@ public class ReportCommand implements CommandExecutor, TabExecutor {
         } else if (args.length == 1) {
             // If an argument is given, and it is for a bug report, the bug creation process will be started.
             if (args[0].equalsIgnoreCase("bug") && bugReports) {
-                if (checkCooldown((Player) sender, Report.Type.BUG))
+                if (checkPermission(sender, Report.Type.BUG) || checkCooldown((Player) sender, Report.Type.BUG))
                     return true;
 
                 new ReportMenu().reportBug((Player) sender);
@@ -75,7 +83,7 @@ public class ReportCommand implements CommandExecutor, TabExecutor {
 
                 // If an argument is given, and it is for a player report, the player select menu will be shown.
             } else if (args[0].equalsIgnoreCase("player") && playerReports) {
-                if (checkCooldown((Player) sender, Report.Type.PLAYER))
+                if (checkPermission(sender, Report.Type.PLAYER) || checkCooldown((Player) sender, Report.Type.PLAYER))
                     return true;
 
                 new SelectPlayerMenu().open((Player) sender);
@@ -84,7 +92,7 @@ public class ReportCommand implements CommandExecutor, TabExecutor {
                 // If an argument is given, and it is a player, assume it is a player report and open
                 // the reason selection menu.
             } else if (playerReports) {
-                if (checkCooldown((Player) sender, Report.Type.PLAYER))
+                if (checkPermission(sender, Report.Type.PLAYER) || checkCooldown((Player) sender, Report.Type.PLAYER))
                     return true;
 
                 final Player target = Bukkit.getPlayer(args[0]);
@@ -97,7 +105,7 @@ public class ReportCommand implements CommandExecutor, TabExecutor {
         } else {
             // If the first argument is bug, and bug reports are enabled, create a bug report.
             if (args[0].equalsIgnoreCase("bug") && bugReports) {
-                if (checkCooldown((Player) sender, Report.Type.BUG))
+                if (checkPermission(sender, Report.Type.BUG) || checkCooldown((Player) sender, Report.Type.BUG))
                     return true;
 
                 final Report report = Report.builder()
@@ -110,7 +118,7 @@ public class ReportCommand implements CommandExecutor, TabExecutor {
 
                 // If the first argument is player, and player reports are enabled, create a player report.
             } else if (args[0].equalsIgnoreCase("player") && playerReports) {
-                if (checkCooldown((Player) sender, Report.Type.PLAYER))
+                if (checkPermission(sender, Report.Type.PLAYER) || checkCooldown((Player) sender, Report.Type.PLAYER))
                     return true;
 
                 // If it is structured as a full player report, create a player report and confirm.
@@ -136,7 +144,7 @@ public class ReportCommand implements CommandExecutor, TabExecutor {
 
                 // If it is structured as a full player report, create a player report and confirm.
             } else if (playerReports) {
-                if (checkCooldown((Player) sender, Report.Type.PLAYER))
+                if (checkPermission(sender, Report.Type.PLAYER) || checkCooldown((Player) sender, Report.Type.PLAYER))
                     return true;
 
                 final Player target = Bukkit.getPlayer(args[0]);
