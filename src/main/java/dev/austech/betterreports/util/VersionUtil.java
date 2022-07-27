@@ -8,6 +8,11 @@ import org.bukkit.Bukkit;
 public class VersionUtil {
     private V serverVersion = null;
 
+    public String getPackageVersion() {
+        final String packageName = Bukkit.getServer().getClass().getPackage().getName(); // CraftServer
+        return packageName.substring(23);
+    }
+
     public V getVersion() {
         if (serverVersion == null) {
             final String packageName = Bukkit.getServer().getClass().getPackage().getName(); // CraftServer

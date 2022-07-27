@@ -86,7 +86,7 @@ public class ReportMenu extends Menu {
             Common.sendTitle(creator, MainConfig.Values.LANG_QUESTION_BUG_TITLE.getPlaceholderString(creator), MainConfig.Values.LANG_QUESTION_BUG_SUBTITLE.getPlaceholderString(creator), 10, 20 * 15, 10);
             return MainConfig.Values.LANG_QUESTION_BUG_MESSAGE.getPlaceholderString(creator);
         }, (s) -> {
-            Common.sendTitle(creator, "", "", 10, 1, 10);
+            Common.resetTitle(creator);
             new ConfirmReportMenu(creator,
                     Report.builder()
                             .type(Report.Type.BUG)

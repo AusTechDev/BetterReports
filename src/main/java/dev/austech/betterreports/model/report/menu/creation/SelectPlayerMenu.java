@@ -85,7 +85,7 @@ public class SelectPlayerMenu extends ListPlayersMenu {
                 return new ConversationUtil.RerunPrompt();
             }
 
-            Common.sendTitle(player, "", "", 10, 1, 10);
+            Common.resetTitle(player);
 
             handle(player, found);
 
