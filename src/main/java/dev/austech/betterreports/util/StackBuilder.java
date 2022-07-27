@@ -24,11 +24,11 @@
 
 package dev.austech.betterreports.util;
 
-import dev.austech.betterreports.util.xseries.XEnchantment;
 import dev.austech.betterreports.util.xseries.XMaterial;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.md_5.bungee.api.ChatColor;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -80,32 +80,26 @@ public class StackBuilder {
         return this;
     }
 
-    public StackBuilder enchant(final XEnchantment enchantment, final int level) {
-        if (!enchantment.isSupported() || enchantment.getEnchant() == null)
-            throw new IllegalArgumentException("Enchantment is not supported on this server.");
-
-        applyMeta(meta -> meta.addEnchant(enchantment.getEnchant(), level, true));
+    public StackBuilder enchant(final Enchantment enchantment, final int level) {
+        applyMeta(meta -> meta.addEnchant(enchantment, level, true));
 
         return this;
     }
 
-    public StackBuilder unEnchant(final XEnchantment enchantment) {
-        if (!enchantment.isSupported() || enchantment.getEnchant() == null)
-            throw new IllegalArgumentException("Enchantment is not supported on this server.");
-
-        applyMeta(meta -> meta.removeEnchant(enchantment.getEnchant()));
+    public StackBuilder unEnchant(final Enchantment enchantment) {
+        applyMeta(meta -> meta.removeEnchant(enchantment));
 
         return this;
     }
 
     public StackBuilder glow() {
-        enchant(XEnchantment.LUCK, 1);
+        enchant(Enchantment.LUCK, 1);
         applyMeta(meta -> meta.addItemFlags(ItemFlag.HIDE_ENCHANTS));
         return this;
     }
 
     public StackBuilder removeGlow() {
-        unEnchant(XEnchantment.LUCK);
+        unEnchant(Enchantment.LUCK);
         applyMeta(meta -> meta.removeItemFlags(ItemFlag.HIDE_ENCHANTS));
         return this;
     }
