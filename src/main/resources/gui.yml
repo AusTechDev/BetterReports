@@ -1,0 +1,159 @@
+# BetterReports
+# Simple reporting plugin with Discord webhook customisation!
+#
+# Copyright (c) 2022 AusTech Development
+#
+# Github profile: https://github.com/AusTechDev/
+# Spigot Profile: https://www.spigotmc.org/members/austech.919057/
+# Discord Server: https://austech.dev/to/support
+
+# Below you can find the configuration for menus.
+#
+# Here is the default template for buttons:
+# <slot>:
+#        name: "Example Button!"
+#        lore: |
+#          This is the lore!
+#          It supports multiple lines and &ccolors&r!
+#        material: DIRT
+#        glowing: false
+#
+# Some buttons may have a type: parameter. This means that this button has an
+#  action associated with it.
+#
+# Every button will have placeholders.
+# These are the same as the ones in config.yml
+#
+# If you have PlaceholderAPI, you'll be able to use it. (see the placeholder section in config.yml)
+
+menus:
+  # Supports PlaceholderAPI - Single (command sender will be used)
+  main-menu:
+    name: "Creating Report"
+    size: 9
+
+    # It is not recommended to edit the buttons for this menu.
+    # If you need help, please join our Discord server. (https://austech.dev/to/support)
+    # Only the buttons you want to create reports should have the "type" field.
+
+    # These buttons will be used if BOTH player and bug reports are enabled in the config.
+    buttons-both-enabled:
+      2:
+        type: BUG
+        name: "&6Click to report a &l&nbug"
+        lore: ""
+        material: ORANGE_WOOL
+        glowing: false
+      6:
+        type: PLAYER
+        name: "&6Click to report a &l&nplayer"
+        lore: ""
+        material: PLAYER_HEAD
+        glowing: false
+
+    # These buttons will be used if ONLY bug reports are enabled in the config.
+    buttons-bug-only:
+      4:
+        type: BUG
+        name: "&6Click to report a &l&nbug"
+        lore: ""
+        material: ORANGE_WOOL
+        glowing: false
+
+    # These buttons will be used if ONLY player reports are enabled in the config.
+    buttons-player-only:
+      4:
+        type: PLAYER
+        name: "&6Click to report a &l&nplayer"
+        lore: ""
+        material: PLAYER_HEAD
+        glowing: false
+
+  confirm-menu:
+    name: "Confirm {type} Report"
+    size: 27
+
+    back-button-slot: 0 # Set this to -1 to disable the back button. (if available)
+
+    buttons:
+      11:
+        type: CLOSE
+        name: "&c&lClick to cancel report."
+        lore: ""
+        material: RED_WOOL
+        glowing: false
+
+      13:
+        name: "&c{type} Report"
+        type: DISPLAY_REPORT
+        bug-lore: |
+          &cCreated By: &7{creator}
+          &cReason: &7{reason}
+
+        player-lore: |
+          &cCreated By: &7{creator}
+          &cAgainst: &7{target}
+          &cReason: &7{reason}
+
+        material: RED_WOOL
+        glowing: false
+
+      15:
+        type: CONFIRM
+        name: "&a&lClick to confirm report."
+        lore: ""
+        material: LIME_WOOL
+        glowing: false
+
+  reason-menu:
+    name: "Select Reason"
+    back-button-slot: 0 # Set this to -1 to disable the back button. (if available)
+
+    custom-reason-button:
+      name: "&e&lCustom Reason"
+      lore: ""
+      material: NAME_TAG
+      glowing: false
+
+  # Supports PlaceholderAPI - Single
+  select-player-menu:
+    name: "Select Reason"
+    back-button-slot: 0 # Set this to -1 to disable the back button. (if available)
+
+    custom-player-button:
+      name: "&e&lEnter Name"
+      lore: ""
+      material: NAME_TAG
+      glowing: false
+
+    player-button:
+      name: "{player_display}"
+      lore: ""
+      hide-vanished: true
+      glowing: false
+
+# Below you can find the sounds that this plugin will use.
+# If you wish to disable a sound, set it to null or "NONE".
+#
+# The sounds you can use can be found here:
+#   https://github.com/CryptoMorin/XSeries/blob/master/src/main/java/com/cryptomorin/xseries/XSound.java#L62
+#     Some sounds listed here are not available on all versions.
+sounds:
+  # This sound will be played when a report is successfully sent to Discord
+  report-success: ENTITY_PLAYER_LEVELUP
+
+  # This sound will player attempts to report themselves.
+  self-report-error: ENTITY_VILLAGER_NO
+
+  # This sound will play if a player attempts to create a player report whilst it is disabled (shouldn't be possible).
+  player-reports-not-enabled: ENTITY_VILLAGER_NO
+
+  # This sound will play if a player attempts to create a bug report whilst it is disabled (shouldn't be possible).
+  bug-reports-not-enabled: ENTITY_VILLAGER_NO
+
+  # This sound will play if a player attempts to create a report but does not have permission
+  no-permission: ENTITY_VILLAGER_NO
+
+# Do NOT change this number.
+# It may break your configuration.
+config-version: 1
