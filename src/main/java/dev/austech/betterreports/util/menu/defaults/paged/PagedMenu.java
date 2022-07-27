@@ -27,7 +27,6 @@ package dev.austech.betterreports.util.menu.defaults.paged;
 import dev.austech.betterreports.util.Common;
 import dev.austech.betterreports.util.StackBuilder;
 import dev.austech.betterreports.util.menu.Menu;
-import dev.austech.betterreports.util.menu.defaults.buttons.BackButton;
 import dev.austech.betterreports.util.menu.defaults.paged.buttons.PageButton;
 import dev.austech.betterreports.util.menu.layout.MenuButton;
 import dev.austech.betterreports.util.xseries.XMaterial;
@@ -44,7 +43,6 @@ import java.util.Map;
 public abstract class PagedMenu extends Menu {
     private int page = 1;
     private int maxItemsPage = 27;
-    private Menu returnMenu;
 
     protected abstract String getMenuTitle(Player player);
 
@@ -68,19 +66,12 @@ public abstract class PagedMenu extends Menu {
     }
 
     @Override
-    public PagedMenu setReturn(final Menu menu) {
-        returnMenu = menu;
-        return this;
-    }
-
-    @Override
     public Map<Integer, MenuButton> getButtons(final Player player) {
         final int min = (this.page - 1) * maxItemsPage;
         final int max = this.page * maxItemsPage;
 
         final Map<Integer, MenuButton> fixedButtons = getFixedButtons(player);
         fixedButtons.remove(0); // just in case
-        fixedButtons.remove(1); // just in case
         fixedButtons.remove(8); // just in case
         fixedButtons.remove(4); // just in case
 
@@ -88,14 +79,11 @@ public abstract class PagedMenu extends Menu {
 
         buttons.put(0, new PageButton(-1, page, this));
 
-        if (returnMenu != null) {
-            buttons.put(1, new BackButton(returnMenu));
-        }
-
         buttons.put(8, new PageButton(1, page, this));
 
         buttons.put(4, MenuButton.builder()
                 .stack(StackBuilder.create(XMaterial.NETHER_STAR).name("&e&lPage " + this.page).glow())
+                .action((e, p) -> open(p))
                 .build());
 
         this.getPagedButtons(player).forEach((key, value) -> {

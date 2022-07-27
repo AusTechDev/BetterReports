@@ -27,13 +27,13 @@ package dev.austech.betterreports.model.report.menu.creation;
 import dev.austech.betterreports.model.report.menu.creation.reason.PlayerReportPagedReasonMenu;
 import dev.austech.betterreports.util.Common;
 import dev.austech.betterreports.util.ConversationUtil;
-import dev.austech.betterreports.util.StackBuilder;
+import dev.austech.betterreports.util.PlaceholderUtil;
 import dev.austech.betterreports.util.TriConsumer;
 import dev.austech.betterreports.util.config.impl.GuiConfig;
 import dev.austech.betterreports.util.config.impl.MainConfig;
 import dev.austech.betterreports.util.menu.defaults.ListPlayersMenu;
+import dev.austech.betterreports.util.menu.defaults.buttons.BackButton;
 import dev.austech.betterreports.util.menu.layout.MenuButton;
-import dev.austech.betterreports.util.xseries.XMaterial;
 import org.bukkit.Bukkit;
 import org.bukkit.conversations.Prompt;
 import org.bukkit.entity.Player;
@@ -49,13 +49,27 @@ public class SelectPlayerMenu extends ListPlayersMenu {
     }
 
     @Override
+    protected String getPlayerName(final Player player) {
+        return PlaceholderUtil.applyPlaceholders(player, GuiConfig.Values.MENU_SELECT_PLAYER_LIST_BUTTON_NAME.getString());
+    }
+
+    @Override
+    protected boolean shouldShowPlayer(final Player player) {
+        return !(GuiConfig.Values.MENU_SELECT_PLAYER_LIST_BUTTON_HIDE_VANISHED.getBoolean() && player.hasMetadata("vanished"));
+    }
+
+    @Override
     public Map<Integer, MenuButton> getFixedButtons(final Player player) {
         final Map<Integer, MenuButton> buttons = new HashMap<>();
 
+        final int backButtonSlot = GuiConfig.Values.MENU_SELECT_PLAYER_BACK_BUTTON.getInteger();
+        if (getToReturn() != null && backButtonSlot >= 0) {
+            buttons.put(backButtonSlot, new BackButton(getToReturn()));
+        }
+
         buttons.put(7, MenuButton.builder()
                 .stack(
-                        StackBuilder.create(XMaterial.NAME_TAG)
-                                .name("&e&lEnter Name")
+                        GuiConfig.Values.MENU_SELECT_PLAYER_CUSTOM_BUTTON.getStack()
                 )
                 .action((e, p) -> searchPlayer(p))
                 .closeMenu(true)
@@ -71,7 +85,7 @@ public class SelectPlayerMenu extends ListPlayersMenu {
             return;
         }
 
-        new PlayerReportPagedReasonMenu(player, target).open(player);
+        new PlayerReportPagedReasonMenu(player, target).setReturn(this).open(player);
     }
 
     private void searchPlayer(final Player player) {

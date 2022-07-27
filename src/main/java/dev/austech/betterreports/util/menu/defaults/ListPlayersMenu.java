@@ -42,17 +42,25 @@ public abstract class ListPlayersMenu extends PagedMenu {
         return "Players";
     }
 
-    abstract protected TriConsumer<InventoryClickEvent, Player, Player> getAction();
+    abstract protected TriConsumer<InventoryClickEvent, Player, Player> getAction(); // event, creator, target
+
+    protected String getPlayerName(final Player player) {
+        return player.getDisplayName() == null ? player.getName() : player.getDisplayName();
+    }
+
+    protected boolean shouldShowPlayer(final Player player) {
+        return true;
+    }
 
     @Override
     public Map<Integer, MenuButton> getPagedButtons(final Player player) {
         final Map<Integer, MenuButton> buttons = new HashMap<>();
 
-        Bukkit.getOnlinePlayers().stream().filter(p -> !p.hasMetadata("vanished")).map(
+        Bukkit.getOnlinePlayers().stream().filter(this::shouldShowPlayer).map(
                 p -> MenuButton.builder()
                         .stack(
                                 StackBuilder.skull(p.getName())
-                                        .name(ChatColor.WHITE + (p.getDisplayName() == null ? p.getName() : p.getDisplayName()))
+                                        .name(ChatColor.WHITE + getPlayerName(p))
                         )
                         .action((e, clicked) -> getAction().accept(e, clicked, p))
                         .build()

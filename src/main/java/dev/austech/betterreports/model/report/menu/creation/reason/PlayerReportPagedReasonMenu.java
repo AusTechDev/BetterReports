@@ -31,7 +31,9 @@ import dev.austech.betterreports.util.Common;
 import dev.austech.betterreports.util.ConversationUtil;
 import dev.austech.betterreports.util.PlaceholderUtil;
 import dev.austech.betterreports.util.StackBuilder;
+import dev.austech.betterreports.util.config.impl.GuiConfig;
 import dev.austech.betterreports.util.config.impl.MainConfig;
+import dev.austech.betterreports.util.menu.defaults.buttons.BackButton;
 import dev.austech.betterreports.util.menu.defaults.paged.PagedMenu;
 import dev.austech.betterreports.util.menu.layout.MenuButton;
 import dev.austech.betterreports.util.xseries.XMaterial;
@@ -103,11 +105,15 @@ public class PlayerReportPagedReasonMenu extends PagedMenu {
     public Map<Integer, MenuButton> getFixedButtons(final Player player) {
         final Map<Integer, MenuButton> buttons = new HashMap<>();
 
+        final int backButtonSlot = GuiConfig.Values.MENU_REASON_BACK_BUTTON.getInteger();
+        if (getToReturn() != null && backButtonSlot >= 0) {
+            buttons.put(backButtonSlot, new BackButton(getToReturn()));
+        }
+
         if (BetterReports.getInstance().getConfigManager().getReasonsConfig().getConfig().getBoolean("allow-custom-reason"))
             buttons.put(7, MenuButton.builder()
                     .stack(
-                            StackBuilder.create(XMaterial.NAME_TAG)
-                                    .name("&e&lCustom Reason")
+                            GuiConfig.Values.MENU_REASON_CUSTOM_BUTTON.getStack()
                     )
                     .action((e, p) -> customReason())
                     .closeMenu(true)

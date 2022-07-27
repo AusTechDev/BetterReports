@@ -24,20 +24,23 @@
 
 package dev.austech.betterreports.model.report.menu.creation;
 
+import dev.austech.betterreports.BetterReports;
 import dev.austech.betterreports.model.report.Report;
 import dev.austech.betterreports.model.report.ReportManager;
+import dev.austech.betterreports.util.PlaceholderUtil;
 import dev.austech.betterreports.util.StackBuilder;
 import dev.austech.betterreports.util.config.impl.GuiConfig;
 import dev.austech.betterreports.util.config.impl.MainConfig;
 import dev.austech.betterreports.util.menu.Menu;
 import dev.austech.betterreports.util.menu.defaults.buttons.BackButton;
 import dev.austech.betterreports.util.menu.layout.MenuButton;
-import dev.austech.betterreports.util.xseries.XMaterial;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @RequiredArgsConstructor
 public class ConfirmReportMenu extends Menu {
@@ -60,47 +63,43 @@ public class ConfirmReportMenu extends Menu {
     public Map<Integer, MenuButton> getButtons(final Player player) {
         final Map<Integer, MenuButton> buttons = new HashMap<>();
 
-        if (getToReturn() != null)
-            buttons.put(0, new BackButton(getToReturn()).setOnConfirm((e, p) -> success = true));
+        final int backButtonSlot = GuiConfig.Values.MENU_CONFIRM_BACK_BUTTON.getInteger();
+        if (getToReturn() != null && backButtonSlot >= -1)
+            buttons.put(backButtonSlot, new BackButton(getToReturn()).setOnConfirm((e, p) -> success = true));
 
-        buttons.put(11, MenuButton.builder()
-                .stack(
-                        StackBuilder.create(XMaterial.RED_WOOL)
-                                .name("&c&lClick to cancel.")
-                )
-                .closeMenu(true)
-                .build());
+        final HashMap<Integer, StackBuilder> stacks = new HashMap<>(GuiConfig.Values.MENU_CONFIRM_BUTTONS.getStackMap());
 
-        buttons.put(13, MenuButton.builder()
-                .stack(
-                        report.getType() == Report.Type.PLAYER ?
-                                (
-                                        StackBuilder.create(XMaterial.BOOK)
-                                                .name("&7Report against &c" + report.getTarget().getName())
-                                                .lore(
-                                                        "&7Reason: &c" + report.getReason()
-                                                )
-                                                .glow()
-                                ) :
-                                (
-                                        StackBuilder.create(XMaterial.BOOK)
-                                                .name("&7Bug Report")
-                                                .lore(
-                                                        "&7Reason: &c" + report.getReason()
-                                                )
-                                                .glow()
-                                )
-                )
-                .build());
+        stacks.forEach((i, stack) -> {
+            final ItemMeta meta = stack.build().getItemMeta();
 
-        buttons.put(15, MenuButton.builder()
-                .stack(
-                        StackBuilder.create(XMaterial.LIME_WOOL)
-                                .name("&a&lClick to confirm report.")
-                )
-                .closeMenu(true)
-                .action((e, p) -> confirm())
-                .build());
+            stack.name(PlaceholderUtil.applyPlaceholders(report, meta.getDisplayName()));
+
+            if (Objects.equals(stack.getType(), "DISPLAY_REPORT")) {
+                final String placeholder;
+
+                if (report.getType() == Report.Type.BUG) {
+                    placeholder = BetterReports.getInstance().getConfigManager().getGuiConfig().getConfig().getString(GuiConfig.Values.MENU_CONFIRM_BUTTONS.getKey() + "." + i + ".bug-lore");
+                } else {
+                    placeholder = BetterReports.getInstance().getConfigManager().getGuiConfig().getConfig().getString(GuiConfig.Values.MENU_CONFIRM_BUTTONS.getKey() + "." + i + ".player-lore");
+                }
+
+                if (placeholder != null && !placeholder.isEmpty())
+                    stack.lore(PlaceholderUtil.applyPlaceholders(report, placeholder));
+
+                buttons.put(i, MenuButton.builder().stack(stack).build());
+            } else {
+                if (meta.hasLore())
+                    stack.lore(PlaceholderUtil.applyPlaceholders(report, String.join("\n", meta.getLore())));
+
+                if (Objects.equals(stack.getType(), "CLOSE")) {
+                    buttons.put(i, MenuButton.builder().stack(stack).closeMenu(true).build());
+                } else if (Objects.equals(stack.getType(), "CONFIRM")) {
+                    buttons.put(i, MenuButton.builder().stack(stack).closeMenu(true).action((e, p) -> confirm()).build());
+                } else {
+                    buttons.put(i, MenuButton.builder().stack(stack).build());
+                }
+            }
+        });
 
         return buttons;
     }

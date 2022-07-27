@@ -25,11 +25,17 @@
 package dev.austech.betterreports.util.config.impl;
 
 import dev.austech.betterreports.BetterReports;
+import dev.austech.betterreports.util.StackBuilder;
 import dev.austech.betterreports.util.config.ConfigurationFile;
+import dev.austech.betterreports.util.xseries.XMaterial;
 import dev.austech.betterreports.util.xseries.XSound;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+
+import java.util.HashMap;
 
 public class GuiConfig extends ConfigurationFile {
     public GuiConfig() {
@@ -37,6 +43,7 @@ public class GuiConfig extends ConfigurationFile {
     }
 
     @RequiredArgsConstructor
+    @Getter
     public enum Values {
         MENU_MAIN_NAME("menus.main-menu.name"),
         MENU_MAIN_SIZE("menus.main-menu.size"),
@@ -50,22 +57,14 @@ public class GuiConfig extends ConfigurationFile {
         MENU_CONFIRM_BUTTONS("menus.confirm-menu.buttons"),
 
         MENU_REASON_NAME("menus.reason-menu.name"),
-        MENU_REASON_NAME_BACK_BUTTON("menus.reason-menu.back-button-slot"),
-        MENU_REASON_CUSTOM_NAME("menus.reason-menu.custom-reason-button.name"),
-        MENU_REASON_CUSTOM_LORE("menus.reason-menu.custom-reason-button.lore"),
-        MENU_REASON_CUSTOM_MATERIAL("menus.reason-menu.custom-reason-button.material"),
-        MENU_REASON_CUSTOM_GLOWING("menus.reason-menu.custom-reason-button.glowing"),
+        MENU_REASON_BACK_BUTTON("menus.reason-menu.back-button-slot"),
+        MENU_REASON_CUSTOM_BUTTON("menus.reason-menu.custom-reason-button"),
 
         MENU_SELECT_PLAYER_NAME("menus.select-player-menu.name"),
         MENU_SELECT_PLAYER_BACK_BUTTON("menus.select-player-menu.back-button-slot"),
-        MENU_SELECT_PLAYER_CUSTOM_NAME("menus.select-player-menu.custom-player-button.name"),
-        MENU_SELECT_PLAYER_CUSTOM_LORE("menus.select-player-menu.custom-player-button.lore"),
-        MENU_SELECT_PLAYER_CUSTOM_MATERIAL("menus.select-player-menu.custom-player-button.material"),
-        MENU_SELECT_PLAYER_CUSTOM_GLOWING("menus.select-player-menu.custom-player-button.glowing"),
+        MENU_SELECT_PLAYER_CUSTOM_BUTTON("menus.select-player-menu.custom-player-button"),
         MENU_SELECT_PLAYER_LIST_BUTTON_NAME("menus.select-player-menu.player-button.name"),
-        MENU_SELECT_PLAYER_LIST_BUTTON_LORE("menus.select-player-menu.player-button.lore"),
-        MENU_SELECT_PLAYER_LIST_BUTTON_MATERIAL("menus.select-player-menu.player-button.material"),
-        MENU_SELECT_PLAYER_LIST_BUTTON_GLOWING("menus.select-player-menu.player-button.glowing"),
+        MENU_SELECT_PLAYER_LIST_BUTTON_HIDE_VANISHED("menus.select-player-menu.player-button.hide-vanished"),
 
         SOUNDS_REPORT_SUCCESS("sounds.report-success"),
         SOUNDS_SELF_REPORT("sounds.self-report-error"),
@@ -96,5 +95,40 @@ public class GuiConfig extends ConfigurationFile {
             if (record == null) return;
             record.forPlayer(player).play();
         }
+
+        private StackBuilder getStack(final String key) {
+            final ConfigurationSection section = getConfig().getConfigurationSection(key);
+            if (section == null) return null;
+
+            final StackBuilder builder = StackBuilder.create(XMaterial.valueOf(section.getString("material")))
+                    .name(section.getString("name"))
+                    .lore(section.getString("lore"));
+
+            if (section.getBoolean("glowing"))
+                builder.glow();
+
+            if (section.contains("type"))
+                builder.type(section.getString("type"));
+
+            return builder;
+        }
+
+        public StackBuilder getStack() {
+            return getStack(key);
+        }
+
+        public HashMap<Integer, StackBuilder> getStackMap() {
+            final ConfigurationSection section = getConfig().getConfigurationSection(key);
+            if (section == null) return null;
+
+            final HashMap<Integer, StackBuilder> map = new HashMap<>();
+            for (final String item : section.getKeys(false)) {
+                final StackBuilder builder = getStack(key + "." + item);
+                if (builder == null) continue;
+                map.put(Integer.parseInt(item), builder);
+            }
+            return map;
+        }
+
     }
 }

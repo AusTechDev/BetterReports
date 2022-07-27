@@ -25,8 +25,8 @@
 package dev.austech.betterreports.util;
 
 import dev.austech.betterreports.util.xseries.XMaterial;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
@@ -40,18 +40,32 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 @Getter
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class StackBuilder {
-    private ItemStack item;
+    private final ItemStack item;
+    private String type;
 
     public static StackBuilder create(final XMaterial material) {
+        if (material == null || !material.isSupported()) {
+            throw new IllegalArgumentException("Material \"" + material + "\" is not supported");
+        }
+
         return new StackBuilder(material.parseItem());
+    }
+
+    public static StackBuilder from(final ItemStack item) {
+        return new StackBuilder(item);
     }
 
     public void applyMeta(final Consumer<ItemMeta> function) {
         final ItemMeta meta = item.getItemMeta();
         function.accept(meta);
         item.setItemMeta(meta);
+    }
+
+    public StackBuilder type(final String type) {
+        this.type = type;
+        return this;
     }
 
     public StackBuilder amount(final int amount) {
@@ -66,6 +80,7 @@ public class StackBuilder {
     }
 
     public StackBuilder lore(final String lore) {
+        if (lore == null || lore.isEmpty()) return this;
         return lore(lore.split("\n"));
     }
 

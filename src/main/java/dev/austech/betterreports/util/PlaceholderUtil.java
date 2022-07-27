@@ -34,6 +34,14 @@ import org.bukkit.entity.Player;
 
 @UtilityClass
 public class PlaceholderUtil {
+    public String applyPlaceholders(final Player player, final String string) {
+        return Common.color(
+                PlaceholderAPI.setPlaceholders(player, string)
+                        .replace("{player}", player.getName())
+                        .replace("{player_display}", player.getDisplayName())
+        );
+    }
+
     public String applyPlaceholders(final Report report, final String string) {
         final Player player = report.getCreator();
         final String reason = report.getReason();
@@ -44,7 +52,10 @@ public class PlaceholderUtil {
                 .replace("{creator}", player.getName())
                 .replace("{sender}", player.getName())
                 .replace("{reason}", reason)
-                .replace("{report}", reason);
+                .replace("{report}", reason)
+                .replace("{type}", report.getType().name().toUpperCase().charAt(0) + report.getType().name().substring(1).toLowerCase())
+                .replace("{type_upper}", report.getType().name().toUpperCase())
+                .replace("{type_lower}", report.getType().name().toLowerCase());
 
         if (MainConfig.Values.COUNTER.getBoolean()) {
             final Counter counter = BetterReports.getInstance().getCounter();

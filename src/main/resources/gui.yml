@@ -84,19 +84,17 @@ menus:
         glowing: false
 
       13:
-        name: "&c{type} Report"
+        name: "&c&l{type} Report"
         type: DISPLAY_REPORT
         bug-lore: |
           &cCreated By: &7{creator}
           &cReason: &7{reason}
-
         player-lore: |
           &cCreated By: &7{creator}
           &cAgainst: &7{target}
           &cReason: &7{reason}
-
-        material: RED_WOOL
-        glowing: false
+        material: BOOK
+        glowing: true
 
       15:
         type: CONFIRM
@@ -107,7 +105,7 @@ menus:
 
   reason-menu:
     name: "Select Reason"
-    back-button-slot: 0 # Set this to -1 to disable the back button. (if available)
+    back-button-slot: 1 # Set this to -1 to disable the back button. (if available)
 
     custom-reason-button:
       name: "&e&lCustom Reason"
@@ -118,7 +116,7 @@ menus:
   # Supports PlaceholderAPI - Single
   select-player-menu:
     name: "Select Reason"
-    back-button-slot: 0 # Set this to -1 to disable the back button. (if available)
+    back-button-slot: 1 # Set this to -1 to disable the back button. (if available)
 
     custom-player-button:
       name: "&e&lEnter Name"
@@ -128,9 +126,7 @@ menus:
 
     player-button:
       name: "{player_display}"
-      lore: ""
       hide-vanished: true
-      glowing: false
 
 # Below you can find the sounds that this plugin will use.
 # If you wish to disable a sound, set it to null or "NONE".
