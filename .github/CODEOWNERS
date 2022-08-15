@@ -1,3 +1,4 @@
-* @AusTechDev/developers
 .github/ @AusTechDev/management
 CODEOWNERS @AusTechDev/management
+LICENSE.md @AusTechDev/management
+* @AusTechDev/developers
