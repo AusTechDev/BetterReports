@@ -69,8 +69,11 @@ public class ReportCommand implements CommandExecutor, TabExecutor {
         final boolean playerReports = ReportManager.getInstance().isPlayerReportsEnabled();
 
         if (args.length == 0) {
-            // If no arguments are given, the report menu will be shown.
-            new ReportMenu().open((Player) sender);
+            // If no arguments are given, the report menu will be shown, provided it is enabled in the config.
+            if (MainConfig.Values.REPORT_MENU.getBoolean())
+                new ReportMenu().open((Player) sender);
+            else
+                MainConfig.Values.LANG_USAGE_REPORT.sendUsage(sender);
             return true;
         } else if (args.length == 1) {
             // If an argument is given, and it is for a bug report, the bug creation process will be started.
@@ -86,7 +89,11 @@ public class ReportCommand implements CommandExecutor, TabExecutor {
                 if (checkPermission(sender, Report.Type.PLAYER) || checkCooldown((Player) sender, Report.Type.PLAYER))
                     return true;
 
-                new SelectPlayerMenu().open((Player) sender);
+                if (MainConfig.Values.PLAYER_REPORT_MENUS_SELECT_PLAYER.getBoolean())
+                    new SelectPlayerMenu().open((Player) sender);
+                else
+                    MainConfig.Values.LANG_USAGE_REPORT_PLAYER.sendUsage(sender);
+
                 return true;
 
                 // If an argument is given, and it is a player, assume it is a player report and open
@@ -97,7 +104,10 @@ public class ReportCommand implements CommandExecutor, TabExecutor {
 
                 final Player target = Bukkit.getPlayer(args[0]);
                 if (target != null) {
-                    new PlayerReportPagedReasonMenu(((Player) sender), target).open(((Player) sender));
+                    if (MainConfig.Values.PLAYER_REPORT_MENUS_SELECT_REASON.getBoolean())
+                        new PlayerReportPagedReasonMenu(((Player) sender), target).open(((Player) sender));
+                    else
+                        MainConfig.Values.LANG_USAGE_REPORT_PLAYER.sendUsage(sender);
                 } else {
                     MainConfig.Values.LANG_PLAYER_NOT_FOUND.send(sender);
                 }
@@ -114,7 +124,10 @@ public class ReportCommand implements CommandExecutor, TabExecutor {
                         .reason(String.join(" ", Arrays.asList(args).subList(1, args.length)))
                         .build();
 
-                new ConfirmReportMenu(((Player) sender), report).open(((Player) sender));
+                if (MainConfig.Values.BUG_REPORT_MENUS_CONFIRM_REPORT.getBoolean())
+                    new ConfirmReportMenu(((Player) sender), report).open(((Player) sender));
+                else
+                    report.save();
 
                 // If the first argument is player, and player reports are enabled, create a player report.
             } else if (args[0].equalsIgnoreCase("player") && playerReports) {
@@ -130,13 +143,19 @@ public class ReportCommand implements CommandExecutor, TabExecutor {
                             .target(Bukkit.getPlayer(args[1]))
                             .build();
 
-                    new ConfirmReportMenu(((Player) sender), report).open(((Player) sender));
+                    if (MainConfig.Values.PLAYER_REPORT_MENUS_CONFIRM_REPORT.getBoolean())
+                        new ConfirmReportMenu(((Player) sender), report).open(((Player) sender));
+                    else
+                        report.save();
 
                     // As args length is 1 or 2, show reasons.
                 } else {
                     final Player target = Bukkit.getPlayer(args[1]);
                     if (target != null) {
-                        new PlayerReportPagedReasonMenu(((Player) sender), target).open(((Player) sender));
+                        if (MainConfig.Values.PLAYER_REPORT_MENUS_SELECT_REASON.getBoolean())
+                            new PlayerReportPagedReasonMenu(((Player) sender), target).open(((Player) sender));
+                        else
+                            MainConfig.Values.LANG_USAGE_REPORT_PLAYER.sendUsage(sender);
                     } else {
                         MainConfig.Values.LANG_PLAYER_NOT_FOUND.send(sender);
                     }
@@ -161,7 +180,10 @@ public class ReportCommand implements CommandExecutor, TabExecutor {
                         .target(target)
                         .build();
 
-                new ConfirmReportMenu(((Player) sender), report).open(((Player) sender));
+                if (MainConfig.Values.PLAYER_REPORT_MENUS_CONFIRM_REPORT.getBoolean())
+                    new ConfirmReportMenu(((Player) sender), report).open(((Player) sender));
+                else
+                    report.save();
 
                 // Send help list
             } else {

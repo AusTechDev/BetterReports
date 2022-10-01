@@ -24,6 +24,8 @@
 
 package dev.austech.betterreports.model.report;
 
+import dev.austech.betterreports.util.config.impl.GuiConfig;
+import dev.austech.betterreports.util.config.impl.MainConfig;
 import dev.austech.betterreports.util.discord.DiscordManager;
 import lombok.Builder;
 import lombok.Getter;
@@ -47,6 +49,28 @@ public class Report {
     }
 
     public void save() {
+        if (creator == getTarget()) {
+            GuiConfig.Values.SOUNDS_SELF_REPORT.playSound(creator);
+            MainConfig.Values.LANG_PLAYER_SELF.send(creator);
+            return;
+        }
+
+        if (!creator.hasPermission("betterreports.use." + getType().toString().toLowerCase())) {
+            GuiConfig.Values.SOUNDS_NO_PERMISSION.playSound(creator);
+            MainConfig.Values.LANG_NO_PERMISSION.send(creator);
+            return;
+        }
+
+        if (getType() == Report.Type.BUG && !ReportManager.getInstance().isBugReportsEnabled()) {
+            GuiConfig.Values.SOUNDS_BUG_REPORTS_DISABLED.playSound(creator);
+            MainConfig.Values.LANG_BUG_REPORTS_DISABLED.send(creator);
+            return;
+        } else if (getType() == Report.Type.PLAYER && !ReportManager.getInstance().isPlayerReportsEnabled()) {
+            GuiConfig.Values.SOUNDS_PLAYER_REPORTS_DISABLED.playSound(creator);
+            MainConfig.Values.LANG_PLAYER_REPORTS_DISABLED.send(creator);
+            return;
+        }
+
         ReportManager.getInstance().getReports().add(this);
         ReportManager.getInstance().addCooldown(creator, type);
         DiscordManager.getInstance().sendReport(creator, this);

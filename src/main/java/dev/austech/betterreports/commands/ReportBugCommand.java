@@ -70,7 +70,11 @@ public class ReportBugCommand implements CommandExecutor {
                 .reason(bug)
                 .build();
 
-        new ConfirmReportMenu(((Player) sender), report).open(((Player) sender));
+        if (MainConfig.Values.BUG_REPORT_MENUS_CONFIRM_REPORT.getBoolean())
+            new ConfirmReportMenu(((Player) sender), report).open(((Player) sender));
+        else
+            report.save();
+
         return true;
     }
 }

@@ -45,7 +45,17 @@ import java.util.Objects;
 public class ReportMenu extends Menu {
     @Override
     public String getTitle(final Player player) {
-        return "Creating Report";
+        return GuiConfig.Values.MENU_MAIN_NAME.getString();
+    }
+
+    @Override
+    public int getSize() {
+        return GuiConfig.Values.MENU_MAIN_SIZE.getInteger();
+    }
+
+    @Override
+    public boolean canOpen(final Player player) {
+        return MainConfig.Values.REPORT_MENU.getBoolean();
     }
 
     @Override
@@ -104,7 +114,12 @@ public class ReportMenu extends Menu {
             return;
         }
 
-        new SelectPlayerMenu().setReturn(this).open(creator);
+        if (MainConfig.Values.PLAYER_REPORT_MENUS_SELECT_PLAYER.getBoolean())
+            new SelectPlayerMenu().setReturn(this).open(creator);
+        else {
+            creator.closeInventory();
+            new SelectPlayerMenu().searchPlayer(creator);
+        }
     }
 
     public void reportBug(final Player creator) {
@@ -119,13 +134,17 @@ public class ReportMenu extends Menu {
             return MainConfig.Values.LANG_QUESTION_BUG_MESSAGE.getPlaceholderString(creator);
         }, (s) -> {
             Common.resetTitle(creator);
-            new ConfirmReportMenu(creator,
-                    Report.builder()
-                            .type(Report.Type.BUG)
-                            .creator(creator)
-                            .reason(s)
-                            .build()
-            ).open(creator);
+            final Report report = Report.builder()
+                    .type(Report.Type.BUG)
+                    .creator(creator)
+                    .reason(s)
+                    .build();
+
+            if (MainConfig.Values.BUG_REPORT_MENUS_CONFIRM_REPORT.getBoolean())
+                new ConfirmReportMenu(creator, report).open(creator);
+            else
+                report.save();
+
             return Prompt.END_OF_CONVERSATION;
         });
     }

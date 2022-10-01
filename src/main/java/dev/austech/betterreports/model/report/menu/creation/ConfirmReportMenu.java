@@ -26,7 +26,6 @@ package dev.austech.betterreports.model.report.menu.creation;
 
 import dev.austech.betterreports.BetterReports;
 import dev.austech.betterreports.model.report.Report;
-import dev.austech.betterreports.model.report.ReportManager;
 import dev.austech.betterreports.util.PlaceholderUtil;
 import dev.austech.betterreports.util.StackBuilder;
 import dev.austech.betterreports.util.config.impl.GuiConfig;
@@ -51,12 +50,21 @@ public class ConfirmReportMenu extends Menu {
 
     @Override
     public String getTitle(final Player player) {
-        return "Confirm " + (report.isPlayer() ? "Player" : "Bug") + " Report";
+        return PlaceholderUtil.applyPlaceholders(report, GuiConfig.Values.MENU_CONFIRM_NAME.getString());
     }
 
     @Override
     public int getSize() {
-        return 27;
+        return GuiConfig.Values.MENU_CONFIRM_SIZE.getInteger();
+    }
+
+    @Override
+    public boolean canOpen(final Player player) {
+        if (report.getType() == Report.Type.PLAYER) {
+            return MainConfig.Values.PLAYER_REPORT_MENUS_CONFIRM_REPORT.getBoolean();
+        } else {
+            return MainConfig.Values.BUG_REPORT_MENUS_CONFIRM_REPORT.getBoolean();
+        }
     }
 
     @Override
@@ -106,29 +114,6 @@ public class ConfirmReportMenu extends Menu {
 
     private void confirm() {
         success = true;
-
-        if (creator == report.getTarget()) {
-            GuiConfig.Values.SOUNDS_SELF_REPORT.playSound(creator);
-            MainConfig.Values.LANG_PLAYER_SELF.send(creator);
-            return;
-        }
-
-        if (!creator.hasPermission("betterreports.use." + report.getType().toString().toLowerCase())) {
-            GuiConfig.Values.SOUNDS_NO_PERMISSION.playSound(creator);
-            MainConfig.Values.LANG_NO_PERMISSION.send(creator);
-            return;
-        }
-
-        if (report.getType() == Report.Type.BUG && !ReportManager.getInstance().isBugReportsEnabled()) {
-            GuiConfig.Values.SOUNDS_BUG_REPORTS_DISABLED.playSound(creator);
-            MainConfig.Values.LANG_BUG_REPORTS_DISABLED.send(creator);
-            return;
-        } else if (report.getType() == Report.Type.PLAYER && !ReportManager.getInstance().isPlayerReportsEnabled()) {
-            GuiConfig.Values.SOUNDS_PLAYER_REPORTS_DISABLED.playSound(creator);
-            MainConfig.Values.LANG_PLAYER_REPORTS_DISABLED.send(creator);
-            return;
-        }
-
         report.save();
     }
 

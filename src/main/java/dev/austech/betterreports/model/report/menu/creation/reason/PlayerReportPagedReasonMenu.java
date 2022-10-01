@@ -54,9 +54,13 @@ public class PlayerReportPagedReasonMenu extends PagedMenu {
 
     @Override
     protected String getMenuTitle(final Player player) {
-        return "Select Reason";
+        return GuiConfig.Values.MENU_REASON_NAME.getString();
     }
 
+    @Override
+    public boolean canOpen(final Player player) {
+        return MainConfig.Values.PLAYER_REPORT_MENUS_SELECT_REASON.getBoolean();
+    }
 
     @Override
     public Map<Integer, MenuButton> getPagedButtons(final Player player) {
@@ -78,15 +82,24 @@ public class PlayerReportPagedReasonMenu extends PagedMenu {
             if (((boolean) reason.get("glowing")))
                 stack.glow();
 
+            final Report report = Report.builder()
+                    .type(Report.Type.PLAYER)
+                    .creator(creator)
+                    .reason(reason.get("reason").toString())
+                    .target(target).build();
+
             buttons.put(index.getAndIncrement(), MenuButton.builder()
                     .stack(stack)
-                    .action((e, p) -> new ConfirmReportMenu(creator, Report.builder()
-                            .type(Report.Type.PLAYER)
-                            .creator(creator)
-                            .reason(reason.get("reason").toString())
-                            .target(target).build())
-                            .setReturn(this)
-                            .open(creator))
+                    .action((e, p) -> {
+                        if (MainConfig.Values.PLAYER_REPORT_MENUS_CONFIRM_REPORT.getBoolean())
+                            new ConfirmReportMenu(creator, report)
+                                    .setReturn(this)
+                                    .open(creator);
+                        else {
+                            player.closeInventory();
+                            report.save();
+                        }
+                    })
                     .build());
         });
 
@@ -122,7 +135,7 @@ public class PlayerReportPagedReasonMenu extends PagedMenu {
         return buttons;
     }
 
-    private void customReason() {
+    public void customReason() {
         ConversationUtil.run(creator, () -> {
             String message = MainConfig.Values.LANG_QUESTION_CUSTOM_REASON_MESSAGE.getString();
             message = message.replace("{player}", creator.getName()).replace("{creator}", creator.getName()).replace("{target}", target.getName());
@@ -149,7 +162,13 @@ public class PlayerReportPagedReasonMenu extends PagedMenu {
             return Common.color(message);
         }, (s) -> {
             Common.resetTitle(creator);
-            new ConfirmReportMenu(creator, Report.builder().type(Report.Type.PLAYER).creator(creator).reason(s).target(target).build()).setReturn(this).open(creator);
+            final Report report = Report.builder().type(Report.Type.PLAYER).creator(creator).reason(s).target(target).build();
+
+            if (MainConfig.Values.PLAYER_REPORT_MENUS_CONFIRM_REPORT.getBoolean())
+                new ConfirmReportMenu(creator, report).setReturn(this).open(creator);
+            else
+                report.save();
+
             return Prompt.END_OF_CONVERSATION;
         });
     }

@@ -61,14 +61,21 @@ public class ReportPlayerCommand implements CommandExecutor {
             return true;
 
         if (args.length == 0) {
-            new SelectPlayerMenu().open((Player) sender);
+            if (MainConfig.Values.PLAYER_REPORT_MENUS_SELECT_PLAYER.getBoolean())
+                new SelectPlayerMenu().open((Player) sender);
+            else
+                MainConfig.Values.LANG_USAGE_REPORT_PLAYER.sendUsage(sender);
+
             return true;
         }
 
         if (args.length == 1) {
             final Player target = Bukkit.getPlayer(args[0]);
             if (target != null) {
-                new PlayerReportPagedReasonMenu(((Player) sender), target).open(((Player) sender));
+                if (MainConfig.Values.PLAYER_REPORT_MENUS_SELECT_REASON.getBoolean())
+                    new PlayerReportPagedReasonMenu(((Player) sender), target).open(((Player) sender));
+                else
+                    MainConfig.Values.LANG_USAGE_REPORT_PLAYER.sendUsage(sender);
             } else {
                 MainConfig.Values.LANG_PLAYER_NOT_FOUND.send(sender);
             }
@@ -90,7 +97,10 @@ public class ReportPlayerCommand implements CommandExecutor {
                 .target(target)
                 .build();
 
-        new ConfirmReportMenu(((Player) sender), report).open(((Player) sender));
+        if (MainConfig.Values.PLAYER_REPORT_MENUS_CONFIRM_REPORT.getBoolean())
+            new ConfirmReportMenu(((Player) sender), report).open(((Player) sender));
+        else
+            report.save();
 
         return true;
     }

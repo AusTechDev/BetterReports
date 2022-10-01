@@ -28,6 +28,7 @@ import dev.austech.betterreports.BetterReports;
 import lombok.experimental.UtilityClass;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
@@ -56,6 +57,10 @@ public class Common {
 
     public String[] color(final String... strings) {
         return (String[]) Arrays.stream(strings).map(Common::color).toArray();
+    }
+
+    public void send(final CommandSender sender, final String s) {
+        sender.sendMessage(color(s));
     }
 
     public void resetTitle(final Player player) {

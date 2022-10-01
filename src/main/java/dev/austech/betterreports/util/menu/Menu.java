@@ -57,6 +57,10 @@ public abstract class Menu {
         setTitle(title);
     }
 
+    public boolean canOpen(final Player player) {
+        return true;
+    }
+
     @Getter
     private final ConcurrentHashMap<Integer, MenuButton> buttons = new ConcurrentHashMap<>();
 
@@ -94,6 +98,10 @@ public abstract class Menu {
 
     public void open(final Player... players) {
         for (final Player player : players) {
+            if (!canOpen(player)) {
+                Common.send(player, "&cYou cannot open this menu.");
+                return;
+            }
             initializeButtons(player);
             player.openInventory(create(player));
             update(player);

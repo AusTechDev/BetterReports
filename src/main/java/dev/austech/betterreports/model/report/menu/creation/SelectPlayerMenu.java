@@ -59,6 +59,16 @@ public class SelectPlayerMenu extends ListPlayersMenu {
     }
 
     @Override
+    protected String getMenuTitle(final Player player) {
+        return GuiConfig.Values.MENU_SELECT_PLAYER_NAME.getString();
+    }
+
+    @Override
+    public boolean canOpen(final Player player) {
+        return MainConfig.Values.PLAYER_REPORT_MENUS_SELECT_PLAYER.getBoolean();
+    }
+
+    @Override
     public Map<Integer, MenuButton> getFixedButtons(final Player player) {
         final Map<Integer, MenuButton> buttons = new HashMap<>();
 
@@ -85,10 +95,15 @@ public class SelectPlayerMenu extends ListPlayersMenu {
             return;
         }
 
-        new PlayerReportPagedReasonMenu(player, target).setReturn(this).open(player);
+        if (MainConfig.Values.PLAYER_REPORT_MENUS_SELECT_REASON.getBoolean())
+            new PlayerReportPagedReasonMenu(player, target).setReturn(this).open(player);
+        else {
+            player.closeInventory();
+            new PlayerReportPagedReasonMenu(player, target).customReason();
+        }
     }
 
-    private void searchPlayer(final Player player) {
+    public void searchPlayer(final Player player) {
         ConversationUtil.run(player, () -> {
             if (MainConfig.Values.LANG_QUESTION_PLAYER_SEARCH_ENABLED.getBoolean())
                 Common.sendTitle(player, MainConfig.Values.LANG_QUESTION_PLAYER_SEARCH_TITLE.getPlaceholderString(player), MainConfig.Values.LANG_QUESTION_PLAYER_SEARCH_SUBTITLE.getPlaceholderString(player), 10, 20 * 15, 10);

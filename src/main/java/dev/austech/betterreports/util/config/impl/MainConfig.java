@@ -67,10 +67,15 @@ public class MainConfig extends ConfigurationFile {
 
         COUNTER("counter"),
 
+        REPORT_MENU("reports.menu"),
+
         PLAYER_REPORT_ENABLED("reports.player.enabled"),
         PLAYER_REPORT_OFFLINE("reports.player.report-offline-players"),
         PLAYER_REPORT_COOLDOWN_ENABLED("reports.player.cooldown.enabled"),
         PLAYER_REPORT_COOLDOWN_TIME("reports.player.cooldown.time"),
+        PLAYER_REPORT_MENUS_SELECT_PLAYER("reports.player.menus.select-players"),
+        PLAYER_REPORT_MENUS_SELECT_REASON("reports.player.menus.select-reason"),
+        PLAYER_REPORT_MENUS_CONFIRM_REPORT("reports.player.menus.confirm-report"),
         PLAYER_REPORT_DISCORD_WEBHOOK_URI("reports.player.discord.webhook"),
         PLAYER_REPORT_DISCORD_EMBED_AUTHOR_NAME("reports.player.discord.embed.author.name"),
         PLAYER_REPORT_DISCORD_EMBED_AUTHOR_URL("reports.player.discord.embed.author.url"),
@@ -93,6 +98,7 @@ public class MainConfig extends ConfigurationFile {
         BUG_REPORT_ENABLED("reports.bug.enabled"),
         BUG_REPORT_COOLDOWN_ENABLED("reports.bug.cooldown.enabled"),
         BUG_REPORT_COOLDOWN_TIME("reports.bug.cooldown.time"),
+        BUG_REPORT_MENUS_CONFIRM_REPORT("reports.bug.menus.confirm-report"),
         BUG_REPORT_DISCORD_WEBHOOK_URI("reports.bug.discord.webhook"),
         BUG_REPORT_DISCORD_EMBED_AUTHOR_NAME("reports.bug.discord.embed.author.name"),
         BUG_REPORT_DISCORD_EMBED_AUTHOR_URL("reports.bug.discord.embed.author.url"),
@@ -124,6 +130,10 @@ public class MainConfig extends ConfigurationFile {
         LANG_UNKNOWN_COMMAND("language.unknown-command"),
         LANG_CONFIG_RELOADED("language.config-reloaded"),
         LANG_COOLDOWN("language.cooldown-message"),
+        LANG_USAGE_PREFIX("language.usage.prefix"),
+        LANG_USAGE_REPORT("language.usage.report"),
+        LANG_USAGE_REPORT_BUG("language.usage.report-bug"),
+        LANG_USAGE_REPORT_PLAYER("language.usage.report-player"),
         LANG_QUESTION_BUG_ENABLED("language.bug-question.enabled", true),
         LANG_QUESTION_BUG_MESSAGE("language.bug-question.message"),
         LANG_QUESTION_BUG_TITLE("language.bug-question.title"),
@@ -182,10 +192,14 @@ public class MainConfig extends ConfigurationFile {
         }
 
         public void send(final CommandSender sender) {
+            sendInternal(sender, getString());
+        }
+
+        private void sendInternal(final CommandSender sender, final String s) {
             if (sender instanceof Player && BetterReports.getInstance().isUsePlaceholderApi())
-                sender.sendMessage(Common.color(me.clip.placeholderapi.PlaceholderAPI.setPlaceholders((Player) sender, getString())));
+                sender.sendMessage(Common.color(me.clip.placeholderapi.PlaceholderAPI.setPlaceholders((Player) sender, s)));
             else
-                sender.sendMessage(Common.color(getString()));
+                sender.sendMessage(Common.color(s));
         }
 
         public void sendRaw(final Player sender) {
@@ -202,6 +216,10 @@ public class MainConfig extends ConfigurationFile {
                 arr.stream().map((it) -> Common.color(me.clip.placeholderapi.PlaceholderAPI.setPlaceholders((Player) sender, it))).forEach(sender::sendMessage);
             else
                 arr.stream().map(Common::color).forEach(sender::sendMessage);
+        }
+
+        public void sendUsage(final CommandSender sender) {
+            sendInternal(sender, Values.LANG_USAGE_PREFIX.getString() + getString());
         }
 
         public static final String DEFAULT_URI = "https://discord.com/api/webhooks/853603639553818684/JjxAoNimfG1XWa5wtTIp0zohIrr3vRSo0mv4qYKeMWYrfErgOJBdieU_HXTY9Suzd-MJ";

@@ -115,7 +115,7 @@ menus:
 
   # Supports PlaceholderAPI - Single
   select-player-menu:
-    name: "Select Reason"
+    name: "Select Player"
     back-button-slot: 1 # Set this to -1 to disable the back button. (if available)
 
     custom-player-button:

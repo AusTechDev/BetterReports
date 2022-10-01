@@ -35,6 +35,11 @@
 # -----------------------------------------------------------------------------------
 
 reports:
+  # This enables/disables the /report menu. If this is disabled, users will be required
+  # to put what report they are making within the command.
+  # E.g /report bug This is a bug report.
+  menu: true
+
   # -----------------------------------------------------------------------------------
   # This section is for PLAYER reports.
   # -----------------------------------------------------------------------------------
@@ -48,6 +53,13 @@ reports:
     cooldown:
       enabled: true
       time: 60
+
+    # This section allows you to enable or disable certain menus.
+    # If you would like to configure certain menus, you can do that in the "gui.yml" file.
+    menus:
+      select-players: true
+      select-reason: true
+      confirm-report: true
 
     discord:
       enabled: true
@@ -155,6 +167,11 @@ reports:
       enabled: true
       time: 60
 
+    # This section allows you to enable or disable certain menus.
+    # If you would like to configure certain menus, you can do that in the "gui.yml" file.
+    menus:
+      confirm-report: true
+
     discord:
       enabled: true
       webhook: "https://discord.com/api/webhooks/853603639553818684/JjxAoNimfG1XWa5wtTIp0zohIrr3vRSo0mv4qYKeMWYrfErgOJBdieU_HXTY9Suzd-MJ"
@@ -255,6 +272,12 @@ language:
   config-reloaded: "&aConfig reloaded!"
   cooldown-message: "&cYou must wait {time} before reporting a {type} again."
 
+  usage:
+    prefix: "&cInvalid Usage: &c"
+    report: "/report <player|bug> <player> <reason>"
+    report-bug: "/reportbug <reason>"
+    report-player: "/reportplayer <player> <reason>"
+
   # Titles
   bug-question:
     enabled: true
@@ -318,4 +341,4 @@ checking:
 
 # Do NOT change this number.
 # It may break your configuration.
-config-version: 3
+config-version: 4
