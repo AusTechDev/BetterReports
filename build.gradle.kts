@@ -34,7 +34,7 @@ plugins {
 }
 
 group = "dev.austech"
-version = "2.0.2-SNAPSHOT"
+version = "2.0.2"
 
 repositories {
     mavenLocal()
