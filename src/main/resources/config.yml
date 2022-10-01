@@ -46,10 +46,6 @@ reports:
   player:
     enabled: true
 
-    # Allow the reporting of offline players or players that have never joined the server before.
-    # This is recommended to keep disabled, as people can report anyone, e.g Notch, even if they have never played before.
-    report-offline-players: false
-
     cooldown:
       enabled: true
       time: 60
