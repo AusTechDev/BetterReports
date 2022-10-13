@@ -120,7 +120,7 @@ public class MainConfig extends ConfigurationFile {
         LANG_HELP_MESSAGE_ADMIN("language.admin-help-message"),
         LANG_HELP_MESSAGE("language.player-help-message"),
         LANG_NO_PERMISSION("language.no-permission-message"),
-        LANG_ERROR("language.ror-sending-message"),
+        LANG_ERROR("language.error-sending-message"),
         LANG_PLAYER_ONLY("language.player-only-message"),
         LANG_NO_REASON("language.no-reason-message"),
         LANG_NO_BUG("language.no-bug-provided-message"),

@@ -123,6 +123,7 @@ public class Webhook {
                 }
 
                 jsonEmbed.put("fields", jsonFields.toArray());
+
                 embedObjects.add(jsonEmbed);
             }
 
@@ -137,7 +138,7 @@ public class Webhook {
         connection.setRequestMethod("POST");
 
         final OutputStream stream = connection.getOutputStream();
-        stream.write(json.toString().getBytes(StandardCharsets.UTF_8));
+        stream.write(json.toString().replace("\n", "\\n").getBytes(StandardCharsets.UTF_8));
         stream.flush();
         stream.close();
 
