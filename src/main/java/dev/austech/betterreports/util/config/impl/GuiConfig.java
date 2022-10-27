@@ -70,7 +70,23 @@ public class GuiConfig extends ConfigurationFile {
         SOUNDS_SELF_REPORT("sounds.self-report-error"),
         SOUNDS_PLAYER_REPORTS_DISABLED("sounds.player-reports-not-enabled"),
         SOUNDS_BUG_REPORTS_DISABLED("sounds.bug-reports-not-enabled"),
-        SOUNDS_NO_PERMISSION("sounds.no-permission");
+        SOUNDS_NO_PERMISSION("sounds.no-permission"),
+
+        PAGINATED_MENU_BACK_BUTTON_NAME("paginated-menus.back-button.name"),
+        PAGINATED_MENU_BACK_BUTTON_LORE("paginated-menus.back-button.lore"),
+        PAGINATED_MENU_ERROR_BUTTON_NAME("paginated-menus.error-button.name"),
+        PAGINATED_MENU_ERROR_BUTTON_LORE("paginated-menus.error-button.lore"),
+        PAGINATED_MENU_PAGE_BUTTON_NEXT("paginated-menus.page-button.next"),
+        PAGINATED_MENU_PAGE_BUTTON_PREVIOUS("paginated-menus.page-button.previous"),
+        PAGINATED_MENU_PAGE_BUTTON_FIRST("paginated-menus.page-button.first"),
+        PAGINATED_MENU_PAGE_BUTTON_LAST("paginated-menus.page-button.last"),
+        PAGINATED_MENU_PAGE_LIST_TITLE("paginated-menus.page-list-menu.title"),
+        PAGINATED_MENU_PAGE_LIST_CHANGE_BUTTON_NAME("paginated-menus.page-list-menu.change-page-button.name"),
+        PAGINATED_MENU_PAGE_LIST_CHANGE_BUTTON_LORE("paginated-menus.page-list-menu.change-page-button.lore"),
+        PAGINATED_MENU_PAGE_LIST_CHANGE_CURRENT_BUTTON_NAME("paginated-menus.page-list-menu.current-page-button.name"),
+        PAGINATED_MENU_PAGE_LIST_CHANGE_CURRENT_BUTTON_LORE("paginated-menus.page-list-menu.current-page-button.lore"),
+        PAGINATED_MENU_PAGE_LIST_CHANGE_CURRENT_BUTTON_GLOWING("paginated-menus.page-list-menu.current-page-button.glowing"),
+        PAGINATED_MENU_PAGE_NUMBER_BUTTON_NAME("paginated-menus.page-number-button.name");
 
         private final String key;
 

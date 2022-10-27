@@ -24,7 +24,9 @@
 
 package dev.austech.betterreports.util;
 
+import com.google.gson.Gson;
 import dev.austech.betterreports.BetterReports;
+import dev.austech.betterreports.util.config.impl.MainConfig;
 import lombok.experimental.UtilityClass;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
@@ -36,6 +38,8 @@ import java.util.Arrays;
 
 @UtilityClass
 public class Common {
+    public final static Gson GSON = new Gson();
+
     private final static ConsoleCommandSender CONSOLE_SENDER = Bukkit.getConsoleSender();
 
     public void log(final String... string) {
@@ -44,6 +48,12 @@ public class Common {
 
     public void logDirect(final String... string) {
         Arrays.stream(string).map(Common::color).forEach(CONSOLE_SENDER::sendMessage);
+    }
+
+    public void debug(final String... string) {
+        if (MainConfig.Values.DEBUG.getBoolean()) {
+            Arrays.stream(string).map(str -> "[BetterReports Debug] " + str).map(Common::color).forEach(CONSOLE_SENDER::sendMessage);
+        }
     }
 
     public void error(final String string) {

@@ -107,6 +107,12 @@ public class StackBuilder {
         return this;
     }
 
+    public StackBuilder glow(final boolean bool) {
+        if (bool) glow();
+        else removeGlow();
+        return this;
+    }
+
     public StackBuilder glow() {
         enchant(Enchantment.LUCK, 1);
         applyMeta(meta -> meta.addItemFlags(ItemFlag.HIDE_ENCHANTS));

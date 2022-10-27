@@ -25,6 +25,7 @@
 package dev.austech.betterreports.util.menu.defaults.buttons;
 
 import dev.austech.betterreports.util.StackBuilder;
+import dev.austech.betterreports.util.config.impl.GuiConfig;
 import dev.austech.betterreports.util.menu.Menu;
 import dev.austech.betterreports.util.menu.layout.MenuButton;
 import dev.austech.betterreports.util.xseries.XMaterial;
@@ -57,6 +58,6 @@ public class BackButton extends MenuButton {
 
     @Override
     public ItemStack getStack(final Player player) {
-        return StackBuilder.create(XMaterial.ARROW).name("&c&lBack").lore("", "&cClick to return to", "&cthe previous menu.").build();
+        return StackBuilder.create(XMaterial.ARROW).name(GuiConfig.Values.PAGINATED_MENU_BACK_BUTTON_NAME.getString()).lore(GuiConfig.Values.PAGINATED_MENU_BACK_BUTTON_LORE.getString()).build();
     }
 }

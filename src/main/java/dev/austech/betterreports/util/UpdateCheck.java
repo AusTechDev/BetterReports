@@ -24,7 +24,6 @@
 
 package dev.austech.betterreports.util;
 
-import com.google.gson.Gson;
 import dev.austech.betterreports.util.config.impl.MainConfig;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -75,7 +74,7 @@ public class UpdateCheck implements Listener {
             if (response != null) {
                 if (response.getVersion() != null && MainConfig.Values.UPDATE_CHECK.getBoolean()) {
                     Common.log("A new version for " + javaPlugin.getDescription().getName() + " is available.");
-                    Common.log("&rNew Version: &a" + response.getVersion() + "&r, &fOld Version: &c" + version + "&r.");
+                    Common.log("&rNew Version: &a" + response.getVersion() + "&r, Old Version: &c" + version + "&r.");
                     updateAvailable = response.getVersion();
                 } else if (response.getRestriction() != null && MainConfig.Values.SECURITY_CHECK.getBoolean()) {
                     final UpdateCheck.Response.Restriction restriction = response.getRestriction();
@@ -87,6 +86,9 @@ public class UpdateCheck implements Listener {
                         Bukkit.getPluginManager().disablePlugin(javaPlugin);
                     }
                 } else if (response.getError() != null) {
+                    if (response.getError().message == null) {
+                        Common.debug("Failed Response: " + Common.GSON.toJson(response));
+                    }
                     Common.error("An error occurred whilst fetching updates: " + response.getError().message);
                 }
             } else {
@@ -132,9 +134,8 @@ public class UpdateCheck implements Listener {
             final InputStream is = connection.getErrorStream();
 
             final InputStream stream = new BufferedInputStream(is);
-            final Gson gson = new Gson();
 
-            final Response response = gson.fromJson(new InputStreamReader(stream), Response.class);
+            final Response response = Common.GSON.fromJson(new InputStreamReader(stream), Response.class);
 
             is.close();
             connection.disconnect();

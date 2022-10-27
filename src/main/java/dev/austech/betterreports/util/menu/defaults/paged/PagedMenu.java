@@ -26,6 +26,7 @@ package dev.austech.betterreports.util.menu.defaults.paged;
 
 import dev.austech.betterreports.util.Common;
 import dev.austech.betterreports.util.StackBuilder;
+import dev.austech.betterreports.util.config.impl.GuiConfig;
 import dev.austech.betterreports.util.menu.Menu;
 import dev.austech.betterreports.util.menu.defaults.paged.buttons.PageButton;
 import dev.austech.betterreports.util.menu.layout.MenuButton;
@@ -82,7 +83,7 @@ public abstract class PagedMenu extends Menu {
         buttons.put(8, new PageButton(1, page, this));
 
         buttons.put(4, MenuButton.builder()
-                .stack(StackBuilder.create(XMaterial.NETHER_STAR).name("&e&lPage " + this.page).glow())
+                .stack(StackBuilder.create(XMaterial.NETHER_STAR).name(replacePage(this.page, GuiConfig.Values.PAGINATED_MENU_PAGE_NUMBER_BUTTON_NAME.getString())).glow())
                 .action((e, p) -> open(p))
                 .build());
 
@@ -101,4 +102,8 @@ public abstract class PagedMenu extends Menu {
     }
 
     public abstract Map<Integer, MenuButton> getPagedButtons(final Player player);
+
+    private String replacePage(final int page, final String str) {
+        return str.replace("%page%", String.valueOf(page));
+    }
 }

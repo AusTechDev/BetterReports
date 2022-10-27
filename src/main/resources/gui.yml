@@ -150,6 +150,40 @@ sounds:
   # This sound will play if a player attempts to create a report but does not have permission
   no-permission: ENTITY_VILLAGER_NO
 
+# This section allows you to change the item names and lores in the paginated menus.
+paginated-menus:
+  back-button:
+    name: "&c&lBack"
+    lore: |
+      
+      &cClick to return to
+      &cthe previous menu.
+  error-button:
+    name: "&c&lError"
+    lore: |
+      
+      &cThere are no more pages in this direction.
+
+  page-button:
+    next: "&aNext Page &l⟶"
+    previous: "&c&l⟵ &cPrevious Page"
+
+    first: "You are on the first page."
+    last: "You are on the last page."
+
+  page-list-menu:
+    title: "&eJump to Page"
+    change-page-button:
+      name: "&ePage %page%"
+      lore: "&7Click to jump to Page %page%."
+    current-page-button:
+      name: "&ePage %page% &7(Current)"
+      lore: "&7You are currently on this page."
+      glowing: true
+
+  page-number-button:
+    name: "&e&lPage %page%"
+
 # Do NOT change this number.
 # It may break your configuration.
-config-version: 1
+config-version: 2

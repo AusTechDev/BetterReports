@@ -148,7 +148,9 @@ public class MainConfig extends ConfigurationFile {
         LANG_QUESTION_CUSTOM_REASON_SUBTITLE("language.custom-reason-question.subtitle"),
         LANG_BUG_REPORTS_DISABLED("language.bug-reports-disabled"),
         LANG_PLAYER_REPORTS_DISABLED("language.player-reports-disabled"),
-        LANG_REPORT_CANCELLED("language.report-cancelled");
+        LANG_REPORT_CANCELLED("language.report-cancelled"),
+
+        DEBUG("debug", false);
 
         private final String key;
         private Object defaultValue;

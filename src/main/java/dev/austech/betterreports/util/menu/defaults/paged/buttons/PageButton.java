@@ -25,8 +25,8 @@
 package dev.austech.betterreports.util.menu.defaults.paged.buttons;
 
 import dev.austech.betterreports.BetterReports;
-import dev.austech.betterreports.util.Common;
 import dev.austech.betterreports.util.StackBuilder;
+import dev.austech.betterreports.util.config.impl.GuiConfig;
 import dev.austech.betterreports.util.menu.defaults.paged.ListPageMenu;
 import dev.austech.betterreports.util.menu.defaults.paged.PagedMenu;
 import dev.austech.betterreports.util.menu.layout.MenuButton;
@@ -88,14 +88,14 @@ public class PageButton extends MenuButton {
     public ItemStack getStack(final Player player) {
         if (isShouldError()) {
             return StackBuilder.create(XMaterial.RED_CARPET)
-                    .name(Common.color("&c&lError"))
-                    .lore(Common.color("&cThere are no more pages in this direction."))
+                    .name(GuiConfig.Values.PAGINATED_MENU_ERROR_BUTTON_NAME.getString())
+                    .lore(GuiConfig.Values.PAGINATED_MENU_ERROR_BUTTON_LORE.getString())
                     .build();
         }
 
         if (!hasNext(player))
-            return StackBuilder.create(XMaterial.GRAY_CARPET).name("&7" + (this.mod > 0 ? "You are on the last page." : "You are on the first page.")).build();
+            return StackBuilder.create(XMaterial.GRAY_CARPET).name("&7" + (this.mod > 0 ? GuiConfig.Values.PAGINATED_MENU_PAGE_BUTTON_LAST.getString() : GuiConfig.Values.PAGINATED_MENU_PAGE_BUTTON_FIRST.getString())).build();
         else
-            return StackBuilder.create(XMaterial.BLUE_CARPET).name(this.mod > 0 ? "&aNext Page &l⟶" : "&c&l⟵ &cPrevious Page").build();
+            return StackBuilder.create(XMaterial.BLUE_CARPET).name(this.mod > 0 ? GuiConfig.Values.PAGINATED_MENU_PAGE_BUTTON_NEXT.getString() : GuiConfig.Values.PAGINATED_MENU_PAGE_BUTTON_PREVIOUS.getString()).build();
     }
 }

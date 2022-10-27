@@ -25,6 +25,7 @@
 package dev.austech.betterreports.util.menu.defaults.paged;
 
 import dev.austech.betterreports.util.StackBuilder;
+import dev.austech.betterreports.util.config.impl.GuiConfig;
 import dev.austech.betterreports.util.menu.Menu;
 import dev.austech.betterreports.util.menu.defaults.buttons.BackButton;
 import dev.austech.betterreports.util.menu.layout.MenuButton;
@@ -42,7 +43,7 @@ public class ListPageMenu extends Menu {
 
     @Override
     public String getTitle(final Player player) {
-        return "&eJump to Page";
+        return GuiConfig.Values.PAGINATED_MENU_PAGE_LIST_TITLE.getString();
     }
 
     @Override
@@ -56,11 +57,14 @@ public class ListPageMenu extends Menu {
             final int finalI = page;
 
             StackBuilder stack = StackBuilder.create(XMaterial.PAPER)
-                    .name("&ePage " + page)
-                    .lore("&7Click to jump to Page " + page);
+                    .name(replacePage(page, GuiConfig.Values.PAGINATED_MENU_PAGE_LIST_CHANGE_BUTTON_NAME.getString()))
+                    .lore(replacePage(page, GuiConfig.Values.PAGINATED_MENU_PAGE_LIST_CHANGE_BUTTON_LORE.getString()));
 
             if (this.current == finalI) {
-                stack = stack.glow().name("&ePage " + page + " &7(Current)");
+                stack = stack
+                        .glow(GuiConfig.Values.PAGINATED_MENU_PAGE_LIST_CHANGE_CURRENT_BUTTON_GLOWING.getBoolean())
+                        .name(replacePage(page, GuiConfig.Values.PAGINATED_MENU_PAGE_LIST_CHANGE_CURRENT_BUTTON_NAME.getString()))
+                        .lore(replacePage(page, GuiConfig.Values.PAGINATED_MENU_PAGE_LIST_CHANGE_CURRENT_BUTTON_LORE.getString()));
             }
 
             buttons.put(index++, MenuButton.builder()
@@ -72,5 +76,9 @@ public class ListPageMenu extends Menu {
         }
 
         return buttons;
+    }
+
+    private String replacePage(final int page, final String str) {
+        return str.replace("%page%", String.valueOf(page));
     }
 }

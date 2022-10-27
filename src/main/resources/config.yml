@@ -335,6 +335,9 @@ checking:
   # It is highly recommended that you keep this enabled, for everyone's safety and security.
   check-for-security: true
 
+# Enabling this will enable certain debug messages. It is recommended to leave this disabled.
+debug: false
+
 # Do NOT change this number.
 # It may break your configuration.
 config-version: 4
