@@ -77,7 +77,7 @@ public class PlaceholderUtil {
             }
         }
 
-        return str;
+        return Common.color(str);
     }
 
     public String handleDualPlaceholders(final String string, final String first, final OfflinePlayer firstPlayer, final String second, final OfflinePlayer secondPlayer) {
@@ -86,7 +86,7 @@ public class PlaceholderUtil {
         }
 
         final String newString = PlaceholderAPI.setPlaceholders(firstPlayer, string.replace("%" + first + "_", "%"));
-        return PlaceholderAPI.setPlaceholders(secondPlayer, newString.replace("%" + second + "_", "%"));
+        return Common.color(PlaceholderAPI.setPlaceholders(secondPlayer, newString.replace("%" + second + "_", "%")));
     }
 
     public String handleConsolePlaceholders(final String string, final String first, final String second, final OfflinePlayer secondPlayer) {
@@ -94,6 +94,6 @@ public class PlaceholderUtil {
                 .replace("%" + first + "_player_name%", "Console")
                 .replace("%" + first + "_player_displayname%", "Console");
 
-        return PlaceholderAPI.setPlaceholders(secondPlayer, newString.replace("%" + second + "_", "%"));
+        return Common.color(PlaceholderAPI.setPlaceholders(secondPlayer, newString.replace("%" + second + "_", "%")));
     }
 }
