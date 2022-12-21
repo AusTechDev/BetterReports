@@ -59,7 +59,7 @@ reports:
 
     discord:
       enabled: true
-      webhook: "https://discord.com/api/webhooks/853603639553818684/JjxAoNimfG1XWa5wtTIp0zohIrr3vRSo0mv4qYKeMWYrfErgOJBdieU_HXTY9Suzd-MJ"
+      webhook: "https://discord.com/api/webhooks/..../...."
 
       # Every field in this embed section supports PlaceholderAPI - Multiple.
       # For example, %creator_player_name% will return the command sender's name, whilst
@@ -170,7 +170,7 @@ reports:
 
     discord:
       enabled: true
-      webhook: "https://discord.com/api/webhooks/853603639553818684/JjxAoNimfG1XWa5wtTIp0zohIrr3vRSo0mv4qYKeMWYrfErgOJBdieU_HXTY9Suzd-MJ"
+      webhook: "https://discord.com/api/webhooks/..../...."
 
       # Every field in this embed section supports PlaceholderAPI - Single.
       #
