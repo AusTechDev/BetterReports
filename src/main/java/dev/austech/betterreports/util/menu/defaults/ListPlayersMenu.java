@@ -42,7 +42,7 @@ public abstract class ListPlayersMenu extends PagedMenu {
         return "Players";
     }
 
-    abstract protected TriConsumer<InventoryClickEvent, Player, Player> getAction(); // event, creator, target
+    protected abstract TriConsumer<InventoryClickEvent, Player, Player> getAction(); // event, creator, selected player
 
     protected String getPlayerName(final Player player) {
         return player.getDisplayName() == null ? player.getName() : player.getDisplayName();

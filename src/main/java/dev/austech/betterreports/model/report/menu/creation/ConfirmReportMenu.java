@@ -49,7 +49,7 @@ public class ConfirmReportMenu extends Menu {
     private boolean success = false;
 
     @Override
-    public String getTitle(final Player player) {
+    public String getPlayerTitle(final Player player) {
         return PlaceholderUtil.applyPlaceholders(report, GuiConfig.Values.MENU_CONFIRM_NAME.getString());
     }
 
@@ -118,7 +118,7 @@ public class ConfirmReportMenu extends Menu {
     }
 
     @Override
-    public void onClose() {
+    public void onClose(Player player) {
         if (!success)
             MainConfig.Values.LANG_REPORT_CANCELLED.send(creator);
     }

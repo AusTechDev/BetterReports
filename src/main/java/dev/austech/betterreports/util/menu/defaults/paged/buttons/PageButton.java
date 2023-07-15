@@ -32,6 +32,7 @@ import dev.austech.betterreports.util.menu.defaults.paged.PagedMenu;
 import dev.austech.betterreports.util.menu.layout.MenuButton;
 import dev.austech.betterreports.util.xseries.XMaterial;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -40,16 +41,11 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.function.BiConsumer;
 
+@RequiredArgsConstructor
 public class PageButton extends MenuButton {
     private final int mod;
     private final int current;
     private final PagedMenu pagedMenu;
-
-    public PageButton(final int mod, final int current, final PagedMenu pagedMenu) {
-        this.mod = mod;
-        this.current = current;
-        this.pagedMenu = pagedMenu;
-    }
 
     @Getter
     @Setter
@@ -61,11 +57,6 @@ public class PageButton extends MenuButton {
     }
 
     @Override
-    public boolean isCloseMenu() {
-        return false;
-    }
-
-    @Override
     public BiConsumer<InventoryClickEvent, Player> getAction() {
         return (event, player) -> {
             if (event.getClick().isLeftClick()) {
@@ -74,7 +65,7 @@ public class PageButton extends MenuButton {
                 } else {
                     GuiConfig.Values.SOUNDS_GENERIC_ERROR.playSound(player);
                     setShouldError(true);
-                    event.setCurrentItem(getStack(player));
+                    event.setCurrentItem(getItem(player));
                     Bukkit.getScheduler().runTaskLater(BetterReports.getInstance(), () -> setShouldError(false), 30);
                 }
             } else {
@@ -84,7 +75,7 @@ public class PageButton extends MenuButton {
     }
 
     @Override
-    public ItemStack getStack(final Player player) {
+    public ItemStack getItem(Player player) {
         if (isShouldError()) {
             return StackBuilder.create(XMaterial.RED_CARPET)
                     .name(GuiConfig.Values.PAGINATED_MENU_ERROR_BUTTON_NAME.getString())
@@ -92,9 +83,29 @@ public class PageButton extends MenuButton {
                     .build();
         }
 
-        if (!hasNext(player))
-            return StackBuilder.create(XMaterial.GRAY_CARPET).name("&7" + (this.mod > 0 ? GuiConfig.Values.PAGINATED_MENU_PAGE_BUTTON_LAST.getString() : GuiConfig.Values.PAGINATED_MENU_PAGE_BUTTON_FIRST.getString())).build();
-        else
-            return StackBuilder.create(XMaterial.BLUE_CARPET).name(this.mod > 0 ? GuiConfig.Values.PAGINATED_MENU_PAGE_BUTTON_NEXT.getString() : GuiConfig.Values.PAGINATED_MENU_PAGE_BUTTON_PREVIOUS.getString()).build();
+        if (hasNext(player)) {
+            return StackBuilder.create(XMaterial.BLUE_CARPET)
+                    .name(this.mod > 0 ? GuiConfig.Values.PAGINATED_MENU_PAGE_BUTTON_NEXT.toString() : GuiConfig.Values.PAGINATED_MENU_PAGE_BUTTON_PREVIOUS.toString())
+                    .build();
+        } else {
+            return StackBuilder.create(XMaterial.GRAY_CARPET)
+                    .name(this.mod > 0 ? GuiConfig.Values.PAGINATED_MENU_PAGE_BUTTON_LAST.getString() : GuiConfig.Values.PAGINATED_MENU_PAGE_BUTTON_FIRST.getString())
+                    .build();
+        }
     }
+
+    //    @Override
+//    public ItemStack getStack(final Player player) {
+//        if (isShouldError()) {
+//            return StackBuilder.create(XMaterial.RED_CARPET)
+//                    .name(GuiConfig.Values.PAGINATED_MENU_ERROR_BUTTON_NAME.getString())
+//                    .lore(GuiConfig.Values.PAGINATED_MENU_ERROR_BUTTON_LORE.getString())
+//                    .build();
+//        }
+//
+//        if (!hasNext(player))
+//            return StackBuilder.create(XMaterial.GRAY_CARPET).name("&7" + (this.mod > 0 ? GuiConfig.Values.PAGINATED_MENU_PAGE_BUTTON_LAST.getString() : GuiConfig.Values.PAGINATED_MENU_PAGE_BUTTON_FIRST.getString())).build();
+//        else
+//            return StackBuilder.create(XMaterial.BLUE_CARPET).name(this.mod > 0 ? GuiConfig.Values.PAGINATED_MENU_PAGE_BUTTON_NEXT.getString() : GuiConfig.Values.PAGINATED_MENU_PAGE_BUTTON_PREVIOUS.getString()).build();
+//    }
 }

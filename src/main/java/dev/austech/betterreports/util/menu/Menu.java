@@ -42,29 +42,24 @@ import java.util.concurrent.ConcurrentHashMap;
 @Getter
 @Setter
 public abstract class Menu {
-    @Getter(AccessLevel.PRIVATE)
-    private String title;
     private boolean autoUpdate = true;
+
     private int size = -1;
-    @Setter(AccessLevel.NONE)
+    @Setter(AccessLevel.PRIVATE)
     private Menu toReturn;
 
-    public String getTitle(final Player player) {
-        return getTitle();
-    }
-
-    public void setTitle(final Player player, final String title) {
-        setTitle(title);
-    }
-
-    public boolean canOpen(final Player player) {
-        return true;
-    }
-
+    @Getter(AccessLevel.PRIVATE)
+    private String title = null;
     @Getter
-    private final ConcurrentHashMap<Integer, MenuButton> buttons = new ConcurrentHashMap<>();
+    private boolean allowEditing = false;
+
+    private ConcurrentHashMap<Integer, MenuButton> buttons = new ConcurrentHashMap<>();
 
     public abstract Map<Integer, MenuButton> getButtons(Player player);
+
+    public String getPlayerTitle(Player player) {
+        return getTitle();
+    }
 
     private void initializeButtons(final Player player) {
         buttons.putAll(getButtons(player));
@@ -75,28 +70,30 @@ public abstract class Menu {
         return this;
     }
 
-    private Inventory create(final Player player) {
+    public boolean canOpen(final Player player) {
+        return true;
+    }
+
+    private Inventory create(Player player) {
         if (!(this instanceof PagedMenu))
             initializeButtons(player);
 
-        if (size == -1) {
+        if (getSize() == -1) {
             int highest = 0;
             for (final int buttonValue : buttons.keySet()) {
                 if (buttonValue <= highest) continue;
                 highest = buttonValue;
             }
-            size = (int) (Math.ceil((double) (highest + 1) / 9.0) * 9.0);
+            setSize((int) (Math.ceil((highest + 1) / 9.0) * 9.0));
         }
 
-        final Inventory inventory = Bukkit.createInventory(player, getSize(), getTitle(player) != null ? Common.color(getTitle(player)) : "Menu");
-        buttons.forEach((slot, button) -> {
-            inventory.setItem(slot, button.getItem(player));
-        });
+        final Inventory inventory = Bukkit.createInventory(player, getSize(), getPlayerTitle(player) != null ? Common.color(getPlayerTitle(player)) : "Menu");
+        buttons.forEach((slot, button) -> inventory.setItem(slot, button.getItem(player)));
 
         return inventory;
     }
 
-    public void open(final Player... players) {
+    public final void open(Player... players) {
         for (final Player player : players) {
             if (!canOpen(player)) {
                 Common.send(player, "&cYou cannot open this menu.");
@@ -104,33 +101,41 @@ public abstract class Menu {
             }
             initializeButtons(player);
             player.openInventory(create(player));
-            update(player);
+            startUpdate(player);
         }
     }
 
-    private void update(final Player player) {
+    private void startUpdate(final Player player) {
         MenuManager.cancelTask(player);
-        MenuManager.getCurrentlyOpenedMenus().put(player.getUniqueId(), this);
+        MenuManager.OPENED_MENUS.put(player.getUniqueId(), this);
+        onOpen(player);
 
         final BukkitRunnable runnable = new BukkitRunnable() {
             @Override
             public void run() {
                 if (!player.isOnline()) {
                     cancel();
-                    MenuManager.getCurrentlyOpenedMenus().remove(player.getUniqueId());
+                    MenuManager.OPENED_MENUS.remove(player.getUniqueId());
                     return;
                 }
 
-                if (autoUpdate) {
-                    player.getOpenInventory().getTopInventory().setContents(create(player).getContents());
+                if (isAutoUpdate()) {
+                    update(player);
                 }
             }
         };
 
         runnable.runTaskTimer(BetterReports.getInstance(), 10L, 10L); // Update every .5 seconds, with the first task starting after .5 seconds.
-        MenuManager.getCheckTasks().put(player.getUniqueId(), runnable);
+        MenuManager.CHECK_TASKS.put(player.getUniqueId(), runnable);
     }
 
-    public void onClose() {
+    public final void update(Player player) {
+        player.getOpenInventory().getTopInventory().setContents(create(player).getContents());
+    }
+
+    public void onOpen(Player player) {
+    }
+
+    public void onClose(Player player) {
     }
 }

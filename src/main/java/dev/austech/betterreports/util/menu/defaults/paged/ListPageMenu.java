@@ -42,7 +42,7 @@ public class ListPageMenu extends Menu {
     private final int current;
 
     @Override
-    public String getTitle(final Player player) {
+    public String getPlayerTitle(final Player player) {
         return GuiConfig.Values.PAGINATED_MENU_PAGE_LIST_TITLE.getString();
     }
 
@@ -52,26 +52,26 @@ public class ListPageMenu extends Menu {
 
         buttons.put(0, new BackButton(menu));
 
-        int index = 10;
-        for (int page = 1; page <= this.menu.getPages(player); ++page) {
-            final int finalI = page;
+        int index = 1;
+        for (int page = 1; page <= menu.getPages(player); ++page) {
+            final int switchPage = page - menu.getPage();
+            
+            StackBuilder stackBuilder = StackBuilder.create(XMaterial.PAPER);
 
-            StackBuilder stack = StackBuilder.create(XMaterial.PAPER)
-                    .name(replacePage(page, GuiConfig.Values.PAGINATED_MENU_PAGE_LIST_CHANGE_BUTTON_NAME.getString()))
-                    .lore(replacePage(page, GuiConfig.Values.PAGINATED_MENU_PAGE_LIST_CHANGE_BUTTON_LORE.getString()));
-
-            if (this.current == finalI) {
-                stack = stack
+            if (this.current == page) {
+                stackBuilder = stackBuilder
                         .glow(GuiConfig.Values.PAGINATED_MENU_PAGE_LIST_CHANGE_CURRENT_BUTTON_GLOWING.getBoolean())
                         .name(replacePage(page, GuiConfig.Values.PAGINATED_MENU_PAGE_LIST_CHANGE_CURRENT_BUTTON_NAME.getString()))
                         .lore(replacePage(page, GuiConfig.Values.PAGINATED_MENU_PAGE_LIST_CHANGE_CURRENT_BUTTON_LORE.getString()));
+            } else {
+                stackBuilder = stackBuilder
+                        .name(replacePage(page, GuiConfig.Values.PAGINATED_MENU_PAGE_LIST_CHANGE_BUTTON_NAME.getString()))
+                        .lore(replacePage(page, GuiConfig.Values.PAGINATED_MENU_PAGE_LIST_CHANGE_BUTTON_LORE.getString()));
             }
 
             buttons.put(index++, MenuButton.builder()
-                    .stack(
-                            stack
-                    )
-                    .action((e, p) -> this.menu.changePage(player, finalI - menu.getPage()))
+                    .stack(stackBuilder.build())
+                    .action((e, p) -> menu.changePage(p, switchPage))
                     .build());
         }
 

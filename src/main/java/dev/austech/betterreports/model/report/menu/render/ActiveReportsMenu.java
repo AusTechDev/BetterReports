@@ -37,7 +37,7 @@ import java.util.Map;
 
 public class ActiveReportsMenu extends Menu {
     @Override
-    public String getTitle(final Player player) {
+    public String getPlayerTitle(final Player player) {
         return "Active Reports";
     }
 

@@ -25,8 +25,10 @@
 package dev.austech.betterreports.util.menu.layout;
 
 import dev.austech.betterreports.util.StackBuilder;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -35,19 +37,15 @@ import java.util.function.BiConsumer;
 
 @Getter
 @Builder(builderClassName = "Builder")
+@AllArgsConstructor
+@NoArgsConstructor
 public class MenuButton {
-    public MenuButton(final BiConsumer<InventoryClickEvent, Player> action, final boolean closeMenu, final ItemStack stack) {
-        this.action = action;
-        this.closeMenu = closeMenu;
-        this.stack = stack;
-    }
-
-    protected MenuButton() {
-    }
-
     private BiConsumer<InventoryClickEvent, Player> action;
     private boolean closeMenu;
     private ItemStack stack;
+
+    @lombok.Builder.Default
+    private boolean allowEditing = false;
 
     public static class Builder {
         public Builder stack(final StackBuilder builder) {
@@ -60,11 +58,7 @@ public class MenuButton {
         }
     }
 
-    public ItemStack getStack(final Player player) {
-        return stack;
-    }
-
     public ItemStack getItem(final Player player) {
-        return getStack(player);
+        return stack;
     }
 }

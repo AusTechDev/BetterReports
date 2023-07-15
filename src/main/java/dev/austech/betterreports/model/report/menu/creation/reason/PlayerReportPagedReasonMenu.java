@@ -67,7 +67,7 @@ public class PlayerReportPagedReasonMenu extends PagedMenu {
     public Map<Integer, MenuButton> getPagedButtons(final Player player) {
         final Map<Integer, MenuButton> buttons = new HashMap<>();
 
-        final List<Map<String, Object>> reasons = BetterReports.getInstance().getConfigManager().getReasonsConfig().getConfig().getMapList("reasons").stream().map((m) -> {
+        final List<Map<String, Object>> reasons = BetterReports.getInstance().getConfigManager().getReasonsConfig().getConfig().getMapList("reasons").stream().map(m -> {
             final Map<String, Object> map = new HashMap<>();
             m.forEach((k, v) -> map.put(k.toString().toLowerCase(), v));
             return map;
@@ -161,7 +161,7 @@ public class PlayerReportPagedReasonMenu extends PagedMenu {
             }
 
             return Common.color(message);
-        }, (s) -> {
+        }, s -> {
             Common.resetTitle(creator);
             final Report report = Report.builder().type(Report.Type.PLAYER).creator(creator).reason(s).target(target).build();
 

@@ -24,7 +24,6 @@
 
 package dev.austech.betterreports.util.menu;
 
-import lombok.Getter;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -33,15 +32,13 @@ import java.util.Map;
 import java.util.UUID;
 
 public class MenuManager {
-    @Getter
-    private static final Map<UUID, Menu> currentlyOpenedMenus = new HashMap<>();
-    @Getter
-    private static final Map<UUID, BukkitRunnable> checkTasks = new HashMap<>();
+    public static final Map<UUID, Menu> OPENED_MENUS = new HashMap<>();
+    public static final Map<UUID, BukkitRunnable> CHECK_TASKS = new HashMap<>();
 
     public static void cancelTask(final Player player) {
-        if (MenuManager.checkTasks.containsKey(player.getUniqueId())) {
-            MenuManager.checkTasks.get(player.getUniqueId()).cancel();
-            MenuManager.checkTasks.remove(player.getUniqueId());
-        }
+        if (!MenuManager.CHECK_TASKS.containsKey(player.getUniqueId())) return;
+
+        MenuManager.CHECK_TASKS.get(player.getUniqueId()).cancel();
+        MenuManager.CHECK_TASKS.remove(player.getUniqueId());
     }
 }

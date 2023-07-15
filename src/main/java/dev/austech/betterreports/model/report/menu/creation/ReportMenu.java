@@ -44,7 +44,7 @@ import java.util.Objects;
 
 public class ReportMenu extends Menu {
     @Override
-    public String getTitle(final Player player) {
+    public String getPlayerTitle(final Player player) {
         return GuiConfig.Values.MENU_MAIN_NAME.getString();
     }
 
@@ -128,7 +128,7 @@ public class ReportMenu extends Menu {
             if (MainConfig.Values.LANG_QUESTION_BUG_ENABLED.getBoolean())
                 Common.sendTitle(creator, MainConfig.Values.LANG_QUESTION_BUG_TITLE.getPlaceholderString(creator), MainConfig.Values.LANG_QUESTION_BUG_SUBTITLE.getPlaceholderString(creator), 10, 20 * 15, 10);
             return MainConfig.Values.LANG_QUESTION_BUG_MESSAGE.getPlaceholderString(creator);
-        }, (s) -> {
+        }, s -> {
             Common.resetTitle(creator);
             final Report report = Report.builder()
                     .type(Report.Type.BUG)
