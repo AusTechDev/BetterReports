@@ -1,7 +1,7 @@
 # BetterReports
 # Simple reporting plugin with Discord webhook customisation!
 #
-# Copyright (c) 2022 AusTech Development
+# Copyright (c) 2023 AusTech Development
 #
 # Github profile: https://github.com/AusTechDev/
 # Spigot Profile: https://www.spigotmc.org/members/austech.919057/
@@ -103,6 +103,7 @@ menus:
         material: LIME_WOOL
         glowing: false
 
+  # Reason Menu for player reports.
   reason-menu:
     name: "Select Reason"
     back-button-slot: 1 # Set this to -1 to disable the back button. (if available)
