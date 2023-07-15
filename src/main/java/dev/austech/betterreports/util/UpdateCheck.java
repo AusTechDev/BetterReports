@@ -72,20 +72,33 @@ public class UpdateCheck implements Listener {
             final Response response = fetchResponse();
 
             if (response != null) {
+                if (response.getRestriction() != null && MainConfig.Values.SECURITY_CHECK.getBoolean()) {
+                    final UpdateCheck.Response.Restriction restriction = response.getRestriction();
+                    if (restriction.getType() == Response.Restriction.Type.ADVISORY) {
+                        String reason = restriction.getReason();
+                        if (reason.startsWith("RAW:")) {
+                            Common.error(reason.substring(4));
+                        } else {
+                            Common.error("An advisory has been issued for this version: " + reason);
+                            Common.error("Please update " + javaPlugin.getDescription().getName() + " to the latest version.");
+                        }
+                    } else {
+                        Common.error("Could not start " + javaPlugin.getDescription().getName() + ": " + restriction.getReason());
+                        Common.error("Please update " + javaPlugin.getDescription().getName() + " to the latest version.");
+                        Bukkit.getPluginManager().disablePlugin(javaPlugin);
+                    }
+                    return;
+                }
+
                 if (response.getVersion() != null && MainConfig.Values.UPDATE_CHECK.getBoolean()) {
                     Common.log("A new version for " + javaPlugin.getDescription().getName() + " is available.");
                     Common.log("&rNew Version: &a" + response.getVersion() + "&r, Old Version: &c" + version + "&r.");
                     updateAvailable = response.getVersion();
-                } else if (response.getRestriction() != null && MainConfig.Values.SECURITY_CHECK.getBoolean()) {
-                    final UpdateCheck.Response.Restriction restriction = response.getRestriction();
-                    if (restriction.getType() == 0) {
-                        Common.error(restriction.getReason());
-                    } else {
-                        Common.error("Could not start " + javaPlugin.getDescription().getName() + ": " + restriction.getReason());
-                        Common.error("Because of this, " + javaPlugin.getDescription().getName() + " will not start.");
-                        Bukkit.getPluginManager().disablePlugin(javaPlugin);
-                    }
-                } else if (response.getError() != null) {
+                    return;
+                }
+
+
+                if (response.getError() != null) {
                     if (response.getError().message == null) {
                         Common.debug("Failed Response: " + Common.GSON.toJson(response));
                     }
@@ -112,7 +125,7 @@ public class UpdateCheck implements Listener {
         if (!MainConfig.Values.SECURITY_CHECK.getBoolean() && !MainConfig.Values.UPDATE_CHECK.getBoolean()) return;
 
         if (this.version.contains("-dev") || this.version.contains("-SNAPSHOT")) {
-            Common.log("Skipping update check for development build.");
+            Common.debug("Skipping update check for development build.");
             return;
         }
 
@@ -142,7 +155,7 @@ public class UpdateCheck implements Listener {
 
             return response;
         } catch (final Exception exception) {
-            exception.printStackTrace();
+            if (MainConfig.Values.DEBUG.getBoolean()) exception.printStackTrace();
         }
 
         return null;
@@ -158,9 +171,13 @@ public class UpdateCheck implements Listener {
 
         @Data
         public static class Restriction {
-            private int type;
+            private Type type;
             private String range;
             private String reason;
+
+            enum Type {
+                ADVISORY, FORCE
+            }
         }
     }
 
