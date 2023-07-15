@@ -12,7 +12,7 @@ the plugin." - Timmy109
 
 * Lightweight and simple
 * Discord webhook
-* Works on any version from 1.8.x to 1.19.x
+* Works on any version from 1.8.x to 1.20.x
 * Great for neatly archiving reports in a Discord channel
 * Highly customisable messages
 * Command cooldown
