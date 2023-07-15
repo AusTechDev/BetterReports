@@ -37,6 +37,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 public class GuiConfig extends ConfigurationFile {
     public GuiConfig() {
@@ -121,7 +122,7 @@ public class GuiConfig extends ConfigurationFile {
 
         public void playErrorSound(final Player player) {
             XSound.Record record = XSound.parse(getString());
-            if (record == null && key != "sounds.generic-error") {
+            if (record == null && !Objects.equals(key, "sounds.generic-error")) {
                 record = XSound.parse(Values.SOUNDS_GENERIC_ERROR.getString());
             }
             record.forPlayer(player).play();

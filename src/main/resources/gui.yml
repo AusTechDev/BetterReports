@@ -193,4 +193,4 @@ paginated-menus:
 
 # Do NOT change this number.
 # It may break your configuration.
-config-version: 2
+config-version: 3

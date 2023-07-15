@@ -25,8 +25,8 @@
 package dev.austech.betterreports.util;
 
 import dev.austech.betterreports.BetterReports;
+import dev.austech.betterreports.util.config.impl.MainConfig;
 import lombok.experimental.UtilityClass;
-import org.bukkit.ChatColor;
 import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.ConversationFactory;
 import org.bukkit.conversations.Prompt;
@@ -55,7 +55,7 @@ public class ConversationUtil {
             public Prompt acceptInput(final ConversationContext context, final String input) {
                 if (Arrays.stream(escapeSequences).anyMatch(input::equalsIgnoreCase)) {
                     Common.resetTitle(((Player) context.getForWhom()));
-                    context.getForWhom().sendRawMessage(ChatColor.RED + "Cancelled.");
+                    context.getForWhom().sendRawMessage(Common.color(MainConfig.Values.LANG_CONVERSATION_CANCELLED.getString()));
                     return Prompt.END_OF_CONVERSATION;
                 }
 

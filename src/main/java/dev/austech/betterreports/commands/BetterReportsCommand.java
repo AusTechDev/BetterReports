@@ -70,6 +70,7 @@ public class BetterReportsCommand implements CommandExecutor, TabExecutor {
                     MainConfig.Values.LANG_HELP_MESSAGE_ADMIN.sendList(sender);
                 else
                     MainConfig.Values.LANG_HELP_MESSAGE.sendList(sender);
+                break;
             }
             default:
                 MainConfig.Values.LANG_UNKNOWN_COMMAND.send(sender);

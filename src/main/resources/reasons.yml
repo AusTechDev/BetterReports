@@ -26,6 +26,7 @@
 # -----------------------------------------------------------------------------------
 
 # This will allow a player to add a custom reason for their player report.
+# This currently only has an effect on the GUI, not the commands.
 allow-custom-reason: true
 
 reasons:

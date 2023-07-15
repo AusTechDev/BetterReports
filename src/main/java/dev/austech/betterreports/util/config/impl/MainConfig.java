@@ -148,6 +148,7 @@ public class MainConfig extends ConfigurationFile {
         LANG_QUESTION_CUSTOM_REASON_MESSAGE("language.custom-reason-question.message"),
         LANG_QUESTION_CUSTOM_REASON_TITLE("language.custom-reason-question.title"),
         LANG_QUESTION_CUSTOM_REASON_SUBTITLE("language.custom-reason-question.subtitle"),
+        LANG_CONVERSATION_CANCELLED("language.cancel-conversation", "&cCancelled."),
         LANG_BUG_REPORTS_DISABLED("language.bug-reports-disabled"),
         LANG_PLAYER_REPORTS_DISABLED("language.player-reports-disabled"),
         LANG_REPORT_CANCELLED("language.report-cancelled"),

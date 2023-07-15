@@ -306,6 +306,9 @@ language:
     title: "&cWhy"
     subtitle: "Are you reporting {target}?"
 
+  # Used when a player types "exit" in the chat.
+  cancel-conversation: "&cCancelled."
+
   bug-reports-disabled: "&cBug reports are currently disabled."
   player-reports-disabled: "&cPlayer reports are currently disabled."
 
@@ -352,4 +355,4 @@ debug: false
 
 # Do NOT change this number.
 # It may break your configuration.
-config-version: 4
+config-version: 5
