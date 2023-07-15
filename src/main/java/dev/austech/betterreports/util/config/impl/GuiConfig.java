@@ -29,6 +29,7 @@ import dev.austech.betterreports.util.StackBuilder;
 import dev.austech.betterreports.util.config.ConfigurationFile;
 import dev.austech.betterreports.util.xseries.XMaterial;
 import dev.austech.betterreports.util.xseries.XSound;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.configuration.ConfigurationSection;
@@ -43,6 +44,7 @@ public class GuiConfig extends ConfigurationFile {
     }
 
     @RequiredArgsConstructor
+    @AllArgsConstructor
     @Getter
     public enum Values {
         MENU_MAIN_NAME("menus.main-menu.name"),
@@ -68,9 +70,11 @@ public class GuiConfig extends ConfigurationFile {
 
         SOUNDS_REPORT_SUCCESS("sounds.report-success"),
         SOUNDS_SELF_REPORT("sounds.self-report-error"),
+        SOUNDS_INVALID_PLAYER("sounds.invalid-player-error"),
         SOUNDS_PLAYER_REPORTS_DISABLED("sounds.player-reports-not-enabled"),
         SOUNDS_BUG_REPORTS_DISABLED("sounds.bug-reports-not-enabled"),
         SOUNDS_NO_PERMISSION("sounds.no-permission"),
+        SOUNDS_GENERIC_ERROR("sounds.generic-error", "ENTITY_VILLAGER_NO"),
 
         PAGINATED_MENU_BACK_BUTTON_NAME("paginated-menus.back-button.name"),
         PAGINATED_MENU_BACK_BUTTON_LORE("paginated-menus.back-button.lore"),
@@ -89,13 +93,16 @@ public class GuiConfig extends ConfigurationFile {
         PAGINATED_MENU_PAGE_NUMBER_BUTTON_NAME("paginated-menus.page-number-button.name");
 
         private final String key;
+        private Object defaultStringValue;
 
         private YamlConfiguration getConfig() {
             return BetterReports.getInstance().getConfigManager().getGuiConfig().getConfig();
         }
 
         public String getString() {
-            return getConfig().getString(key);
+            String foundValue = getConfig().getString(key);
+            if (foundValue == null && defaultStringValue instanceof String) return (String) defaultStringValue;
+            else return foundValue;
         }
 
         public boolean getBoolean() {
@@ -109,6 +116,14 @@ public class GuiConfig extends ConfigurationFile {
         public void playSound(final Player player) {
             final XSound.Record record = XSound.parse(getString());
             if (record == null) return;
+            record.forPlayer(player).play();
+        }
+
+        public void playErrorSound(final Player player) {
+            XSound.Record record = XSound.parse(getString());
+            if (record == null && key != "sounds.generic-error") {
+                record = XSound.parse(Values.SOUNDS_GENERIC_ERROR.getString());
+            }
             record.forPlayer(player).play();
         }
 

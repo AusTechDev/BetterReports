@@ -38,6 +38,7 @@ import dev.austech.betterreports.util.menu.defaults.paged.PagedMenu;
 import dev.austech.betterreports.util.menu.layout.MenuButton;
 import dev.austech.betterreports.util.xseries.XMaterial;
 import lombok.RequiredArgsConstructor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.conversations.Prompt;
 import org.bukkit.entity.Player;
 
@@ -50,7 +51,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class PlayerReportPagedReasonMenu extends PagedMenu {
     private final Player creator;
-    private final Player target;
+    private final OfflinePlayer target;
 
     @Override
     protected String getMenuTitle(final Player player) {

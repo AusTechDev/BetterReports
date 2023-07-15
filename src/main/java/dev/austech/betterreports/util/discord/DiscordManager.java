@@ -104,6 +104,7 @@ public class DiscordManager {
             } catch (final Exception e) {
                 e.printStackTrace();
                 BetterReports.getInstance().getLogger().severe("This error generally indicates an incorrect setup. Please check your config.yml. If the issue persists, please join our Discord server: https://austech.dev/to/support/");
+                BetterReports.getInstance().getLogger().severe("Make sure to set the Discord Webhook URL in BOTH the player and bug report sections in config.yml.");
                 MainConfig.Values.LANG_ERROR.send(player);
             }
         });

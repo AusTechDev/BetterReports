@@ -27,6 +27,7 @@ package dev.austech.betterreports.util.config.impl;
 import dev.austech.betterreports.BetterReports;
 import dev.austech.betterreports.util.Common;
 import dev.austech.betterreports.util.Counter;
+import dev.austech.betterreports.util.PlaceholderAPIWrapper;
 import dev.austech.betterreports.util.config.ConfigurationFile;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -70,7 +71,8 @@ public class MainConfig extends ConfigurationFile {
         REPORT_MENU("reports.menu"),
 
         PLAYER_REPORT_ENABLED("reports.player.enabled"),
-        PLAYER_REPORT_OFFLINE("reports.player.report-offline-players"),
+        PLAYER_REPORT_OFFLINE_ENABLED("reports.player.offline-players.reporting-enabled"),
+        PLAYER_REPORT_OFFLINE_NEVER_JOINED("reports.player.offline-players.never-joined-before"),
         PLAYER_REPORT_COOLDOWN_ENABLED("reports.player.cooldown.enabled"),
         PLAYER_REPORT_COOLDOWN_TIME("reports.player.cooldown.time"),
         PLAYER_REPORT_MENUS_SELECT_PLAYER("reports.player.menus.select-players"),
@@ -188,7 +190,7 @@ public class MainConfig extends ConfigurationFile {
 
         public String getPlaceholderString(final Player player) {
             if (BetterReports.getInstance().isUsePlaceholderApi())
-                return Common.color(me.clip.placeholderapi.PlaceholderAPI.setPlaceholders(player, getString()));
+                return Common.color(PlaceholderAPIWrapper.setPlaceholders(player, getString()));
             else
                 return Common.color(getString());
         }
@@ -199,14 +201,14 @@ public class MainConfig extends ConfigurationFile {
 
         private void sendInternal(final CommandSender sender, final String s) {
             if (sender instanceof Player && BetterReports.getInstance().isUsePlaceholderApi())
-                sender.sendMessage(Common.color(me.clip.placeholderapi.PlaceholderAPI.setPlaceholders((Player) sender, s)));
+                sender.sendMessage(Common.color(PlaceholderAPIWrapper.setPlaceholders((Player) sender, s)));
             else
                 sender.sendMessage(Common.color(s));
         }
 
         public void sendRaw(final Player sender) {
             if (BetterReports.getInstance().isUsePlaceholderApi())
-                sender.sendRawMessage(Common.color(me.clip.placeholderapi.PlaceholderAPI.setPlaceholders((Player) sender, getString())));
+                sender.sendRawMessage(Common.color(PlaceholderAPIWrapper.setPlaceholders(sender, getString())));
             else
                 sender.sendRawMessage(Common.color(getString()));
         }
@@ -215,7 +217,7 @@ public class MainConfig extends ConfigurationFile {
             final List<String> arr = Arrays.asList(BetterReports.getInstance().getConfigManager().getMainConfig().getConfig().getString(key).split("\n"));
 
             if (sender instanceof Player && BetterReports.getInstance().isUsePlaceholderApi())
-                arr.stream().map((it) -> Common.color(me.clip.placeholderapi.PlaceholderAPI.setPlaceholders((Player) sender, it))).forEach(sender::sendMessage);
+                arr.stream().map((it) -> Common.color(PlaceholderAPIWrapper.setPlaceholders((Player) sender, it))).forEach(sender::sendMessage);
             else
                 arr.stream().map(Common::color).forEach(sender::sendMessage);
         }

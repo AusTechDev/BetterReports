@@ -28,8 +28,10 @@ import dev.austech.betterreports.model.report.Report;
 import dev.austech.betterreports.model.report.menu.creation.ConfirmReportMenu;
 import dev.austech.betterreports.model.report.menu.creation.SelectPlayerMenu;
 import dev.austech.betterreports.model.report.menu.creation.reason.PlayerReportPagedReasonMenu;
+import dev.austech.betterreports.util.OfflinePlayerUtil;
 import dev.austech.betterreports.util.config.impl.MainConfig;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -83,7 +85,7 @@ public class ReportPlayerCommand implements CommandExecutor {
             return true;
         }
 
-        final Player target = Bukkit.getPlayer(args[0]);
+        final OfflinePlayer target = OfflinePlayerUtil.get(args[0]);
 
         if (target == null) {
             MainConfig.Values.LANG_PLAYER_NOT_FOUND.send(sender);

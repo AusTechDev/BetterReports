@@ -26,6 +26,7 @@ package dev.austech.betterreports.model.report;
 
 import dev.austech.betterreports.BetterReports;
 import dev.austech.betterreports.util.Common;
+import dev.austech.betterreports.util.PlaceholderAPIWrapper;
 import dev.austech.betterreports.util.config.impl.MainConfig;
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -55,7 +56,7 @@ public class ReportManager {
                     .replace("{time}", (cooldown / 1000) + "")
                     .replace("{type}", type.name().toLowerCase());
             if (BetterReports.getInstance().isUsePlaceholderApi()) {
-                message = me.clip.placeholderapi.PlaceholderAPI.setPlaceholders(player, message);
+                message = PlaceholderAPIWrapper.setPlaceholders(player, message);
             }
 
             player.sendMessage(Common.color(message));

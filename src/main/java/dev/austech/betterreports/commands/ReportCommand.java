@@ -30,8 +30,10 @@ import dev.austech.betterreports.model.report.menu.creation.ConfirmReportMenu;
 import dev.austech.betterreports.model.report.menu.creation.ReportMenu;
 import dev.austech.betterreports.model.report.menu.creation.SelectPlayerMenu;
 import dev.austech.betterreports.model.report.menu.creation.reason.PlayerReportPagedReasonMenu;
+import dev.austech.betterreports.util.OfflinePlayerUtil;
 import dev.austech.betterreports.util.config.impl.MainConfig;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -41,6 +43,7 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static dev.austech.betterreports.model.report.ReportManager.checkCooldown;
 
@@ -102,7 +105,7 @@ public class ReportCommand implements CommandExecutor, TabExecutor {
                 if (checkPermission(sender, Report.Type.PLAYER) || checkCooldown((Player) sender, Report.Type.PLAYER))
                     return true;
 
-                final Player target = Bukkit.getPlayer(args[0]);
+                final OfflinePlayer target = OfflinePlayerUtil.get(args[0]);
                 if (target != null) {
                     if (MainConfig.Values.PLAYER_REPORT_MENUS_SELECT_REASON.getBoolean())
                         new PlayerReportPagedReasonMenu(((Player) sender), target).open(((Player) sender));
@@ -136,11 +139,18 @@ public class ReportCommand implements CommandExecutor, TabExecutor {
 
                 // If it is structured as a full player report, create a player report and confirm.
                 if (args.length > 2) {
+                    final OfflinePlayer target = OfflinePlayerUtil.get(args[1]);
+
+                    if (target == null) {
+                        MainConfig.Values.LANG_PLAYER_NOT_FOUND.send(sender);
+                        return true;
+                    }
+
                     final Report report = Report.builder()
                             .type(Report.Type.PLAYER)
                             .creator(((Player) sender))
                             .reason(String.join(" ", Arrays.asList(args).subList(2, args.length)))
-                            .target(Bukkit.getPlayer(args[1]))
+                            .target(target)
                             .build();
 
                     if (MainConfig.Values.PLAYER_REPORT_MENUS_CONFIRM_REPORT.getBoolean())
@@ -150,7 +160,7 @@ public class ReportCommand implements CommandExecutor, TabExecutor {
 
                     // As args length is 1 or 2, show reasons.
                 } else {
-                    final Player target = Bukkit.getPlayer(args[1]);
+                    final OfflinePlayer target = OfflinePlayerUtil.get(args[1]);
                     if (target != null) {
                         if (MainConfig.Values.PLAYER_REPORT_MENUS_SELECT_REASON.getBoolean())
                             new PlayerReportPagedReasonMenu(((Player) sender), target).open(((Player) sender));
@@ -166,7 +176,7 @@ public class ReportCommand implements CommandExecutor, TabExecutor {
                 if (checkPermission(sender, Report.Type.PLAYER) || checkCooldown((Player) sender, Report.Type.PLAYER))
                     return true;
 
-                final Player target = Bukkit.getPlayer(args[0]);
+                final OfflinePlayer target = OfflinePlayerUtil.get(args[0]);
 
                 if (target == null) {
                     MainConfig.Values.LANG_PLAYER_NOT_FOUND.send(sender);
@@ -212,7 +222,8 @@ public class ReportCommand implements CommandExecutor, TabExecutor {
             }
 
             return tab;
+        } else {
+            return Bukkit.getOnlinePlayers().stream().filter(p -> (sender instanceof Player && sender != p)).map(Player::getName).collect(Collectors.toList());
         }
-        return null;
     }
 }

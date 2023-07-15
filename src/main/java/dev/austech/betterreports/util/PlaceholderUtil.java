@@ -28,7 +28,6 @@ import dev.austech.betterreports.BetterReports;
 import dev.austech.betterreports.model.report.Report;
 import dev.austech.betterreports.util.config.impl.MainConfig;
 import lombok.experimental.UtilityClass;
-import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
@@ -36,7 +35,7 @@ import org.bukkit.entity.Player;
 public class PlaceholderUtil {
     public String applyPlaceholders(final Player player, final String string) {
         return Common.color(
-                PlaceholderAPI.setPlaceholders(player, string)
+                PlaceholderAPIWrapper.setPlaceholders(player, string)
                         .replace("{player}", player.getName())
                         .replace("{player_display}", player.getDisplayName())
         );
@@ -73,7 +72,7 @@ public class PlaceholderUtil {
             }
         } else {
             if (BetterReports.getInstance().isUsePlaceholderApi()) {
-                str = me.clip.placeholderapi.PlaceholderAPI.setPlaceholders(player, str.replace("%sender_", "%"));
+                str = PlaceholderAPIWrapper.setPlaceholders(player, str.replace("%sender_", "%"));
             }
         }
 
@@ -85,8 +84,8 @@ public class PlaceholderUtil {
             return handleConsolePlaceholders(string, first, second, secondPlayer);
         }
 
-        final String newString = PlaceholderAPI.setPlaceholders(firstPlayer, string.replace("%" + first + "_", "%"));
-        return Common.color(PlaceholderAPI.setPlaceholders(secondPlayer, newString.replace("%" + second + "_", "%")));
+        final String newString = PlaceholderAPIWrapper.setPlaceholders(firstPlayer, string.replace("%" + first + "_", "%"));
+        return Common.color(PlaceholderAPIWrapper.setPlaceholders(secondPlayer, newString.replace("%" + second + "_", "%")));
     }
 
     public String handleConsolePlaceholders(final String string, final String first, final String second, final OfflinePlayer secondPlayer) {
@@ -94,6 +93,6 @@ public class PlaceholderUtil {
                 .replace("%" + first + "_player_name%", "Console")
                 .replace("%" + first + "_player_displayname%", "Console");
 
-        return Common.color(PlaceholderAPI.setPlaceholders(secondPlayer, newString.replace("%" + second + "_", "%")));
+        return Common.color(PlaceholderAPIWrapper.setPlaceholders(secondPlayer, newString.replace("%" + second + "_", "%")));
     }
 }

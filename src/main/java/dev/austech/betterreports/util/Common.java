@@ -80,7 +80,7 @@ public class Common {
 
     public void sendTitle(final Player player, final String title, final String subtitle, final int fadeIn, final int stay, final int fadeOut) {
         if (VersionUtil.getVersion().olderThan(VersionUtil.V.V1_11)) {
-            TitleUtil.sendTitle(player, TitleUtil.Title.builder().title(title).subtitle(subtitle).fadeIn(fadeIn).stay(stay).fadeOut(fadeOut).build());
+            TitleUtil.sendLegacyTitle(player, TitleUtil.Title.builder().title(title).subtitle(subtitle).fadeIn(fadeIn).stay(stay).fadeOut(fadeOut).build());
         } else {
             player.sendTitle(title, subtitle, fadeIn, stay, fadeOut);
         }

@@ -46,6 +46,13 @@ reports:
   player:
     enabled: true
 
+    offline-players:
+      # Whether to report offline players.
+      reporting-enabled: true
+
+      # Allow players who have never joined the server to be reported.
+      never-joined-before: false
+
     cooldown:
       enabled: true
       time: 60
@@ -59,6 +66,9 @@ reports:
 
     discord:
       enabled: true
+
+      # The webhook URL to send the report to.
+      # --- DO NOT FORGET TO CHANGE THE URI IN THE BUG REPORT SECTION BELOW ---
       webhook: "https://discord.com/api/webhooks/853603639553818684/JjxAoNimfG1XWa5wtTIp0zohIrr3vRSo0mv4qYKeMWYrfErgOJBdieU_HXTY9Suzd-MJ"
 
       # Every field in this embed section supports PlaceholderAPI - Multiple.
@@ -170,6 +180,8 @@ reports:
 
     discord:
       enabled: true
+
+      # --- DO NOT FORGET TO CHANGE THE URI IN THE PLAYER REPORT SECTION ABOVE ---
       webhook: "https://discord.com/api/webhooks/853603639553818684/JjxAoNimfG1XWa5wtTIp0zohIrr3vRSo0mv4qYKeMWYrfErgOJBdieU_HXTY9Suzd-MJ"
 
       # Every field in this embed section supports PlaceholderAPI - Single.
@@ -277,20 +289,20 @@ language:
   # Titles
   bug-question:
     enabled: true
-    message: "&cWhat &7bug are you reporting?"
+    message: "&cWhat &7bug are you reporting? Type \"exit\" to cancel."
     title: "&cWhat"
     subtitle: "Bug are you reporting?"
 
   player-search-question:
     enabled: true
-    message: "&cPlease enter &7the name to search."
+    message: "&cPlease enter &7the name to search. Type \"exit\" to cancel."
     title: "&cPlease enter"
     subtitle: "The name to search"
 
   # This supports PlaceholderAPI - Multiple.
   custom-reason-question:
     enabled: true
-    message: "&cWhy &7are you reporting {target}?"
+    message: "&cWhy &7are you reporting {target}? Type \"exit\" to cancel."
     title: "&cWhy"
     subtitle: "Are you reporting {target}?"
 

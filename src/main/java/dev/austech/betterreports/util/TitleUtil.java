@@ -71,7 +71,7 @@ public class TitleUtil {
         }
     }
 
-    public void sendTitle(final Player player, final Title title) {
+    public void sendLegacyTitle(final Player player, final Title title) {
         try {
             final Object bukkitPlayer = player.getClass().getMethod("getHandle").invoke(player);
             final Object connection = bukkitPlayer.getClass().getField("playerConnection").get(bukkitPlayer);

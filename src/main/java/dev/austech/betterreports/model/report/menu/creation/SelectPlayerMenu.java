@@ -25,16 +25,13 @@
 package dev.austech.betterreports.model.report.menu.creation;
 
 import dev.austech.betterreports.model.report.menu.creation.reason.PlayerReportPagedReasonMenu;
-import dev.austech.betterreports.util.Common;
-import dev.austech.betterreports.util.ConversationUtil;
-import dev.austech.betterreports.util.PlaceholderUtil;
-import dev.austech.betterreports.util.TriConsumer;
+import dev.austech.betterreports.util.*;
 import dev.austech.betterreports.util.config.impl.GuiConfig;
 import dev.austech.betterreports.util.config.impl.MainConfig;
 import dev.austech.betterreports.util.menu.defaults.ListPlayersMenu;
 import dev.austech.betterreports.util.menu.defaults.buttons.BackButton;
 import dev.austech.betterreports.util.menu.layout.MenuButton;
-import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.conversations.Prompt;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -88,9 +85,9 @@ public class SelectPlayerMenu extends ListPlayersMenu {
         return buttons;
     }
 
-    private void handle(final Player player, final Player target) {
+    private void handle(final Player player, final OfflinePlayer target) {
         if (player == target) {
-            GuiConfig.Values.SOUNDS_SELF_REPORT.playSound(player);
+            GuiConfig.Values.SOUNDS_SELF_REPORT.playErrorSound(player);
             MainConfig.Values.LANG_PLAYER_SELF.sendRaw(player);
             return;
         }
@@ -108,9 +105,11 @@ public class SelectPlayerMenu extends ListPlayersMenu {
             if (MainConfig.Values.LANG_QUESTION_PLAYER_SEARCH_ENABLED.getBoolean())
                 Common.sendTitle(player, MainConfig.Values.LANG_QUESTION_PLAYER_SEARCH_TITLE.getPlaceholderString(player), MainConfig.Values.LANG_QUESTION_PLAYER_SEARCH_SUBTITLE.getPlaceholderString(player), 10, 20 * 15, 10);
             return Common.color(MainConfig.Values.LANG_QUESTION_PLAYER_SEARCH_MESSAGE.getPlaceholderString(player));
-        }, (s) -> {
-            final Player found = Bukkit.getPlayer(s);
+        }, s -> {
+            final OfflinePlayer found = OfflinePlayerUtil.get(s);
+
             if (found == null) {
+                GuiConfig.Values.SOUNDS_INVALID_PLAYER.playErrorSound(player);
                 MainConfig.Values.LANG_PLAYER_NOT_FOUND.sendRaw(player);
                 return new ConversationUtil.RerunPrompt();
             }

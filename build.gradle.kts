@@ -34,7 +34,7 @@ plugins {
 }
 
 group = "dev.austech"
-version = "2.0.5"
+version = "2.0.6-SNAPSHOT"
 
 repositories {
     mavenLocal()
@@ -127,7 +127,7 @@ fun register(name: String, path: String) {
     }
 }
 
-register("mnewt00", "C:\\Users\\mnewt\\Desktop\\Code\\Server\\1.19\\plugins")
+register("mnewt00", "C:\\Users\\mnewt\\Desktop\\Servers\\1.20\\plugins")
 
 task("cleanJars") {
     delete("jars")

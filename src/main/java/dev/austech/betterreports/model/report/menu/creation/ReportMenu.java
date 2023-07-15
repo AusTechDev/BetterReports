@@ -75,10 +75,6 @@ public class ReportMenu extends Menu {
             stacks.putAll(GuiConfig.Values.MENU_MAIN_BUTTONS_ALL.getStackMap());
         }
 
-//        for (final Map.Entry<Integer, StackBuilder> entry : stacks.entrySet()) {
-//
-//        }
-
         stacks.forEach((i, stack) -> {
             final ItemMeta meta = stack.build().getItemMeta();
 
