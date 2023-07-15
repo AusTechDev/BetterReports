@@ -1,12 +1,12 @@
 name: Build
-on: [push]
+on: [ push ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        java: [ '8', '16' ]
+        java: [ '8', '11', '17' ] # LTS Versions
     name: Build Java ${{ matrix.java }}
     steps:
       - uses: actions/checkout@v2
