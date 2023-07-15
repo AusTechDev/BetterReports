@@ -71,15 +71,13 @@ public class Counter {
     }
 
     public void load() {
-        try {
-            if (!file.exists()) {
-                save();
-                return;
-            }
+        if (!file.exists()) {
+            save();
+            return;
+        }
 
-            final Stream<String> lines = Files.lines(file.toPath());
+        try (final Stream<String> lines = Files.lines(file.toPath())) {
             final List<String> data = lines.map(str -> str.substring(3)).collect(Collectors.toList());
-            lines.close();
 
             globalCounter = Integer.parseInt(data.get(0));
             bugCounter = Integer.parseInt(data.get(1));
