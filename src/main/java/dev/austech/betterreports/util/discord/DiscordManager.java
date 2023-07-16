@@ -71,7 +71,6 @@ public class DiscordManager {
             }
         }
 
-        builder.url(WEBHOOK_URI);
         builder.addEmbed(embed);
 
         if (PING_ENABLED) {
@@ -81,7 +80,7 @@ public class DiscordManager {
         Bukkit.getScheduler().runTaskAsynchronously(BetterReports.getInstance(), () -> {
             try {
                 final Webhook webhook = builder.build();
-                webhook.execute();
+                webhook.send(WEBHOOK_URI);
 
                 Arrays.stream(Common.color(PlaceholderUtil.applyPlaceholders(report, MESSAGES_SUCCESS)).split("\\n")).forEach(player::sendMessage);
 
@@ -150,7 +149,12 @@ public class DiscordManager {
         }
 
         if (EMBED_BODY_COLOR != null) {
-            embed.color(Color.decode(EMBED_BODY_COLOR));
+            Color color = Color.decode(EMBED_BODY_COLOR);
+            int rgb = color.getRed();
+            rgb = (rgb << 8) + color.getGreen();
+            rgb = (rgb << 8) + color.getBlue();
+
+            embed.color(rgb);
         }
 
         if (DISCORD_EMBED_FIELDS != null) {
@@ -160,11 +164,11 @@ public class DiscordManager {
         }
 
         if (EMBED_IMAGES_THUMBNAIL != null) {
-            embed.thumbnail(ap(report, EMBED_IMAGES_THUMBNAIL));
+            embed.thumbnail(Webhook.EmbedObject.Media.builder().url(ap(report, EMBED_IMAGES_THUMBNAIL)).build());
         }
 
         if (EMBED_IMAGES_IMAGE != null) {
-            embed.image(ap(report, EMBED_IMAGES_IMAGE));
+            embed.image(Webhook.EmbedObject.Media.builder().url(ap(report, EMBED_IMAGES_IMAGE)).build());
         }
 
         if (EMBED_FOOTER_TIMESTAMP) {

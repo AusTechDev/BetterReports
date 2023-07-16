@@ -55,7 +55,7 @@ public class Counter {
 
     public void incrementPlayer() {
         globalCounter++;
-        bugCounter++;
+        playerCounter++;
         save();
     }
 

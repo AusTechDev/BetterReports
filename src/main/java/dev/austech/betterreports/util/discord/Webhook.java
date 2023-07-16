@@ -1,136 +1,72 @@
+/*
+ * BetterReports - NewWebhook.java
+ *
+ * Copyright (c) 2023 AusTech Development
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package dev.austech.betterreports.util.discord;
 
+import com.google.gson.annotations.SerializedName;
+import dev.austech.betterreports.util.Common;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
+import org.jetbrains.annotations.Nullable;
 
 import javax.net.ssl.HttpsURLConnection;
-import java.awt.*;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.lang.reflect.Array;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.*;
-
-/*
- * Java DiscordWebhook class to easily execute Discord Webhooks
- * Created by: k3kdude
- * Source: https://gist.github.com/k3kdude/fba6f6b37594eae3d6f9475330733bdb
- *
- * Modified by mnewt00 & Timmy109.
- *
- */
 
 @Data
 @Builder(toBuilder = true)
 public class Webhook {
-    private final String url;
     private String content;
+
     private String username;
+
+    @SerializedName("avatar_url")
     private String avatarUrl;
-    private boolean tts;
+
+    @SerializedName("tts")
+    private boolean textToSpeech;
+
     private List<EmbedObject> embeds;
 
-    public static class WebhookBuilder {
-        private List<EmbedObject> embeds = new ArrayList<>();
-
-        public WebhookBuilder addEmbed(final EmbedObject embed) {
-            this.embeds.add(embed);
-            return this;
-        }
-    }
-
-    public void execute() throws IOException {
-        if (this.content == null && this.embeds.isEmpty()) {
+    public void send(String uri) throws IOException {
+        if (content != null && embeds.isEmpty()) {
             throw new IllegalArgumentException("Set content or add at least one EmbedObject");
         }
 
-        final JSONObject json = new JSONObject();
-
-        json.put("content", this.content);
-        json.put("username", this.username);
-        json.put("avatar_url", this.avatarUrl);
-        json.put("tts", this.tts);
-
-        if (!this.embeds.isEmpty()) {
-            final List<JSONObject> embedObjects = new ArrayList<>();
-
-            for (final EmbedObject embed : this.embeds) {
-                final JSONObject jsonEmbed = new JSONObject();
-
-                jsonEmbed.put("title", embed.getTitle());
-                jsonEmbed.put("description", embed.getDescription());
-                jsonEmbed.put("url", embed.getUrl());
-
-                if (embed.getColor() != null) {
-                    final Color color = embed.getColor();
-                    int rgb = color.getRed();
-                    rgb = (rgb << 8) + color.getGreen();
-                    rgb = (rgb << 8) + color.getBlue();
-
-                    jsonEmbed.put("color", rgb);
-                }
-
-                final EmbedObject.Footer footer = embed.getFooter();
-                final String image = embed.getImage();
-                final String thumbnail = embed.getThumbnail();
-                final EmbedObject.Author author = embed.getAuthor();
-                final List<EmbedObject.Field> fields = embed.getFields();
-
-                if (footer != null) {
-                    final JSONObject jsonFooter = new JSONObject();
-
-                    jsonFooter.put("text", footer.getText());
-                    jsonFooter.put("icon_url", footer.getIconUrl());
-                    jsonEmbed.put("footer", jsonFooter);
-                }
-
-                if (image != null) {
-                    final JSONObject jsonImage = new JSONObject();
-
-                    jsonImage.put("url", image);
-                    jsonEmbed.put("image", jsonImage);
-                }
-
-                if (thumbnail != null) {
-                    final JSONObject jsonThumbnail = new JSONObject();
-
-                    jsonThumbnail.put("url", thumbnail);
-                    jsonEmbed.put("thumbnail", jsonThumbnail);
-                }
-
-                if (author != null) {
-                    final JSONObject jsonAuthor = new JSONObject();
-
-                    jsonAuthor.put("name", author.getName());
-                    jsonAuthor.put("url", author.getUrl());
-                    jsonAuthor.put("icon_url", author.getIconUrl());
-                    jsonEmbed.put("author", jsonAuthor);
-                }
-
-                final List<JSONObject> jsonFields = new ArrayList<>();
-                for (final EmbedObject.Field field : fields) {
-                    final JSONObject jsonField = new JSONObject();
-
-                    jsonField.put("name", field.getName());
-                    jsonField.put("value", field.getValue());
-                    jsonField.put("inline", field.isInline());
-
-                    jsonFields.add(jsonField);
-                }
-
-                jsonEmbed.put("fields", jsonFields.toArray());
-
-                embedObjects.add(jsonEmbed);
-            }
-
-            json.put("embeds", embedObjects.toArray());
+        if (content != null && content.length() > 2000) {
+            throw new IllegalArgumentException("Content cannot be longer than 2000 characters");
         }
 
-        final URL url = new URL(this.url);
+
+        String json = Common.GSON.toJson(this);
+
+        final URL url = new URL(uri);
         final HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
         connection.addRequestProperty("Content-Type", "application/json");
         connection.addRequestProperty("User-Agent", "AusTechDev_BetterReports");
@@ -138,7 +74,7 @@ public class Webhook {
         connection.setRequestMethod("POST");
 
         final OutputStream stream = connection.getOutputStream();
-        stream.write(json.toString().replace("\n", "\\n").getBytes(StandardCharsets.UTF_8));
+        stream.write(json.getBytes(StandardCharsets.UTF_8));
         stream.flush();
         stream.close();
 
@@ -146,19 +82,54 @@ public class Webhook {
         connection.disconnect();
     }
 
-    @Builder(builderClassName = "Builder")
-    @Getter
-    public static class EmbedObject {
-        private String title;
-        private String description;
-        private String url;
-        private Color color;
+    // Extension of Lombok's @Builder
+    public static class WebhookBuilder {
+        public WebhookBuilder addEmbed(final EmbedObject embed) {
+            if (this.embeds == null) this.embeds = new ArrayList<>();
+            if (this.embeds.size() >= 10)
+                throw new IllegalStateException("Cannot add more than 10 embeds to a webhook");
+            this.embeds.add(embed);
+            return this;
+        }
+    }
 
+    @Data
+    @Builder(toBuilder = true, builderClassName = "Builder")
+    public static class EmbedObject {
+        @Nullable
+        private String title;
+
+        @Nullable
+        private String description;
+
+        @Nullable
+        private String url;
+
+        @Nullable
+        private String timestamp;
+
+        @Nullable
+        private Integer color;
+
+        @Nullable
         private Footer footer;
-        private String thumbnail;
-        private String image;
+
+        @Nullable
+        private Media image;
+
+        @Nullable
+        private Media thumbnail;
+
+        @Nullable
+        private Media video;
+
+        @Nullable
+        private Provider provider;
+
+        @Nullable
         private Author author;
-        private String timestamp; // ISO8601
+
+        @Nullable
         private List<Field> fields;
 
         public EmbedObject setFooter(final String text, final String icon) {
@@ -172,9 +143,8 @@ public class Webhook {
         }
 
         public static class Builder {
-            private List<Field> fields = new ArrayList<>();
-
             public Builder addField(final String name, final String value, final boolean inline) {
+                if (fields == null) fields = new ArrayList<>();
                 this.fields.add(new Field(name, value, inline));
                 return this;
             }
@@ -183,8 +153,31 @@ public class Webhook {
         @Data
         @AllArgsConstructor
         @lombok.Builder(builderClassName = "Builder")
+        public static class Media {
+            private String url;
+
+            @SerializedName("proxy_url")
+            private String proxyUrl;
+
+            private int height;
+            private int width;
+        }
+
+        @Data
+        @AllArgsConstructor
+        @lombok.Builder(builderClassName = "Builder")
+        public static class Provider {
+            private String name;
+            private String url;
+        }
+
+        @Data
+        @AllArgsConstructor
+        @lombok.Builder(builderClassName = "Builder")
         public static class Footer {
             private String text;
+
+            @SerializedName("icon_url")
             private String iconUrl;
         }
 
@@ -193,6 +186,8 @@ public class Webhook {
         public static class Author {
             private String name;
             private String url;
+
+            @SerializedName("icon_url")
             private String iconUrl;
         }
 
@@ -202,55 +197,6 @@ public class Webhook {
             private String name;
             private String value;
             private boolean inline;
-        }
-    }
-
-    private static class JSONObject {
-
-        private final HashMap<String, Object> map = new HashMap<>();
-
-        void put(final String key, final Object value) {
-            if (value != null) {
-                map.put(key, value);
-            }
-        }
-
-        @Override
-        public String toString() {
-            final StringBuilder builder = new StringBuilder();
-            final Set<Map.Entry<String, Object>> entrySet = map.entrySet();
-            builder.append("{");
-
-            int i = 0;
-            for (final Map.Entry<String, Object> entry : entrySet) {
-                final Object val = entry.getValue();
-                builder.append(quote(entry.getKey())).append(":");
-
-                if (val instanceof String) {
-                    builder.append(quote(String.valueOf(val)));
-                } else if (val instanceof Integer) {
-                    builder.append(Integer.valueOf(String.valueOf(val)));
-                } else if (val instanceof Boolean) {
-                    builder.append(val);
-                } else if (val instanceof JSONObject) {
-                    builder.append(val);
-                } else if (val.getClass().isArray()) {
-                    builder.append("[");
-                    final int len = Array.getLength(val);
-                    for (int j = 0; j < len; j++) {
-                        builder.append(Array.get(val, j).toString()).append(j != len - 1 ? "," : "");
-                    }
-                    builder.append("]");
-                }
-
-                builder.append(++i == entrySet.size() ? "}" : ",");
-            }
-
-            return builder.toString();
-        }
-
-        private String quote(final String string) {
-            return "\"" + string + "\"";
         }
     }
 }
