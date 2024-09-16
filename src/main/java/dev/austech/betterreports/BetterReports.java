@@ -31,6 +31,7 @@ import dev.austech.betterreports.commands.ReportPlayerCommand;
 import dev.austech.betterreports.util.Common;
 import dev.austech.betterreports.util.Counter;
 import dev.austech.betterreports.util.UpdateCheck;
+import dev.austech.betterreports.util.VersionUtil;
 import dev.austech.betterreports.util.config.ConfigManager;
 import dev.austech.betterreports.util.config.impl.MainConfig;
 import dev.austech.betterreports.util.menu.listener.MenuListener;

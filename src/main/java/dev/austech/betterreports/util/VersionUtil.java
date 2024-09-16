@@ -39,8 +39,10 @@ public class VersionUtil {
 
     public V getVersion() {
         if (serverVersion == null) {
-            final String packageName = Bukkit.getServer().getClass().getPackage().getName(); // CraftServer
-            serverVersion = V.parse(Integer.parseInt(packageName.substring(packageName.lastIndexOf('.') + 1).split("_")[1]));
+            String version = Bukkit.getServer().getBukkitVersion();
+            version = version.split("-")[0];
+            String minorVersion = version.split("\\.")[1];
+            serverVersion = V.parse(Integer.parseInt(minorVersion));
         }
         return serverVersion;
     }
@@ -62,6 +64,7 @@ public class VersionUtil {
         V1_19(19),
         V1_20(20),
         V1_21(21),
+        V1_22(22),
 
         UNKNOWN(0);
 
