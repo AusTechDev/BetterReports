@@ -51,13 +51,13 @@ repositories {
     }
 
     maven {
-        url = uri("https://repo.extendedclip.com/content/repositories/placeholderapi/")
+        url = uri("https://repo.helpch.at/releases")
     }
 }
 
 dependencies {
     compileOnly("org.spigotmc:spigot-api:1.12-R0.1-SNAPSHOT")
-    compileOnly("me.clip:placeholderapi:2.11.2")
+    compileOnly("me.clip:placeholderapi:2.11.6")
     compileOnly("org.jetbrains:annotations:23.0.0")
     implementation("org.bstats:bstats-bukkit:3.0.0")
 }
