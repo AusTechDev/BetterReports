@@ -58,9 +58,6 @@ public class BackButton extends MenuButton {
 
     @Override
     public ItemStack getItem(Player player) {
-        return StackBuilder.create(XMaterial.ARROW)
-                .name(GuiConfig.Values.PAGINATED_MENU_BACK_BUTTON_NAME.getString())
-                .lore(GuiConfig.Values.PAGINATED_MENU_BACK_BUTTON_LORE.getString())
-                .build();
+        return GuiConfig.Values.PAGINATED_MENU_BACK_BUTTON.getStack().build();
     }
 }

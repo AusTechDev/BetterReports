@@ -77,35 +77,21 @@ public class PageButton extends MenuButton {
     @Override
     public ItemStack getItem(Player player) {
         if (isShouldError()) {
-            return StackBuilder.create(XMaterial.RED_CARPET)
-                    .name(GuiConfig.Values.PAGINATED_MENU_ERROR_BUTTON_NAME.getString())
-                    .lore(GuiConfig.Values.PAGINATED_MENU_ERROR_BUTTON_LORE.getString())
-                    .build();
+            return GuiConfig.Values.PAGINATED_MENU_ERROR_BUTTON.getStack().build();
         }
 
         if (hasNext(player)) {
-            return StackBuilder.create(XMaterial.BLUE_CARPET)
-                    .name(this.mod > 0 ? GuiConfig.Values.PAGINATED_MENU_PAGE_BUTTON_NEXT.toString() : GuiConfig.Values.PAGINATED_MENU_PAGE_BUTTON_PREVIOUS.toString())
-                    .build();
+            if (this.mod > 0) {
+                return GuiConfig.Values.PAGINATED_MENU_PAGE_BUTTON_NEXT.getStack().build();
+            } else {
+                return GuiConfig.Values.PAGINATED_MENU_PAGE_BUTTON_PREVIOUS.getStack().build();
+            }
         } else {
-            return StackBuilder.create(XMaterial.GRAY_CARPET)
-                    .name(this.mod > 0 ? GuiConfig.Values.PAGINATED_MENU_PAGE_BUTTON_LAST.getString() : GuiConfig.Values.PAGINATED_MENU_PAGE_BUTTON_FIRST.getString())
-                    .build();
+            if (this.mod > 0) {
+                return GuiConfig.Values.PAGINATED_MENU_PAGE_BUTTON_LAST.getStack().build();
+            } else {
+                return GuiConfig.Values.PAGINATED_MENU_PAGE_BUTTON_FIRST.getStack().build();
+            }
         }
     }
-
-    //    @Override
-//    public ItemStack getStack(final Player player) {
-//        if (isShouldError()) {
-//            return StackBuilder.create(XMaterial.RED_CARPET)
-//                    .name(GuiConfig.Values.PAGINATED_MENU_ERROR_BUTTON_NAME.getString())
-//                    .lore(GuiConfig.Values.PAGINATED_MENU_ERROR_BUTTON_LORE.getString())
-//                    .build();
-//        }
-//
-//        if (!hasNext(player))
-//            return StackBuilder.create(XMaterial.GRAY_CARPET).name("&7" + (this.mod > 0 ? GuiConfig.Values.PAGINATED_MENU_PAGE_BUTTON_LAST.getString() : GuiConfig.Values.PAGINATED_MENU_PAGE_BUTTON_FIRST.getString())).build();
-//        else
-//            return StackBuilder.create(XMaterial.BLUE_CARPET).name(this.mod > 0 ? GuiConfig.Values.PAGINATED_MENU_PAGE_BUTTON_NEXT.getString() : GuiConfig.Values.PAGINATED_MENU_PAGE_BUTTON_PREVIOUS.getString()).build();
-//    }
 }

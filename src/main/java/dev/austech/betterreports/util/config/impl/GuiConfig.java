@@ -77,10 +77,8 @@ public class GuiConfig extends ConfigurationFile {
         SOUNDS_NO_PERMISSION("sounds.no-permission"),
         SOUNDS_GENERIC_ERROR("sounds.generic-error", "ENTITY_VILLAGER_NO"),
 
-        PAGINATED_MENU_BACK_BUTTON_NAME("paginated-menus.back-button.name"),
-        PAGINATED_MENU_BACK_BUTTON_LORE("paginated-menus.back-button.lore"),
-        PAGINATED_MENU_ERROR_BUTTON_NAME("paginated-menus.error-button.name"),
-        PAGINATED_MENU_ERROR_BUTTON_LORE("paginated-menus.error-button.lore"),
+        PAGINATED_MENU_BACK_BUTTON("paginated-menus.back-button"),
+        PAGINATED_MENU_ERROR_BUTTON("paginated-menus.error-button"),
         PAGINATED_MENU_PAGE_BUTTON_NEXT("paginated-menus.page-button.next"),
         PAGINATED_MENU_PAGE_BUTTON_PREVIOUS("paginated-menus.page-button.previous"),
         PAGINATED_MENU_PAGE_BUTTON_FIRST("paginated-menus.page-button.first"),

@@ -160,23 +160,33 @@ sounds:
 # This section allows you to change the item names and lores in the paginated menus.
 paginated-menus:
   back-button:
+    material: ARROW
     name: "&c&lBack"
     lore: |
       
       &cClick to return to
       &cthe previous menu.
   error-button:
+    type: RED_CARPET
     name: "&c&lError"
     lore: |
       
       &cThere are no more pages in this direction.
 
   page-button:
-    next: "&aNext Page &l⟶"
-    previous: "&c&l⟵ &cPrevious Page"
+    next:
+      material: BLUE_CARPET
+      name: "&aNext Page &l⟶"
+    previous:
+      material: BLUE_CARPET
+      name: "&c&l⟵ &cPrevious Page"
 
-    first: "You are on the first page."
-    last: "You are on the last page."
+    first:
+      material: GRAY_CARPET
+      name: "You are on the first page."
+    last:
+      material: GRAY_CARPET
+    name: "You are on the last page."
 
   page-list-menu:
     title: "&eJump to Page"
@@ -193,4 +203,4 @@ paginated-menus:
 
 # Do NOT change this number.
 # It may break your configuration.
-config-version: 3
+config-version: 4
